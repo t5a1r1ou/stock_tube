@@ -1,0 +1,21 @@
+{
+  "name": "stocktube",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview"
+  },
+  "devDependencies": {
+    "typescript": "^4.9.3",
+    "vite": "^4.1.0",
+    "vite-plugin-solid": "^2.6.1"
+  },
+  "dependencies": {
+    "solid-js": "^1.6.11",
+    "solid-meta": "^0.28.1",
+    "solid-utils": "^0.8.1"
+  }
+}
