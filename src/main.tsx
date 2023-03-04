@@ -1,16 +1,13 @@
 import "./reset.css";
 
-import { createSignal, onCleanup } from "solid-js";
 import { render } from "solid-js/web";
 import Layout from "./layout/Layout";
+import Card from "./component/Card";
 
 const App = () => {
-  const [count, setCount] = createSignal(0);
-  const timer = setInterval(() => setCount(count() + 1), 1000);
-  onCleanup(() => clearInterval(timer));
   return (
     <Layout>
-      <div>{count}</div>
+      <Card />
     </Layout>
   );
 };
