@@ -1,20 +1,27 @@
-import { JSX } from "solid-js";
-
-import classes from "./Layout.module.css";
+import type { JSX, Component } from "solid-js";
+import {
+  footerClass,
+  footerTextClass,
+  headerClass,
+  headingClass,
+  wrapperClass,
+} from "./Layout.css";
 
 type Props = {
   children: JSX.Element;
 };
 
-const Layout = ({ children }: Props) => {
+const Layout: Component<Props> = ({ children }) => {
   return (
-    <>
-      <header>
-        <h1 class={classes.heading}>StockTube</h1>
+    <div class={wrapperClass}>
+      <header class={headerClass}>
+        <h1 class={headingClass}>StockTube</h1>
       </header>
       <main>{children}</main>
-      <footer></footer>
-    </>
+      <footer class={footerClass}>
+        <small class={footerTextClass}>&copy;t5a1r1ou</small>
+      </footer>
+    </div>
   );
 };
 

@@ -1,4 +1,4 @@
-import "./css/reset.css";
+import "./reset.css";
 
 import { createSignal, onCleanup } from "solid-js";
 import { render } from "solid-js/web";
