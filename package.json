@@ -9,6 +9,7 @@
     "preview": "vite preview"
   },
   "devDependencies": {
+    "@solidjs/router": "^0.7.0",
     "@vanilla-extract/css": "^1.9.5",
     "@vanilla-extract/vite-plugin": "^3.8.0",
     "typescript": "^4.9.3",

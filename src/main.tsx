@@ -1,18 +1,17 @@
+import { render } from "solid-js/web";
+import { Router } from "@solidjs/router";
 import "./reset.css";
 
-import { render } from "solid-js/web";
-import Layout from "./layout/Layout";
-import Card from "./component/Card";
-
-const App = () => {
+import App from "./App";
+const Main = () => {
   return (
-    <Layout>
-      <Card youtubeId="Cx2dkpBxst8" />
-    </Layout>
+    <Router>
+      <App />
+    </Router>
   );
 };
 
 const app = document.getElementById("app");
 if (app) {
-  render(() => <App />, app);
+  render(() => <Main />, app);
 }
