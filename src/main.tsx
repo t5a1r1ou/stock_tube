@@ -7,7 +7,7 @@ import Card from "./component/Card";
 const App = () => {
   return (
     <Layout>
-      <Card />
+      <Card youtubeId="Cx2dkpBxst8" />
     </Layout>
   );
 };
