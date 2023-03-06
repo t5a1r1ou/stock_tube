@@ -17,6 +17,7 @@
     "vite-plugin-solid": "^2.6.1"
   },
   "dependencies": {
+    "@supabase/supabase-js": "^2.10.0",
     "solid-js": "^1.6.11",
     "solid-meta": "^0.28.1",
     "solid-utils": "^0.8.1"
