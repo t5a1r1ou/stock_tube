@@ -1,5 +1,6 @@
 import { Component } from "solid-js";
+import { AccountForm } from "../component/AccountForm";
 
 export const SignIn: Component = () => {
-  return <div>SignIn</div>;
+  return <AccountForm flag="signin" />;
 };
