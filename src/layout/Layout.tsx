@@ -1,5 +1,12 @@
 import type { JSX, Component } from "solid-js";
-import { footer, footerText, header, heading, wrapper } from "./Layout.css";
+import {
+  footer,
+  footerText,
+  header,
+  heading,
+  main,
+  wrapper,
+} from "./Layout.css";
 
 type Props = {
   children: JSX.Element;
@@ -11,7 +18,7 @@ const Layout: Component<Props> = ({ children }) => {
       <header class={header}>
         <h1 class={heading}>StockTube</h1>
       </header>
-      <main>{children}</main>
+      <main class={main}>{children}</main>
       <footer class={footer}>
         <small class={footerText}>
           <a href="https://github.com/t5a1r1ou" target="_blank">
