@@ -20,13 +20,19 @@ export const heading = style({
   textAlign: "center",
 });
 
+export const main = style({
+  width: "80%",
+  maxWidth: "800px",
+  margin: "2rem auto 0",
+});
+
 export const footer = style({
   display: "flex",
   justifyContent: "center",
   alignItems: "center",
   width: "100%",
   height: "3rem",
-  borderTop: "2px solid #ccc",
+  borderTop: "1px solid #ccc",
 });
 
 export const footerText = style({
