@@ -1,24 +1,33 @@
 import { style } from "@vanilla-extract/css";
 
 export const heading = style({
+  marginBottom: "0.4rem",
   fontSize: "1.6rem",
+});
+
+export const anker = style({
+  textDecoration: "underline",
+  color: "#0044CC",
 });
 
 export const form = style({
   width: "100%",
 });
 
-export const formField = style({
+export const formContainer = style({
   display: "flex",
   justifyContent: "space-between",
   alignItems: "center",
   flexDirection: "column",
-  marginTop: "3rem",
   "@media": {
     "screen and (min-width: 768px)": {
       flexDirection: "row",
     },
   },
+});
+
+export const formField = style({
+  marginTop: "3rem",
 });
 
 export const inputLabel = style({
@@ -45,6 +54,11 @@ export const input = style({
       width: "70%",
     },
   },
+});
+
+export const error = style({
+  marginTop: "0.5rem",
+  color: "#d9534f",
 });
 
 export const submitButton = style({
