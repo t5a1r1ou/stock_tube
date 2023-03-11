@@ -1,6 +1,5 @@
-import { Component, createSignal } from "solid-js";
+import { Component } from "solid-js";
 import { A, useNavigate } from "@solidjs/router";
-import { supabase } from "../scripts/supabase";
 import {
   heading,
   anker,
@@ -12,76 +11,14 @@ import {
   error,
   submitButton,
 } from "./AccountForm.css";
+import useAuth from "../hooks/Auth";
+import type { AuthType } from "../types/types";
 
-type Props = {
-  flag: "signin" | "signup";
-};
-
-export const AccountForm: Component<Props> = ({ flag }) => {
-  const [email, setEmail] = createSignal("");
-  const [password, setPassword] = createSignal("");
-  const [emailError, setEmailError] = createSignal("");
-  const [passwordError, setPasswordError] = createSignal("");
+export const AccountForm: Component<AuthType> = ({ flag }) => {
+  const { credentials, setEmail, setPassword, errors, submitAccountForm } =
+    useAuth();
   const navigate = useNavigate();
-
-  const validation = () => {
-    const emailValidation = () => {
-      if (email() === "") {
-        setEmailError("メールアドレスを入力してください。");
-        return false;
-      } else if (!email().includes("@")) {
-        setEmailError("@をメールアドレスに含めてください");
-        return false;
-      } else {
-        setEmailError("");
-        return true;
-      }
-    };
-
-    const passwordValidation = () => {
-      if (password() === "") {
-        setPasswordError("パスワードを入力してください。");
-        return false;
-      } else if (password().length < 6) {
-        setPasswordError("パスワードは6文字以上必要です。");
-        return false;
-      } else {
-        setPasswordError("");
-        return true;
-      }
-    };
-
-    const emailResult = emailValidation();
-    const passwordResult = passwordValidation();
-
-    return emailResult && passwordResult;
-  };
-
-  const submitAccountForm = async (e: Event, flag: Props["flag"]) => {
-    e.preventDefault();
-
-    if (!validation()) {
-      return;
-    }
-
-    if (flag === "signup") {
-      await supabase.auth
-        .signUp({
-          email: email(),
-          password: password(),
-        })
-        .then(() => navigate("/"))
-        .catch((error: any) => alert(error.message));
-    } else {
-      await supabase.auth
-        .signInWithPassword({
-          email: email(),
-          password: password(),
-        })
-        .then(() => navigate("/"))
-        .catch((error: any) => alert(error.message));
-    }
-  };
+  const navigateToHome = () => navigate("/");
 
   return (
     <>
@@ -101,7 +38,10 @@ export const AccountForm: Component<Props> = ({ flag }) => {
           </A>
         </p>
       )}
-      <form class={form} onSubmit={(e) => submitAccountForm(e, flag)}>
+      <form
+        class={form}
+        onSubmit={(e) => submitAccountForm(e, flag, navigateToHome)}
+      >
         <div class={formField}>
           <div class={formContainer}>
             <label class={inputLabel} for="email">
@@ -111,12 +51,12 @@ export const AccountForm: Component<Props> = ({ flag }) => {
               id="email"
               type="email"
               class={input}
-              value={email()}
+              value={credentials.email}
               onInput={(e) => setEmail(e.currentTarget.value)}
               onChange={(e) => setEmail(e.currentTarget.value)}
             />
           </div>
-          {emailError() ? <p class={error}>{emailError()}</p> : null}
+          {errors.email ? <p class={error}>{errors.email}</p> : null}
         </div>
         <div class={formField}>
           <div class={formContainer}>
@@ -127,13 +67,18 @@ export const AccountForm: Component<Props> = ({ flag }) => {
               id="password"
               type="password"
               class={input}
-              value={password()}
+              value={credentials.password}
               onInput={(e) => setPassword(e.currentTarget.value)}
               onChange={(e) => setPassword(e.currentTarget.value)}
             />
           </div>
-          {passwordError() ? <p class={error}>{passwordError()}</p> : null}
+          {errors.password ? <p class={error}>{errors.password}</p> : null}
         </div>
+        {errors.server ? (
+          <div class={formField}>
+            {errors.server ? <p class={error}>{errors.server}</p> : null}
+          </div>
+        ) : null}
         <div class={formField}>
           <button type="submit" class={submitButton}>
             {flag === "signup" ? "Sign up" : "Sign in"}
