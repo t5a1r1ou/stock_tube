@@ -9,7 +9,7 @@ type Video = {
 };
 
 export const Index: Component = () => {
-  const [videos, setVideos] = createStore<Video[]>([
+  const [videos] = createStore<Video[]>([
     {
       id: "Cx2dkpBxst8",
     },
