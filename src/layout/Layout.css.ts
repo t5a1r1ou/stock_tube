@@ -29,7 +29,7 @@ export const title = style({
 export const authButton = style({
   position: "absolute",
   margin: "auto 0",
-  right: "0.4rem",
+  right: "1.4rem",
   top: 0,
   bottom: 0,
 });
