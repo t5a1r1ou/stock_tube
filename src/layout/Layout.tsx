@@ -1,22 +1,37 @@
-import type { JSX, Component } from "solid-js";
+import { JSX } from "solid-js";
 import {
   footer,
   footerText,
   header,
-  heading,
+  headerContainer,
+  authButton,
+  title,
   main,
   wrapper,
 } from "./Layout.css";
+import type { Component, Accessor } from "solid-js";
+import { Session } from "@supabase/gotrue-js";
 
 type Props = {
   children: JSX.Element;
+  signIn: () => void;
+  signOut: () => void;
+  session: Accessor<Session | null>;
 };
 
-const Layout: Component<Props> = ({ children }) => {
+const Layout: Component<Props> = ({ children, signIn, signOut, session }) => {
   return (
     <div class={wrapper}>
       <header class={header}>
-        <h1 class={heading}>StockTube</h1>
+        <div class={headerContainer}>
+          <h1 class={title}>StockTube</h1>
+          <button
+            onClick={session() ? () => signOut() : () => signIn()}
+            class={authButton}
+          >
+            {session() ? "サインアウト" : "サインイン"}
+          </button>
+        </div>
       </header>
       <main class={main}>{children}</main>
       <footer class={footer}>

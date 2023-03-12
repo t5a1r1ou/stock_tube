@@ -15,9 +15,23 @@ export const header = style({
   backgroundColor: "#cccccc",
 });
 
-export const heading = style({
+export const headerContainer = style({
+  position: "relative",
+  width: "100%",
+  maxWidth: "800px",
+});
+
+export const title = style({
   fontSize: "1.6rem",
   textAlign: "center",
+});
+
+export const authButton = style({
+  position: "absolute",
+  margin: "auto 0",
+  right: "0.4rem",
+  top: 0,
+  bottom: 0,
 });
 
 export const main = style({

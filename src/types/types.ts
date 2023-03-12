@@ -6,3 +6,7 @@ export type Credentials = {
 export type AuthType = {
   flag: "signin" | "signup";
 };
+
+export type User = {
+  email?: string;
+};

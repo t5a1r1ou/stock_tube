@@ -7,11 +7,11 @@ import {
   formContainer,
   formField,
   inputLabel,
-  input,
   error,
   submitButton,
 } from "./AccountForm.css";
-import useAuth from "../hooks/Auth";
+import { input } from "../styles/utility.css";
+import useAuth from "../hooks/useAuth";
 import type { AuthType } from "../types/types";
 
 export const AccountForm: Component<AuthType> = ({ flag }) => {

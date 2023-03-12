@@ -44,18 +44,6 @@ export const inputLabel = style({
   },
 });
 
-export const input = style({
-  border: "1px solid #999",
-  borderRadius: "5px",
-  width: "100%",
-  padding: "0.5rem",
-  "@media": {
-    "screen and (min-width: 768px)": {
-      width: "70%",
-    },
-  },
-});
-
 export const error = style({
   marginTop: "0.5rem",
   color: "#d9534f",
