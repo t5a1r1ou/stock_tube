@@ -5,15 +5,14 @@ import { supabase } from "../scripts/supabase";
 
 export const SignIn: Component = () => {
   const navigate = useNavigate();
-  createEffect(() => {
-    setTimeout(() => {
-      supabase.auth.getUser().then(({ data: { user } }) => {
-        console.log(user);
-        if (user) {
-          navigate("/");
-        }
-      });
-    }, 4000);
-  });
+  createEffect(async () => {
+    const { data, error } = await supabase.auth.getSession();
+    if (error) {
+      throw Error;
+    }
+    if (data.session) {
+      navigate("/");
+    }
+  }, []);
   return <AccountForm flag="signin" />;
 };

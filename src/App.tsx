@@ -12,14 +12,28 @@ import type { Session } from "@supabase/gotrue-js";
 
 const App: Component = () => {
   const [session, setSession] = createSignal<Session | null>(null);
+  const [buttonText, setButtonText] = createSignal<
+    "サインイン" | "サインアウト"
+  >("サインイン");
   const navigate = useNavigate();
 
   createEffect(async () => {
     const { data } = await supabase.auth.getSession();
     if (data) {
       setSession(data.session);
+      setButtonText("サインアウト");
+    } else {
+      setButtonText("サインイン");
     }
-  }, []);
+    supabase.auth.onAuthStateChange((_, session) => {
+      if (session) {
+        setSession(session);
+        setButtonText("サインアウト");
+      } else {
+        setButtonText("サインイン");
+      }
+    });
+  }, [supabase]);
 
   const signIn = () => {
     navigate("/signin", { replace: true });
@@ -28,14 +42,24 @@ const App: Component = () => {
   const signOut = async () => {
     const { error } = await supabase.auth.signOut();
     if (error) {
-      console.log(error);
+      throw Error;
     } else {
       navigate("signin", { replace: true });
     }
   };
 
+  const onClickAuthButton = () => {
+    if (session()) {
+      signOut();
+      setButtonText("サインアウト");
+    } else {
+      signIn();
+      setButtonText("サインイン");
+    }
+  };
+
   return (
-    <Layout signIn={signIn} signOut={signOut} session={session}>
+    <Layout onClickAuthButton={onClickAuthButton} buttonText={buttonText}>
       <Routes>
         <Route path="/" component={IndexPage}></Route>
         <Route path="/signin" component={SignIn}></Route>
