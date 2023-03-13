@@ -10,3 +10,8 @@ export type AuthType = {
 export type User = {
   email?: string;
 };
+
+export type GapiWindow = Window &
+  typeof globalThis & {
+    onGoogleScriptLoad: any;
+  };
