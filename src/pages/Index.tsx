@@ -12,11 +12,7 @@ import { input } from "../styles/utility.css";
 import { supabase } from "../scripts/supabase";
 import { useNavigate } from "@solidjs/router";
 import { initGoogleScript, loadGoogleScript } from "../scripts/googleScript";
-import type { GapiWindow } from "../types/types";
-
-type Video = {
-  id: string;
-};
+import type { GapiWindow, Video } from "../types/types";
 
 export const Index: Component = () => {
   const [gapi, setGapi] = createSignal<any>(null);
@@ -68,7 +64,7 @@ export const Index: Component = () => {
           type: "video",
           pageToken,
           videoEmbeddable: true,
-          maxResults: 50,
+          maxResults: 12,
         })
         .then((data: any) => {
           const { nextPageToken, prevPageToken, items } = data.result;
@@ -78,9 +74,18 @@ export const Index: Component = () => {
           if (prevPageToken) {
             setPrevPageToken(prevPageToken);
           }
-          const videos: Video[] = items.map((item: any) => ({
-            id: item.id.videoId,
-          }));
+          const videos: Video[] = items.map((item: any) => {
+            const {
+              id: { videoId: id },
+              snippet: { thumbnails, title, publishedAt },
+            } = item;
+            return {
+              id,
+              title,
+              publishedAt,
+              thumbnail: thumbnails.high.url,
+            };
+          });
           if (!videos.length) {
             throw Error("該当する動画がありません。");
           }
@@ -109,7 +114,16 @@ export const Index: Component = () => {
         </button>
       </form>
       <div class={cardsWrapper}>
-        <For each={videos()}>{(video) => <Card youtubeId={video.id} />}</For>
+        <For each={videos()}>
+          {(video) => (
+            <Card
+              title={video.title}
+              publishedAt={video.publishedAt}
+              id={video.id}
+              thumbnail={video.thumbnail}
+            />
+          )}
+        </For>
       </div>
       <div class={pagenation}>
         <Show when={prevPageToken() !== ""}>

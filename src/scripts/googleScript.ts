@@ -4,8 +4,8 @@ export const loadGoogleScript = () => {
   (() => {
     const id = "google-js";
     const srcs = [
-      "https://apis.google.com/js/client:plusone.js",
       "https://apis.google.com/js/api.js",
+      "https://apis.google.com/js/client:plusone.js",
     ];
 
     const firstJs = document.getElementsByTagName("script")[0];

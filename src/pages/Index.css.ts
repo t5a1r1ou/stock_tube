@@ -7,20 +7,41 @@ export const heading = style({
 
 export const formContainer = style({
   display: "flex",
+  flexDirection: "column",
   justifyContent: "center",
+  alignItems: "center",
+  "@media": {
+    "screen and (min-width: 768px)": {
+      marginTop: "0",
+      flexDirection: "row",
+    },
+  },
 });
 
 export const submitButton = style({
-  marginLeft: "0.4rem",
-  padding: "0 1.2rem",
+  display: "flex",
+  justifyContent: "center",
+  alignItems: "center",
+  width: "30%",
+  marginTop: "1.6rem",
+  padding: "0.8rem 1.2rem",
   color: "#fff",
   backgroundColor: "#999",
   borderRadius: "5px",
+  "@media": {
+    "screen and (min-width: 768px)": {
+      width: "auto",
+      height: "auto",
+      marginTop: "0",
+      marginLeft: "0.4rem",
+    },
+  },
 });
 
 export const cardsWrapper = style({
   display: "flex",
   flexWrap: "wrap",
+  marginTop: "2rem",
 });
 
 export const pagenation = style({

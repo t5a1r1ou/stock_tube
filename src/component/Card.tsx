@@ -1,18 +1,23 @@
 import type { Component } from "solid-js";
-import { cardContainer, cardImg } from "./Card.css";
+import {
+  addButton,
+  cardContainer,
+  cardImg,
+  cardPublishedAt,
+  cardTitle,
+} from "./Card.css";
+import type { Video } from "../types/types";
 
-type Props = {
-  youtubeId: string;
-};
-
-const Card: Component<Props> = ({ youtubeId }) => {
+const Card: Component<Video> = ({ title, thumbnail, publishedAt }) => {
   return (
     <div class={cardContainer}>
-      <img
-        src={`https://img.youtube.com/vi/${youtubeId}/maxresdefault.jpg`}
-        alt="サムネイル"
-        class={cardImg}
-      />
+      <img src={thumbnail} alt="サムネイル" class={cardImg} />
+      <h3 class={cardTitle}>{title}</h3>
+      <time datetime={publishedAt} class={cardPublishedAt}>
+        {publishedAt.split("T").at(0)}
+      </time>
+      <button class={addButton}>追加する</button>
+      {/* <p>{id}</p> */}
       {/* <iframe
           src={`https://www.youtube.com/embed/${youtubeId}?autoplay=1`}
           title="YouTube video player"

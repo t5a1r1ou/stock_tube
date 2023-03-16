@@ -15,3 +15,10 @@ export type GapiWindow = Window &
   typeof globalThis & {
     onGoogleScriptLoad: any;
   };
+
+export type Video = {
+  id: string;
+  thumbnail: string;
+  title: string;
+  publishedAt: string;
+};
