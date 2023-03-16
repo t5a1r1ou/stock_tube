@@ -26,6 +26,9 @@ export const loadGoogleScript = () => {
 };
 
 export const initGoogleScript = async (gapi: any, callback: () => void) => {
+  if (!gapi) {
+    throw Error("読み込みに失敗しました。リロードしてください。");
+  }
   await gapi.client
     .init({
       apiKey: import.meta.env.VITE_YOUTUBE_API_KEY,
@@ -34,11 +37,7 @@ export const initGoogleScript = async (gapi: any, callback: () => void) => {
       console.log("Error: " + reason.result.error.message);
     });
 
-  await gapi.client
-    .load("youtube", "v3", () => {
-      callback();
-    })
-    .catch((err: any) => {
-      console.log(err.message);
-    });
+  await gapi.client.load("youtube", "v3", () => {
+    callback();
+  });
 };

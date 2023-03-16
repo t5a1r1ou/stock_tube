@@ -2,6 +2,7 @@ import { Component, createEffect, createSignal, For, Show } from "solid-js";
 import Card from "../component/Card";
 import {
   cardsWrapper,
+  errorText,
   formContainer,
   heading,
   pagenation,
@@ -20,6 +21,7 @@ export const Index: Component = () => {
   const [inputValue, setInputValue] = createSignal<string>("");
   const [nextPageToken, setNextPageToken] = createSignal<string>("");
   const [prevPageToken, setPrevPageToken] = createSignal<string>("");
+  const [error, setError] = createSignal<string>("");
 
   const navigate = useNavigate();
 
@@ -90,10 +92,9 @@ export const Index: Component = () => {
             throw Error("該当する動画がありません。");
           }
           setVideos(videos);
-        })
-        .catch((error: any) => {
-          console.log(error.message);
         });
+    }).catch((error) => {
+      setError(error.message);
     });
   };
 
@@ -113,6 +114,9 @@ export const Index: Component = () => {
           検索
         </button>
       </form>
+      <Show when={error() !== ""}>
+        <p class={errorText}>{error()}</p>
+      </Show>
       <div class={cardsWrapper}>
         <For each={videos()}>
           {(video) => (

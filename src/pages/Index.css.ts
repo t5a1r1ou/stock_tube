@@ -57,3 +57,9 @@ export const pagenationButton = style({
   backgroundColor: "#999",
   borderRadius: "5px",
 });
+
+export const errorText = style({
+  marginTop: "0.8rem",
+  textAlign: "center",
+  color: "#d9534f",
+});
