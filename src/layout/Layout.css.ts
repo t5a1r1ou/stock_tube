@@ -32,6 +32,7 @@ export const authButton = style({
   right: "1.4rem",
   top: 0,
   bottom: 0,
+  fontSize: "0.8rem",
 });
 
 export const main = style({

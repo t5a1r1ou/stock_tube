@@ -34,7 +34,7 @@ export const initGoogleScript = async (gapi: any, callback: () => void) => {
       apiKey: import.meta.env.VITE_YOUTUBE_API_KEY,
     })
     .catch((reason: any) => {
-      console.log("Error: " + reason.result.error.message);
+      console.log(`Error: ${reason.result.error.message}`);
     });
 
   await gapi.client.load("youtube", "v3", () => {
