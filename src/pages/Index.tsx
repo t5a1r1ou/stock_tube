@@ -19,8 +19,9 @@ export const Index: Component = () => {
   const [gapi, setGapi] = createSignal<any>(null);
   const [videos, setVideos] = createSignal<Video[]>([]);
   const [inputValue, setInputValue] = createSignal<string>("");
+  const [currentWord, setCurrentWord] = createSignal<string>("");
+  const [total, setTotal] = createSignal<Number>(0);
   const [nextPageToken, setNextPageToken] = createSignal<string>("");
-  const [prevPageToken, setPrevPageToken] = createSignal<string>("");
   const [error, setError] = createSignal<string>("");
 
   const navigate = useNavigate();
@@ -44,20 +45,19 @@ export const Index: Component = () => {
 
   const submitQuery = (e: Event) => {
     e.preventDefault();
-    searchVideo("");
+    searchVideo(inputValue());
   };
 
-  const onClickNext = (e: Event) => {
+  const onClickMore = (e: Event) => {
     e.preventDefault();
-    searchVideo(nextPageToken());
+    searchVideo(currentWord(), nextPageToken());
   };
 
-  const onClickPrev = (e: Event) => {
-    e.preventDefault();
-    searchVideo(prevPageToken());
-  };
-  const searchVideo = async (pageToken: string) => {
-    const q = inputValue();
+  const searchVideo = async (q: string, pageToken: string = "") => {
+    if (q === "") {
+      setError("検索ワードが入力されていません。");
+      return;
+    }
     initGoogleScript(gapi(), () => {
       gapi()
         .client.youtube.search.list({
@@ -69,14 +69,17 @@ export const Index: Component = () => {
           maxResults: 12,
         })
         .then((data: any) => {
-          const { nextPageToken, prevPageToken, items } = data.result;
+          const {
+            nextPageToken,
+            items,
+            pageInfo: { totalResults },
+          } = data.result;
           if (nextPageToken) {
             setNextPageToken(nextPageToken);
+          } else {
+            setNextPageToken("");
           }
-          if (prevPageToken) {
-            setPrevPageToken(prevPageToken);
-          }
-          const videos: Video[] = items.map((item: any) => {
+          const newVideos: Video[] = items.map((item: any) => {
             const {
               id: { videoId: id },
               snippet: { thumbnails, title, publishedAt },
@@ -88,10 +91,18 @@ export const Index: Component = () => {
               thumbnail: thumbnails.high.url,
             };
           });
-          if (!videos.length) {
-            throw Error("該当する動画がありません。");
+          if (!newVideos.length) {
+            setError("該当する動画がありません。");
+          } else {
+            setError("");
           }
-          setVideos(videos);
+          if (q === currentWord()) {
+            setVideos([...videos(), ...newVideos]);
+          } else {
+            setVideos(newVideos);
+            setCurrentWord(inputValue());
+          }
+          setTotal(totalResults);
         });
     }).catch((error) => {
       setError(error.message);
@@ -118,6 +129,14 @@ export const Index: Component = () => {
         <p class={errorText}>{error()}</p>
       </Show>
       <div class={cardsWrapper}>
+        <Show when={currentWord() !== ""}>
+          <p>
+            「{currentWord()}」の検索結果:{" "}
+            {total() === 1000000
+              ? "100万件以上"
+              : `${total().toLocaleString()}件`}
+          </p>
+        </Show>
         <For each={videos()}>
           {(video) => (
             <Card
@@ -130,14 +149,9 @@ export const Index: Component = () => {
         </For>
       </div>
       <div class={pagenation}>
-        <Show when={prevPageToken() !== ""}>
-          <button onClick={(e) => onClickPrev(e)} class={pagenationButton}>
-            &lt; 前へ
-          </button>
-        </Show>
         <Show when={nextPageToken() !== ""}>
-          <button onClick={(e) => onClickNext(e)} class={pagenationButton}>
-            次へ &gt;
+          <button onClick={(e) => onClickMore(e)} class={pagenationButton}>
+            もっと見る
           </button>
         </Show>
       </div>

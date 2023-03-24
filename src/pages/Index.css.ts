@@ -48,7 +48,7 @@ export const pagenation = style({
   display: "flex",
   justifyContent: "center",
   gap: "0.4rem",
-  margin: "1.6rem auto",
+  margin: "0 auto 1.6rem",
 });
 
 export const pagenationButton = style({

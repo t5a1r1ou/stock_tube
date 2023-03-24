@@ -2,7 +2,7 @@ import { style } from "@vanilla-extract/css";
 
 export const cardContainer = style({
   width: "100%",
-  marginTop: "2rem",
+  marginBottom: "2rem",
   padding: "0.4rem",
   aspectRatio: "100 / 56.25",
   wordWrap: "break-word",
