@@ -14,15 +14,17 @@ import { input } from "../styles/utility.css";
 import { supabase } from "../scripts/supabase";
 import { useNavigate } from "@solidjs/router";
 import { initGoogleScript, loadGoogleScript } from "../scripts/googleScript";
-import type { GapiWindow, Video } from "../types/types";
+import type { GapiWindow, Video, ApiData } from "../types/types";
 
 export const Index: Component = () => {
   const [gapi, setGapi] = createSignal<any>(null);
-  const [videos, setVideos] = createSignal<Video[]>([]);
   const [inputValue, setInputValue] = createSignal<string>("");
+  const [data, setData] = createSignal<ApiData>({
+    videos: [],
+    total: 0,
+    nextPageToken: "",
+  });
   const [currentWord, setCurrentWord] = createSignal<string>("");
-  const [total, setTotal] = createSignal<Number>(0);
-  const [nextPageToken, setNextPageToken] = createSignal<string>("");
   const [error, setError] = createSignal<string>("");
 
   const navigate = useNavigate();
@@ -51,7 +53,7 @@ export const Index: Component = () => {
 
   const onClickMore = (e: Event) => {
     e.preventDefault();
-    searchVideo(currentWord(), nextPageToken());
+    searchVideo(currentWord(), data().nextPageToken);
   };
 
   const searchVideo = async (q: string, pageToken: string = "") => {
@@ -75,11 +77,7 @@ export const Index: Component = () => {
             items,
             pageInfo: { totalResults },
           } = data.result;
-          if (nextPageToken) {
-            setNextPageToken(nextPageToken);
-          } else {
-            setNextPageToken("");
-          }
+
           const newVideos: Video[] = items.map((item: any) => {
             const {
               id: { videoId: id },
@@ -92,18 +90,25 @@ export const Index: Component = () => {
               thumbnail: thumbnails.high.url,
             };
           });
+
+          setData({
+            videos:
+              q === currentWord()
+                ? [...data().videos, ...newVideos]
+                : newVideos,
+            total: totalResults,
+            nextPageToken: nextPageToken || "",
+          });
+
+          if (q !== currentWord()) {
+            setCurrentWord(inputValue());
+          }
+
           if (!newVideos.length) {
             setError("該当する動画がありません。");
           } else {
             setError("");
           }
-          if (q === currentWord()) {
-            setVideos([...videos(), ...newVideos]);
-          } else {
-            setVideos(newVideos);
-            setCurrentWord(inputValue());
-          }
-          setTotal(totalResults);
         });
     }).catch((error) => {
       setError(error.message);
@@ -132,13 +137,13 @@ export const Index: Component = () => {
       <Show when={currentWord() !== ""}>
         <p class={searchResult}>
           「{currentWord()}」の検索結果:{" "}
-          {total() === 1000000
+          {data().total === 1000000
             ? "100万件以上"
-            : `${total().toLocaleString()}件`}
+            : `${data().total.toLocaleString()}件`}
         </p>
       </Show>
       <div class={cardsWrapper}>
-        <For each={videos()}>
+        <For each={data().videos}>
           {(video) => (
             <Card
               title={video.title}
@@ -150,7 +155,7 @@ export const Index: Component = () => {
         </For>
       </div>
       <div class={pagenation}>
-        <Show when={nextPageToken() !== ""}>
+        <Show when={data().nextPageToken !== ""}>
           <button onClick={(e) => onClickMore(e)} class={pagenationButton}>
             もっと見る
           </button>

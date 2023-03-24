@@ -16,6 +16,12 @@ export type GapiWindow = Window &
     onGoogleScriptLoad: any;
   };
 
+export type ApiData = {
+  videos: Video[];
+  total: Number;
+  nextPageToken: string;
+};
+
 export type Video = {
   id: string;
   thumbnail: string;
