@@ -14,7 +14,7 @@ import { input } from "../styles/utility.css";
 import useAuth from "../hooks/useAuth";
 import type { AuthType } from "../types/types";
 
-export const AccountForm: Component<AuthType> = ({ flag }) => {
+export const AccountForm: Component<AuthType> = (props) => {
   const { credentials, setEmail, setPassword, errors, submitAccountForm } =
     useAuth();
   const navigate = useNavigate();
@@ -22,8 +22,8 @@ export const AccountForm: Component<AuthType> = ({ flag }) => {
 
   return (
     <>
-      <h2 class={heading}>{flag === "signin" ? "SignIn" : "SignUp"}</h2>
-      {flag === "signin" ? (
+      <h2 class={heading}>{props.flag === "signin" ? "SignIn" : "SignUp"}</h2>
+      {props.flag === "signin" ? (
         <p>
           まだ登録がお済みでない場合は
           <A href="/signup" class={anker}>
@@ -40,7 +40,7 @@ export const AccountForm: Component<AuthType> = ({ flag }) => {
       )}
       <form
         class={form}
-        onSubmit={(e) => submitAccountForm(e, flag, navigateToHome)}
+        onSubmit={(e) => submitAccountForm(e, props.flag, navigateToHome)}
       >
         <div class={formField}>
           <div class={formContainer}>
@@ -81,7 +81,7 @@ export const AccountForm: Component<AuthType> = ({ flag }) => {
         ) : null}
         <div class={formField}>
           <button type="submit" class={submitButton}>
-            {flag === "signup" ? "Sign up" : "Sign in"}
+            {props.flag === "signup" ? "Sign up" : "Sign in"}
           </button>
         </div>
       </form>

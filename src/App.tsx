@@ -60,7 +60,7 @@ const App: Component = () => {
   };
 
   return (
-    <Layout onClickAuthButton={onClickAuthButton} buttonText={buttonText}>
+    <Layout onClickAuthButton={onClickAuthButton} buttonText={buttonText()}>
       <Routes>
         <Route path="/" component={IndexPage}></Route>
         <Route path="/search" component={Search}></Route>

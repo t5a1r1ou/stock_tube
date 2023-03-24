@@ -14,25 +14,21 @@ import type { Component } from "solid-js";
 type Props = {
   children: JSX.Element;
   onClickAuthButton: () => void;
-  buttonText: Accessor<"サインイン" | "サインアウト">;
+  buttonText: "サインイン" | "サインアウト";
 };
 
-const Layout: Component<Props> = ({
-  children,
-  onClickAuthButton,
-  buttonText,
-}) => {
+const Layout: Component<Props> = (props) => {
   return (
     <div class={wrapper}>
       <header class={header}>
         <div class={headerContainer}>
           <h1 class={title}>StockTube</h1>
-          <button onClick={() => onClickAuthButton()} class={authButton}>
-            {buttonText()}
+          <button onClick={() => props.onClickAuthButton()} class={authButton}>
+            {props.buttonText}
           </button>
         </div>
       </header>
-      <main class={main}>{children}</main>
+      <main class={main}>{props.children}</main>
       <footer class={footer}>
         <small class={footerText}>
           <a href="https://github.com/t5a1r1ou" target="_blank">

@@ -1,7 +1,5 @@
-import { Component, createEffect, createSignal, For, Show } from "solid-js";
-import Card from "../component/Card";
+import { Component, createEffect, createSignal, Show } from "solid-js";
 import {
-  cardsWrapper,
   errorText,
   formContainer,
   heading,
@@ -15,6 +13,7 @@ import { supabase } from "../scripts/supabase";
 import { useNavigate } from "@solidjs/router";
 import { initGoogleScript, loadGoogleScript } from "../scripts/googleScript";
 import type { GapiWindow, Video, ApiData } from "../types/types";
+import { CardsWrapper } from "../component/CardsWrapper";
 
 export const Search: Component = () => {
   const [gapi, setGapi] = createSignal<any>(null);
@@ -142,18 +141,7 @@ export const Search: Component = () => {
             : `${apiData().total.toLocaleString()}件`}
         </p>
       </Show>
-      <div class={cardsWrapper}>
-        <For each={apiData().videos}>
-          {(video) => (
-            <Card
-              title={video.title}
-              publishedAt={video.publishedAt}
-              id={video.id}
-              thumbnail={video.thumbnail}
-            />
-          )}
-        </For>
-      </div>
+      <CardsWrapper videos={apiData().videos} />
       <div class={pagenation}>
         <Show when={apiData().nextPageToken !== ""}>
           <button onClick={(e) => onClickMore(e)} class={pagenationButton}>

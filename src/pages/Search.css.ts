@@ -42,11 +42,6 @@ export const searchResult = style({
   margin: "2rem 0 0.4rem",
 });
 
-export const cardsWrapper = style({
-  display: "flex",
-  flexWrap: "wrap",
-});
-
 export const pagenation = style({
   display: "flex",
   justifyContent: "center",
