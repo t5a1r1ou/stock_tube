@@ -19,7 +19,7 @@ import type { GapiWindow, Video, ApiData } from "../types/types";
 export const Search: Component = () => {
   const [gapi, setGapi] = createSignal<any>(null);
   const [inputValue, setInputValue] = createSignal<string>("");
-  const [data, setData] = createSignal<ApiData>({
+  const [apiData, setApiData] = createSignal<ApiData>({
     videos: [],
     total: 0,
     nextPageToken: "",
@@ -53,7 +53,7 @@ export const Search: Component = () => {
 
   const onClickMore = (e: Event) => {
     e.preventDefault();
-    searchVideo(currentWord(), data().nextPageToken);
+    searchVideo(currentWord(), apiData().nextPageToken);
   };
 
   const searchVideo = async (q: string, pageToken: string = "") => {
@@ -91,10 +91,10 @@ export const Search: Component = () => {
             };
           });
 
-          setData({
+          setApiData({
             videos:
               q === currentWord()
-                ? [...data().videos, ...newVideos]
+                ? [...apiData().videos, ...newVideos]
                 : newVideos,
             total: totalResults,
             nextPageToken: nextPageToken || "",
@@ -137,13 +137,13 @@ export const Search: Component = () => {
       <Show when={currentWord() !== ""}>
         <p class={searchResult}>
           「{currentWord()}」の検索結果:{" "}
-          {data().total === 1000000
+          {apiData().total === 1000000
             ? "100万件以上"
-            : `${data().total.toLocaleString()}件`}
+            : `${apiData().total.toLocaleString()}件`}
         </p>
       </Show>
       <div class={cardsWrapper}>
-        <For each={data().videos}>
+        <For each={apiData().videos}>
           {(video) => (
             <Card
               title={video.title}
@@ -155,7 +155,7 @@ export const Search: Component = () => {
         </For>
       </div>
       <div class={pagenation}>
-        <Show when={data().nextPageToken !== ""}>
+        <Show when={apiData().nextPageToken !== ""}>
           <button onClick={(e) => onClickMore(e)} class={pagenationButton}>
             もっと見る
           </button>
