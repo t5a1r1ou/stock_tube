@@ -38,10 +38,13 @@ export const submitButton = style({
   },
 });
 
+export const searchResult = style({
+  margin: "2rem 0 0.4rem",
+});
+
 export const cardsWrapper = style({
   display: "flex",
   flexWrap: "wrap",
-  marginTop: "2rem",
 });
 
 export const pagenation = style({

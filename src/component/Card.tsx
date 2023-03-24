@@ -11,11 +11,13 @@ import type { Video } from "../types/types";
 const Card: Component<Video> = ({ title, thumbnail, publishedAt }) => {
   return (
     <div class={cardContainer}>
-      <img src={thumbnail} alt="サムネイル" class={cardImg} />
-      <h3 class={cardTitle}>{title}</h3>
-      <time datetime={publishedAt} class={cardPublishedAt}>
-        {publishedAt.split("T").at(0)}
-      </time>
+      <div>
+        <img src={thumbnail} alt="サムネイル" class={cardImg} />
+        <h3 class={cardTitle}>{title}</h3>
+        <time datetime={publishedAt} class={cardPublishedAt}>
+          {publishedAt.split("T").at(0)}
+        </time>
+      </div>
       <button class={addButton}>追加する</button>
       {/* <p>{id}</p> */}
       {/* <iframe

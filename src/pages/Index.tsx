@@ -7,6 +7,7 @@ import {
   heading,
   pagenation,
   pagenationButton,
+  searchResult,
   submitButton,
 } from "./Index.css";
 import { input } from "../styles/utility.css";
@@ -128,15 +129,15 @@ export const Index: Component = () => {
       <Show when={error() !== ""}>
         <p class={errorText}>{error()}</p>
       </Show>
+      <Show when={currentWord() !== ""}>
+        <p class={searchResult}>
+          「{currentWord()}」の検索結果:{" "}
+          {total() === 1000000
+            ? "100万件以上"
+            : `${total().toLocaleString()}件`}
+        </p>
+      </Show>
       <div class={cardsWrapper}>
-        <Show when={currentWord() !== ""}>
-          <p>
-            「{currentWord()}」の検索結果:{" "}
-            {total() === 1000000
-              ? "100万件以上"
-              : `${total().toLocaleString()}件`}
-          </p>
-        </Show>
         <For each={videos()}>
           {(video) => (
             <Card

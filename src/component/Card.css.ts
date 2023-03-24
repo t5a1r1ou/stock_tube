@@ -9,6 +9,10 @@ export const cardContainer = style({
   "@media": {
     "screen and (min-width: 768px)": {
       width: "calc(100% / 3)",
+      display: "flex",
+      flexDirection: "column",
+      alignItems: "flex-start",
+      justifyContent: "space-between",
     },
   },
 });
