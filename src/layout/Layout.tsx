@@ -28,7 +28,7 @@ const Layout: Component<Props> = ({
         <div class={headerContainer}>
           <h1 class={title}>StockTube</h1>
           <button onClick={() => onClickAuthButton()} class={authButton}>
-            {buttonText}
+            {buttonText()}
           </button>
         </div>
       </header>

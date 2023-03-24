@@ -5,6 +5,7 @@ import Layout from "./layout/Layout";
 import { SignIn } from "./pages/SignIn";
 import { SignUp } from "./pages/SignUp";
 import { Index as IndexPage } from "./pages/Index";
+import { Search } from "./pages/Search";
 
 import { createEffect, createSignal } from "solid-js";
 import type { Component } from "solid-js";
@@ -62,6 +63,7 @@ const App: Component = () => {
     <Layout onClickAuthButton={onClickAuthButton} buttonText={buttonText}>
       <Routes>
         <Route path="/" component={IndexPage}></Route>
+        <Route path="/search" component={Search}></Route>
         <Route path="/signin" component={SignIn}></Route>
         <Route path="/signup" component={SignUp}></Route>
       </Routes>
