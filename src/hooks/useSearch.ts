@@ -114,14 +114,14 @@ export const useSearch = (props: Props) => {
   };
 
   const observeSearchStockedVideo = (id: string) => {
-    const stockedVideos = props.apiData().resultVideos.map((video) => {
+    const resultVideos = props.apiData().resultVideos.map((video) => {
       if (video.id === id) {
         return { ...video, isStocked: true };
       } else {
         return video;
       }
     });
-    props.setApiData({ ...props.apiData(), resultVideos: stockedVideos });
+    props.setApiData({ ...props.apiData(), resultVideos });
   };
 
   return {
