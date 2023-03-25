@@ -1,7 +1,7 @@
 import { CardsWrapper } from "../component/CardsWrapper";
 import { heading } from "./Index.css";
 import { Component, Show } from "solid-js";
-import { getVideos } from "../store/store";
+import { getVideos } from "../store/videos";
 import { A } from "@solidjs/router";
 
 export const Index: Component = () => {

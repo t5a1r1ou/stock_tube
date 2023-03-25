@@ -16,10 +16,13 @@ export type GapiWindow = Window &
     onGoogleScriptLoad: any;
   };
 
-export type ApiData = {
+export type SearchState = {
   resultVideos: Video[];
   total: Number;
   nextPageToken: string;
+  currentWord: string;
+  inputValue: string;
+  error: string;
 };
 
 export type Video = {

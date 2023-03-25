@@ -7,7 +7,7 @@ import {
   cardTitle,
 } from "./Card.css";
 import type { Video } from "../types/types";
-import { onClickAdd } from "../store/store";
+import { onClickAdd } from "../store/videos";
 
 type Props = Video & {
   observeSearchStockedVideo?: (id: string) => void;

@@ -2,22 +2,26 @@ import { useNavigate } from "@solidjs/router";
 import { Accessor, Setter } from "solid-js";
 import { initGoogleScript, loadGoogleScript } from "../scripts/googleScript";
 import { supabase } from "../scripts/supabase";
-import { ApiData, GapiWindow, Video } from "../types/types";
-import { getVideos } from "../store/store";
+import { GapiWindow, Video } from "../types/types";
+import { getVideos } from "../store/videos";
+import {
+  getSearchState,
+  setApiData,
+  setError,
+  setCurrentWord,
+  setResultVideo,
+  setAllSearchState,
+} from "../store/search";
 
 type Props = {
   gapi: Accessor<any>;
   setGapi: Setter<any>;
-  apiData: Accessor<ApiData>;
-  setApiData: Setter<ApiData>;
-  currentWord: Accessor<string>;
-  setCurrentWord: Setter<string>;
-  setError: Setter<string>;
-  inputValue: Accessor<string>;
 };
 
 export const useSearch = (props: Props) => {
   const navigate = useNavigate();
+
+  const state = getSearchState();
 
   const initAuthAndApi = async () => {
     const { data, error } = await supabase.auth.getSession();
@@ -42,7 +46,14 @@ export const useSearch = (props: Props) => {
 
   const searchVideo = async (q: string, pageToken: string = "") => {
     if (q === "") {
-      props.setError("検索ワードが入力されていません。");
+      setAllSearchState({
+        resultVideos: [],
+        total: 0,
+        nextPageToken: "",
+        currentWord: "",
+        inputValue: "",
+        error: "検索ワードが入力されていません。",
+      });
       return;
     }
     initGoogleScript(props.gapi(), () => {
@@ -79,49 +90,49 @@ export const useSearch = (props: Props) => {
             };
           });
 
-          props.setApiData({
+          setApiData({
             resultVideos:
-              q === props.currentWord()
-                ? [...props.apiData().resultVideos, ...newVideos]
+              q === state.currentWord
+                ? [...state.resultVideos, ...newVideos]
                 : newVideos,
             total: totalResults,
             nextPageToken: nextPageToken || "",
           });
 
-          if (q !== props.currentWord()) {
-            props.setCurrentWord(props.inputValue());
+          if (q !== state.currentWord) {
+            setCurrentWord(state.inputValue);
           }
 
           if (!newVideos.length) {
-            props.setError("該当する動画がありません。");
+            setError("該当する動画がありません。");
           } else {
-            props.setError("");
+            setError("");
           }
         });
     }).catch((error) => {
-      props.setError(error.message);
+      setError(error.message);
     });
   };
 
   const submitQuery = (e: Event) => {
     e.preventDefault();
-    searchVideo(props.inputValue());
+    searchVideo(state.inputValue);
   };
 
   const onClickMore = (e: Event) => {
     e.preventDefault();
-    searchVideo(props.currentWord(), props.apiData().nextPageToken);
+    searchVideo(state.currentWord, state.nextPageToken);
   };
 
   const observeSearchStockedVideo = (id: string) => {
-    const resultVideos = props.apiData().resultVideos.map((video) => {
+    const resultVideos = state.resultVideos.map((video) => {
       if (video.id === id) {
         return { ...video, isStocked: true };
       } else {
         return video;
       }
     });
-    props.setApiData({ ...props.apiData(), resultVideos });
+    setResultVideo(resultVideos);
   };
 
   return {
