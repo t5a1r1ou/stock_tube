@@ -11,18 +11,18 @@ import {
   submitButton,
 } from "./AccountForm.css";
 import { input } from "../styles/utility.css";
-import useAuth from "../hooks/useAuth";
+import useAccountForm from "../hooks/useAccountForm";
 import type { AuthType } from "../types/types";
 
 export const AccountForm: Component<AuthType> = (props) => {
   const { credentials, setEmail, setPassword, errors, submitAccountForm } =
-    useAuth();
+    useAccountForm();
   const navigate = useNavigate();
   const navigateToHome = () => navigate("/");
 
   return (
     <>
-      <h2 class={heading}>{props.flag === "signin" ? "SignIn" : "SignUp"}</h2>
+      <h2 class={heading}>{props.flag === "signin" ? "サインイン" : "登録"}</h2>
       {props.flag === "signin" ? (
         <p>
           まだ登録がお済みでない場合は

@@ -3,7 +3,7 @@ import { supabase } from "../scripts/supabase";
 
 import type { Credentials, AuthType } from "../types/types";
 
-const useAuth = () => {
+const useAccountForm = () => {
   const initialCredentials = {
     email: "",
     password: "",
@@ -100,4 +100,4 @@ const useAuth = () => {
   return { credentials, setPassword, setEmail, errors, submitAccountForm };
 };
 
-export default useAuth;
+export default useAccountForm;
