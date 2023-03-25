@@ -1,13 +1,13 @@
+import { createEffect, createSignal } from "solid-js";
 import { Routes, Route, useNavigate } from "@solidjs/router";
 import { supabase } from "./scripts/supabase";
 
 import Layout from "./layout/Layout";
 import { SignIn } from "./pages/SignIn";
 import { SignUp } from "./pages/SignUp";
-import { Index as IndexPage } from "./pages/Index";
+import { Index } from "./pages/Index";
 import { Search } from "./pages/Search";
 
-import { createEffect, createSignal } from "solid-js";
 import type { Component } from "solid-js";
 import type { Session } from "@supabase/gotrue-js";
 
@@ -62,7 +62,7 @@ const App: Component = () => {
   return (
     <Layout onClickAuthButton={onClickAuthButton} buttonText={buttonText()}>
       <Routes>
-        <Route path="/" component={IndexPage}></Route>
+        <Route path="/" component={Index}></Route>
         <Route path="/search" component={Search}></Route>
         <Route path="/signin" component={SignIn}></Route>
         <Route path="/signup" component={SignUp}></Route>
