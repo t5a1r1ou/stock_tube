@@ -1,4 +1,4 @@
-import { Component, Show } from "solid-js";
+import { Component, Match, Show, Switch } from "solid-js";
 import {
   addButton,
   cardContainer,
@@ -7,18 +7,23 @@ import {
   cardTitle,
 } from "./Card.css";
 import type { Video } from "../types/types";
-import { onClickAdd } from "../store/videos";
+import { useLocation } from "@solidjs/router";
 
 type Props = Video & {
-  observeSearchStockedVideo?: (id: string) => void;
+  onClickAdd: (video: Video) => void;
+  onClickDelete: (id: Video["id"]) => void;
 };
 
 const Card: Component<Props> = (props) => {
-  const add = () => {
-    if (props.observeSearchStockedVideo) {
-      props.observeSearchStockedVideo(props.id);
-    }
-    onClickAdd(props);
+  const location = useLocation();
+  const isSearchPage = location.pathname === "/search";
+
+  const video: Video = {
+    id: props.id,
+    thumbnail: props.thumbnail,
+    title: props.title,
+    publishedAt: props.publishedAt,
+    isStocked: props.isStocked,
   };
 
   return (
@@ -30,13 +35,23 @@ const Card: Component<Props> = (props) => {
           {props.publishedAt.split("T").at(0)}
         </time>
       </div>
-      <Show when={props.observeSearchStockedVideo}>
-        <Show when={!props.isStocked} fallback={<p>追加済み</p>}>
-          <button class={addButton} onClick={add}>
-            追加する
+      <Switch>
+        <Match when={isSearchPage}>
+          <Show when={!props.isStocked} fallback={<p>追加済み</p>}>
+            <button class={addButton} onClick={() => props.onClickAdd(video)}>
+              追加する
+            </button>
+          </Show>
+        </Match>
+        <Match when={!isSearchPage}>
+          <button
+            class={addButton}
+            onClick={() => props.onClickDelete(video.id)}
+          >
+            削除する
           </button>
-        </Show>
-      </Show>
+        </Match>
+      </Switch>
       {/* <p>{id}</p> */}
       {/* <iframe
           src={`https://www.youtube.com/embed/${youtubeId}?autoplay=1`}

@@ -3,13 +3,28 @@ import type { Component } from "solid-js";
 import { wrapper } from "./CardsWrapper.css";
 import { Video } from "../types/types";
 import Card from "./Card";
+import { addVideo, removeVideo } from "../store/videos";
 
 type Props = {
   videos: Video[];
-  observeSearchStockedVideo?: (id: string) => void;
+  observeSearchStockedVideo: () => void;
 };
 
 export const CardsWrapper: Component<Props> = (props) => {
+  const onClickAdd = (video: Video) => {
+    addVideo(video);
+    if (props.observeSearchStockedVideo) {
+      props.observeSearchStockedVideo();
+    }
+  };
+
+  const onClickDelete = (id: Video["id"]) => {
+    removeVideo(id);
+    if (props.observeSearchStockedVideo) {
+      props.observeSearchStockedVideo();
+    }
+  };
+
   return (
     <div class={wrapper}>
       <For each={props.videos}>
@@ -20,7 +35,8 @@ export const CardsWrapper: Component<Props> = (props) => {
             id={video.id}
             thumbnail={video.thumbnail}
             isStocked={video.isStocked}
-            observeSearchStockedVideo={props.observeSearchStockedVideo}
+            onClickAdd={onClickAdd}
+            onClickDelete={onClickDelete}
           />
         )}
       </For>

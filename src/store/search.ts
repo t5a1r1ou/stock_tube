@@ -12,6 +12,8 @@ const [searchState, setSearchState] = createStore<SearchState>({
 
 export const getSearchState = () => searchState;
 
+export const getResultVideos = () => searchState.resultVideos;
+
 export const setAllSearchState = (data: SearchState) => setSearchState(data);
 
 export const setApiData = (

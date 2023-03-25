@@ -9,7 +9,6 @@ import {
   setApiData,
   setError,
   setCurrentWord,
-  setResultVideo,
   setAllSearchState,
 } from "../store/search";
 
@@ -21,7 +20,7 @@ type Props = {
 export const useSearch = (props: Props) => {
   const navigate = useNavigate();
 
-  const state = getSearchState();
+  const state = () => getSearchState();
 
   const initAuthAndApi = async () => {
     const { data, error } = await supabase.auth.getSession();
@@ -92,15 +91,15 @@ export const useSearch = (props: Props) => {
 
           setApiData({
             resultVideos:
-              q === state.currentWord
-                ? [...state.resultVideos, ...newVideos]
+              q === state().currentWord
+                ? [...state().resultVideos, ...newVideos]
                 : newVideos,
             total: totalResults,
             nextPageToken: nextPageToken || "",
           });
 
-          if (q !== state.currentWord) {
-            setCurrentWord(state.inputValue);
+          if (q !== state().currentWord) {
+            setCurrentWord(state().inputValue);
           }
 
           if (!newVideos.length) {
@@ -116,29 +115,17 @@ export const useSearch = (props: Props) => {
 
   const submitQuery = (e: Event) => {
     e.preventDefault();
-    searchVideo(state.inputValue);
+    searchVideo(state().inputValue);
   };
 
   const onClickMore = (e: Event) => {
     e.preventDefault();
-    searchVideo(state.currentWord, state.nextPageToken);
-  };
-
-  const observeSearchStockedVideo = (id: string) => {
-    const resultVideos = state.resultVideos.map((video) => {
-      if (video.id === id) {
-        return { ...video, isStocked: true };
-      } else {
-        return video;
-      }
-    });
-    setResultVideo(resultVideos);
+    searchVideo(state().currentWord, state().nextPageToken);
   };
 
   return {
     initAuthAndApi,
     submitQuery,
     onClickMore,
-    observeSearchStockedVideo,
   };
 };

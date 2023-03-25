@@ -5,6 +5,10 @@ const [videos, setVideos] = createSignal<Video[]>([]);
 
 export const getVideos = () => videos();
 
-export const onClickAdd = (video: Video) => {
+export const addVideo = (video: Video) => {
   setVideos([...videos(), video]);
+};
+
+export const removeVideo = (id: Video["id"]) => {
+  setVideos([...videos().filter((video) => video.id !== id)]);
 };

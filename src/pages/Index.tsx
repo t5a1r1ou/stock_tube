@@ -3,18 +3,23 @@ import { heading } from "./Index.css";
 import { Component, Show } from "solid-js";
 import { getVideos } from "../store/videos";
 import { A } from "@solidjs/router";
+import { useCommon } from "../hooks/useCommon";
 
 export const Index: Component = () => {
-  const videos = getVideos();
+  const videos = () => getVideos();
+  const { observeSearchStockedVideo } = useCommon();
   return (
     <>
       <h2 class={heading}>一覧</h2>
       <A href="/search">検索へ</A>
       <Show
-        when={videos.length > 0}
+        when={videos().length > 0}
         fallback={<p>動画が登録されていません。</p>}
       >
-        <CardsWrapper videos={videos} />
+        <CardsWrapper
+          videos={videos()}
+          observeSearchStockedVideo={observeSearchStockedVideo}
+        />
       </Show>
     </>
   );

@@ -6,20 +6,18 @@ import { Pagenation } from "../component/Pagenation";
 import { useSearch } from "../hooks/useSearch";
 import { A } from "@solidjs/router";
 import { getSearchState, setInputValue } from "../store/search";
+import { useCommon } from "../hooks/useCommon";
 
 export const Search: Component = () => {
   const [gapi, setGapi] = createSignal<any>(null);
-  const state = getSearchState();
+  const state = () => getSearchState();
 
-  const {
-    initAuthAndApi,
-    submitQuery,
-    onClickMore,
-    observeSearchStockedVideo,
-  } = useSearch({
+  const { initAuthAndApi, submitQuery, onClickMore } = useSearch({
     gapi,
     setGapi,
   });
+
+  const { observeSearchStockedVideo } = useCommon();
 
   createEffect(() => {
     initAuthAndApi();
@@ -31,18 +29,18 @@ export const Search: Component = () => {
       <A href="/">一覧へ</A>
       <SearchForm
         submitQuery={submitQuery}
-        inputValue={state.inputValue}
+        inputValue={state().inputValue}
         setInputValue={setInputValue}
-        error={state.error}
-        currentWord={state.currentWord}
-        total={state.total}
+        error={state().error}
+        currentWord={state().currentWord}
+        total={state().total}
       />
       <CardsWrapper
-        videos={state.resultVideos}
+        videos={state().resultVideos}
         observeSearchStockedVideo={observeSearchStockedVideo}
       />
       <Pagenation
-        nextPageToken={state.nextPageToken}
+        nextPageToken={state().nextPageToken}
         onClickMore={onClickMore}
       />
     </div>
