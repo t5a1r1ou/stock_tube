@@ -6,6 +6,7 @@ import Card from "./Card";
 
 type Props = {
   videos: Video[];
+  observeSearchStockedVideo?: (id: string) => void;
 };
 
 export const CardsWrapper: Component<Props> = (props) => {
@@ -18,6 +19,8 @@ export const CardsWrapper: Component<Props> = (props) => {
             publishedAt={video.publishedAt}
             id={video.id}
             thumbnail={video.thumbnail}
+            isStocked={video.isStocked}
+            observeSearchStockedVideo={props.observeSearchStockedVideo}
           />
         )}
       </For>

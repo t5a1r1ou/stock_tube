@@ -1,4 +1,4 @@
-import type { Component } from "solid-js";
+import { Component, Show } from "solid-js";
 import {
   addButton,
   cardContainer,
@@ -7,18 +7,36 @@ import {
   cardTitle,
 } from "./Card.css";
 import type { Video } from "../types/types";
+import { onClickAdd } from "../store/store";
 
-const Card: Component<Video> = ({ title, thumbnail, publishedAt }) => {
+type Props = Video & {
+  observeSearchStockedVideo?: (id: string) => void;
+};
+
+const Card: Component<Props> = (props) => {
+  const add = () => {
+    if (props.observeSearchStockedVideo) {
+      props.observeSearchStockedVideo(props.id);
+    }
+    onClickAdd(props);
+  };
+
   return (
     <div class={cardContainer}>
       <div>
-        <img src={thumbnail} alt="サムネイル" class={cardImg} />
-        <h3 class={cardTitle}>{title}</h3>
-        <time datetime={publishedAt} class={cardPublishedAt}>
-          {publishedAt.split("T").at(0)}
+        <img src={props.thumbnail} alt="サムネイル" class={cardImg} />
+        <h3 class={cardTitle}>{props.title}</h3>
+        <time datetime={props.publishedAt} class={cardPublishedAt}>
+          {props.publishedAt.split("T").at(0)}
         </time>
       </div>
-      <button class={addButton}>追加する</button>
+      <Show when={props.observeSearchStockedVideo}>
+        <Show when={!props.isStocked} fallback={<p>追加済み</p>}>
+          <button class={addButton} onClick={add}>
+            追加する
+          </button>
+        </Show>
+      </Show>
       {/* <p>{id}</p> */}
       {/* <iframe
           src={`https://www.youtube.com/embed/${youtubeId}?autoplay=1`}

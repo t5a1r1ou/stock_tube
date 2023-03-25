@@ -1,14 +1,21 @@
 import { CardsWrapper } from "../component/CardsWrapper";
 import { heading } from "./Index.css";
-// import { cardsWrapper } from "./.css";
-import { Component, createSignal } from "solid-js";
+import { Component, Show } from "solid-js";
+import { getVideos } from "../store/store";
+import { A } from "@solidjs/router";
 
 export const Index: Component = () => {
-  const [videos] = createSignal([]);
+  const videos = getVideos();
   return (
     <>
       <h2 class={heading}>一覧</h2>
-      <CardsWrapper videos={videos()} />
+      <A href="/search">検索へ</A>
+      <Show
+        when={videos.length > 0}
+        fallback={<p>動画が登録されていません。</p>}
+      >
+        <CardsWrapper videos={videos} />
+      </Show>
     </>
   );
 };

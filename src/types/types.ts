@@ -17,7 +17,7 @@ export type GapiWindow = Window &
   };
 
 export type ApiData = {
-  videos: Video[];
+  resultVideos: Video[];
   total: Number;
   nextPageToken: string;
 };
@@ -27,4 +27,5 @@ export type Video = {
   thumbnail: string;
   title: string;
   publishedAt: string;
+  isStocked: boolean;
 };
