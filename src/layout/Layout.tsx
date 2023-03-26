@@ -1,4 +1,4 @@
-import { JSX, Show } from "solid-js";
+import { Accessor, JSX, Show } from "solid-js";
 import {
   footer,
   footerText,
@@ -14,17 +14,18 @@ import { User } from "@supabase/supabase-js";
 
 type Props = {
   children: JSX.Element;
-  user: User | null;
+  user: Accessor<User | null>;
   signOut: () => void;
 };
 
 const Layout: Component<Props> = (props) => {
+  console.log(props.user());
   return (
     <div class={wrapper}>
       <header class={header}>
         <div class={headerContainer}>
           <h1 class={title}>StockTube</h1>
-          <Show when={props.user}>
+          <Show when={props.user()}>
             <button onClick={() => props.signOut()} class={authButton}>
               サインアウト
             </button>

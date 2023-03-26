@@ -55,45 +55,45 @@ const useAccountForm = () => {
     return emailResult && passwordResult;
   };
 
-  const submitAccountForm = async (
-    e: Event,
-    flag: AuthType["flag"],
-    callback: () => void
-  ) => {
+  const signIn = async (credentials: Credentials) => {
+    const { error } = await supabase.auth.signInWithPassword({
+      email: credentials.email,
+      password: credentials.password,
+    });
+
+    if (error) {
+      setErrors({
+        ...errors,
+        server: "メールアドレスもしくはパスワードが間違っています。",
+      });
+    }
+  };
+
+  const signUp = async (credentials: Credentials) => {
+    const { error } = await supabase.auth.signUp({
+      email: credentials.email,
+      password: credentials.password,
+    });
+
+    if (error) {
+      setErrors({
+        ...errors,
+        server: "メールアドレスもしくはパスワードが間違っています。",
+      });
+    }
+  };
+
+  const submitAccountForm = async (e: Event, flag: AuthType["flag"]) => {
     e.preventDefault();
 
     if (!validation()) {
       return;
     }
 
-    const { email, password } = credentials;
     if (flag === "signup") {
-      const { error } = await supabase.auth.signUp({
-        email,
-        password,
-      });
-      if (error) {
-        setErrors({
-          ...errors,
-          server: "メールアドレスもしくはパスワードが間違っています。",
-        });
-        return;
-      }
-      callback();
+      signUp(credentials);
     } else {
-      const { error } = await supabase.auth.signInWithPassword({
-        email,
-        password,
-      });
-
-      if (error) {
-        setErrors({
-          ...errors,
-          server: "メールアドレスもしくはパスワードが間違っています。",
-        });
-        return;
-      }
-      callback();
+      signIn(credentials);
     }
   };
 

@@ -14,9 +14,10 @@ import type { Component } from "solid-js";
 const App: Component = () => {
   const navigate = useNavigate();
   const location = useLocation();
+  const isAuthenticationPage = () => /signin|signup/g.test(location.pathname);
 
   supabase.auth.onAuthStateChange((event, session) => {
-    if (event === "SIGNED_IN") {
+    if (event === "SIGNED_IN" && isAuthenticationPage()) {
       navigate("/");
       setUser(session!.user);
     } else if (event === "SIGNED_OUT") {
@@ -31,9 +32,10 @@ const App: Component = () => {
       if (!data.session?.user) {
         navigate("/signin");
         return;
-      } else if (["/signin", "/signup"].includes(location.pathname)) {
+      } else if (isAuthenticationPage()) {
         navigate("/");
       }
+      setUser(data.session!.user);
     };
     validateSession();
   }, []);
@@ -48,7 +50,7 @@ const App: Component = () => {
   };
 
   return (
-    <Layout user={user()} signOut={signOut}>
+    <Layout user={user} signOut={signOut}>
       <Routes>
         <Route path="/" component={Index}></Route>
         <Route path="/search" component={Search}></Route>

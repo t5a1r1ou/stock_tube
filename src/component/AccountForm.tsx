@@ -1,5 +1,5 @@
 import { Component } from "solid-js";
-import { A, useNavigate } from "@solidjs/router";
+import { A } from "@solidjs/router";
 import {
   heading,
   anker,
@@ -17,8 +17,6 @@ import type { AuthType } from "../types/types";
 export const AccountForm: Component<AuthType> = (props) => {
   const { credentials, setEmail, setPassword, errors, submitAccountForm } =
     useAccountForm();
-  const navigate = useNavigate();
-  const navigateToHome = () => navigate("/");
 
   return (
     <>
@@ -38,10 +36,7 @@ export const AccountForm: Component<AuthType> = (props) => {
           </A>
         </p>
       )}
-      <form
-        class={form}
-        onSubmit={(e) => submitAccountForm(e, props.flag, navigateToHome)}
-      >
+      <form class={form} onSubmit={(e) => submitAccountForm(e, props.flag)}>
         <div class={formField}>
           <div class={formContainer}>
             <label class={inputLabel} for="email">
