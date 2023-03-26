@@ -1,4 +1,4 @@
-import { JSX } from "solid-js";
+import { JSX, Show } from "solid-js";
 import {
   footer,
   footerText,
@@ -10,11 +10,12 @@ import {
   wrapper,
 } from "./Layout.css";
 import type { Component } from "solid-js";
+import { User } from "@supabase/supabase-js";
 
 type Props = {
   children: JSX.Element;
-  onClickAuthButton: () => void;
-  buttonText: "サインイン" | "サインアウト";
+  user: User | null;
+  signOut: () => void;
 };
 
 const Layout: Component<Props> = (props) => {
@@ -23,9 +24,11 @@ const Layout: Component<Props> = (props) => {
       <header class={header}>
         <div class={headerContainer}>
           <h1 class={title}>StockTube</h1>
-          <button onClick={() => props.onClickAuthButton()} class={authButton}>
-            {props.buttonText}
-          </button>
+          <Show when={props.user}>
+            <button onClick={() => props.signOut()} class={authButton}>
+              サインアウト
+            </button>
+          </Show>
         </div>
       </header>
       <main class={main}>{props.children}</main>

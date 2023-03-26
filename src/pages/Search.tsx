@@ -12,7 +12,7 @@ export const Search: Component = () => {
   const [gapi, setGapi] = createSignal<any>(null);
   const state = () => getSearchState();
 
-  const { initAuthAndApi, submitQuery, onClickMore } = useSearch({
+  const { initApi, submitQuery, onClickMore } = useSearch({
     gapi,
     setGapi,
   });
@@ -20,7 +20,7 @@ export const Search: Component = () => {
   const { observeSearchStockedVideo } = useCommon();
 
   createEffect(() => {
-    initAuthAndApi();
+    initApi();
   }, []);
 
   return (

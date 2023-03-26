@@ -1,7 +1,5 @@
-import { useNavigate } from "@solidjs/router";
 import { Accessor, Setter } from "solid-js";
 import { initGoogleScript, loadGoogleScript } from "../scripts/googleScript";
-import { supabase } from "../scripts/supabase";
 import { GapiWindow, Video } from "../types/types";
 import { getVideos } from "../store/videos";
 import {
@@ -18,29 +16,19 @@ type Props = {
 };
 
 export const useSearch = (props: Props) => {
-  const navigate = useNavigate();
-
   const state = () => getSearchState();
 
-  const initAuthAndApi = async () => {
-    const { data, error } = await supabase.auth.getSession();
-    if (error) {
-      throw Error;
-    }
-    if (!data.session?.user) {
-      navigate("/signin");
-    } else {
-      (window as GapiWindow).onGoogleScriptLoad = () => {
-        const _gapi = window.gapi;
-        props.setGapi(_gapi);
-      };
+  const initApi = () => {
+    (window as GapiWindow).onGoogleScriptLoad = () => {
+      const _gapi = window.gapi;
+      props.setGapi(_gapi);
+    };
 
-      if (!props.gapi()) {
-        (window as GapiWindow).onGoogleScriptLoad();
-      }
-
-      loadGoogleScript();
+    if (!props.gapi()) {
+      (window as GapiWindow).onGoogleScriptLoad();
     }
+
+    loadGoogleScript();
   };
 
   const searchVideo = async (q: string, pageToken: string = "") => {
@@ -124,7 +112,7 @@ export const useSearch = (props: Props) => {
   };
 
   return {
-    initAuthAndApi,
+    initApi,
     submitQuery,
     onClickMore,
   };

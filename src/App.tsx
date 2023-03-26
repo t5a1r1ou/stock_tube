@@ -1,5 +1,5 @@
-import { createEffect, createSignal } from "solid-js";
-import { Routes, Route, useNavigate } from "@solidjs/router";
+import { createEffect } from "solid-js";
+import { Routes, Route, useNavigate, useLocation } from "@solidjs/router";
 import { supabase } from "./scripts/supabase";
 
 import Layout from "./layout/Layout";
@@ -7,38 +7,36 @@ import { SignIn } from "./pages/SignIn";
 import { SignUp } from "./pages/SignUp";
 import { Index } from "./pages/Index";
 import { Search } from "./pages/Search";
+import { user, setUser } from "./store/user";
 
 import type { Component } from "solid-js";
-import type { Session } from "@supabase/gotrue-js";
 
 const App: Component = () => {
-  const [session, setSession] = createSignal<Session | null>(null);
-  const [buttonText, setButtonText] = createSignal<
-    "サインイン" | "サインアウト"
-  >("サインイン");
   const navigate = useNavigate();
+  const location = useLocation();
 
-  createEffect(async () => {
-    const { data } = await supabase.auth.getSession();
-    if (data) {
-      setSession(data.session);
-      setButtonText("サインアウト");
-    } else {
-      setButtonText("サインイン");
+  supabase.auth.onAuthStateChange((event, session) => {
+    if (event === "SIGNED_IN") {
+      navigate("/");
+      setUser(session!.user);
+    } else if (event === "SIGNED_OUT") {
+      navigate("/signin");
+      setUser(null);
     }
-    supabase.auth.onAuthStateChange((_, session) => {
-      if (session) {
-        setSession(session);
-        setButtonText("サインアウト");
-      } else {
-        setButtonText("サインイン");
-      }
-    });
-  }, [supabase]);
+  });
 
-  const signIn = () => {
-    navigate("/signin", { replace: true });
-  };
+  createEffect(() => {
+    const validateSession = async () => {
+      const { data } = await supabase.auth.getSession();
+      if (!data.session?.user) {
+        navigate("/signin");
+        return;
+      } else if (["/signin", "/signup"].includes(location.pathname)) {
+        navigate("/");
+      }
+    };
+    validateSession();
+  }, []);
 
   const signOut = async () => {
     const { error } = await supabase.auth.signOut();
@@ -49,18 +47,8 @@ const App: Component = () => {
     }
   };
 
-  const onClickAuthButton = () => {
-    if (session()) {
-      signOut();
-      setButtonText("サインアウト");
-    } else {
-      signIn();
-      setButtonText("サインイン");
-    }
-  };
-
   return (
-    <Layout onClickAuthButton={onClickAuthButton} buttonText={buttonText()}>
+    <Layout user={user()} signOut={signOut}>
       <Routes>
         <Route path="/" component={Index}></Route>
         <Route path="/search" component={Search}></Route>
