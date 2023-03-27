@@ -61,7 +61,7 @@ export const useSearch = (props: Props) => {
             pageInfo: { totalResults },
           } = data.result;
 
-          const stockedIds = getVideos().map((video) => video.id);
+          const stockedIds = getVideos().map((video) => video.youtubeId);
 
           const newVideos: Video[] = items.map((item: any) => {
             const {

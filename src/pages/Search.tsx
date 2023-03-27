@@ -35,7 +35,7 @@ const Search: Component = () => {
   const searchModalClose = () => {
     modalClose();
     setSavingVideoInfo({
-      id: "",
+      youtubeId: "",
       title: "",
       thumbnail: "",
       folder: "",

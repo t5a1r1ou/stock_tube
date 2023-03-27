@@ -5,7 +5,7 @@ import { useLocation } from "@solidjs/router";
 
 type Props = Video & {
   onClickAdd: (video: Video) => void;
-  onClickDelete: (id: Video["id"]) => void;
+  onClickDelete: (id: Video["youtubeId"]) => void;
   modalShow?: (video: Video) => void;
 };
 
@@ -14,7 +14,7 @@ const Card: Component<Props> = (props) => {
   const isSearchPage = location.pathname === "/search";
 
   const video: Video = {
-    id: props.id,
+    youtubeId: props.youtubeId,
     thumbnail: props.thumbnail,
     title: props.title,
     publishedAt: props.publishedAt,
@@ -51,7 +51,7 @@ const Card: Component<Props> = (props) => {
         <Match when={!isSearchPage}>
           <button
             class={card.button}
-            onClick={() => props.onClickDelete(video.id)}
+            onClick={() => props.onClickDelete(video.youtubeId)}
           >
             削除する
           </button>

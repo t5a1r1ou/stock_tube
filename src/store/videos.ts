@@ -9,6 +9,6 @@ export const addVideo = (video: Video) => {
   setVideos([...videos, video]);
 };
 
-export const removeVideo = (id: Video["id"]) => {
-  setVideos([...videos.filter((video) => video.id !== id)]);
+export const removeVideo = (youtubeId: Video["youtubeId"]) => {
+  setVideos([...videos.filter((video) => video.youtubeId !== youtubeId)]);
 };
