@@ -1,5 +1,5 @@
 import { Component, createEffect, createSignal } from "solid-js";
-import { heading } from "./Search.css";
+import { commonStyles } from "../styles/style.css";
 import { CardsWrapper } from "../component/CardsWrapper";
 import { SearchForm } from "../component/SearchForm";
 import { Pagenation } from "../component/Pagenation";
@@ -50,8 +50,8 @@ export const Search: Component = () => {
   }, []);
 
   return (
-    <div>
-      <h2 class={heading}>検索</h2>
+    <>
+      <h2 class={commonStyles.heading}>検索</h2>
       <A href="/">一覧へ</A>
       <SearchForm
         submitQuery={submitQuery}
@@ -73,6 +73,6 @@ export const Search: Component = () => {
       <Modal id={modalId} modalClose={searchModalClose}>
         <AddVideoForm video={savingVideo()} />
       </Modal>
-    </div>
+    </>
   );
 };

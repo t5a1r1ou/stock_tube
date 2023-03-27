@@ -1,11 +1,5 @@
 import { Component, Match, Show, Switch } from "solid-js";
-import {
-  addButton,
-  cardContainer,
-  cardImg,
-  cardPublishedAt,
-  cardTitle,
-} from "./Card.css";
+import { card } from "../styles/style.css";
 import type { Video } from "../types/types";
 import { useLocation } from "@solidjs/router";
 
@@ -34,29 +28,29 @@ const Card: Component<Props> = (props) => {
   };
 
   return (
-    <div class={cardContainer}>
+    <div class={card.container}>
       <div>
         <img
           src={props.thumbnail}
           alt={`サムネイル: ${props.title}`}
-          class={cardImg}
+          class={card.img}
         />
-        <h3 class={cardTitle}>{props.title}</h3>
-        <time datetime={props.publishedAt} class={cardPublishedAt}>
+        <h3 class={card.title}>{props.title}</h3>
+        <time datetime={props.publishedAt} class={card.publishedAt}>
           公開日: {props.publishedAt.split("T").at(0)}
         </time>
       </div>
       <Switch>
         <Match when={isSearchPage}>
           <Show when={!props.isStocked} fallback={<p>追加済み</p>}>
-            <button class={addButton} onClick={onModalShow}>
+            <button class={card.button} onClick={onModalShow}>
               追加する
             </button>
           </Show>
         </Match>
         <Match when={!isSearchPage}>
           <button
-            class={addButton}
+            class={card.button}
             onClick={() => props.onClickDelete(video.id)}
           >
             削除する

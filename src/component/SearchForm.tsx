@@ -1,11 +1,6 @@
 import { Component, Show } from "solid-js";
 import { input } from "../styles/utility.css";
-import {
-  errorText,
-  container,
-  searchResult,
-  submitButton,
-} from "./SearchForm.css";
+import { searchForm } from "../styles/style.css";
 
 type Props = {
   submitQuery: (e: Event) => void;
@@ -19,7 +14,7 @@ type Props = {
 export const SearchForm: Component<Props> = (props) => {
   return (
     <>
-      <form onSubmit={(e) => props.submitQuery(e)} class={container}>
+      <form onSubmit={(e) => props.submitQuery(e)} class={searchForm.container}>
         <input
           type="search"
           name="search"
@@ -29,15 +24,15 @@ export const SearchForm: Component<Props> = (props) => {
           onChange={(e) => props.setInputValue(e.currentTarget.value)}
           placeholder="検索ワードを入力"
         />
-        <button type="submit" class={submitButton}>
+        <button type="submit" class={searchForm.submitButton}>
           検索
         </button>
       </form>
       <Show when={props.error !== ""}>
-        <p class={errorText}>{props.error}</p>
+        <p class={searchForm.errorText}>{props.error}</p>
       </Show>
       <Show when={props.currentWord !== ""}>
-        <p class={searchResult}>
+        <p class={searchForm.result}>
           「{props.currentWord}」の検索結果:{" "}
           {props.total === 1000000
             ? "100万件以上"

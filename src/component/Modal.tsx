@@ -1,6 +1,6 @@
 import { Component, JSX } from "solid-js";
-import { container, overlay, wrapper } from "./Modal.css";
 import { Portal } from "solid-js/web";
+import { modal } from "../styles/style.css";
 
 type Props = {
   children: JSX.Element;
@@ -19,9 +19,9 @@ export const Modal: Component<Props> = (props) => {
 
   return (
     <Portal>
-      <div class={wrapper} id={props.id} aria-hidden={true}>
-        <div class={overlay} tabIndex={-1} onClick={onModalClose}>
-          <div class={container} role="dialog" aria-modal="true">
+      <div class={modal.wrapper} id={props.id} aria-hidden={true}>
+        <div class={modal.overlay} tabIndex={-1} onClick={onModalClose}>
+          <div class={modal.container} role="dialog" aria-modal="true">
             {props.children}
           </div>
         </div>

@@ -1,5 +1,5 @@
 import { Component, Show } from "solid-js";
-import { button, container } from "./Pagenation.css";
+import { pagenation } from "../styles/style.css";
 
 type Props = {
   nextPageToken: string;
@@ -8,9 +8,9 @@ type Props = {
 
 export const Pagenation: Component<Props> = (props) => {
   return (
-    <div class={container}>
+    <div class={pagenation.container}>
       <Show when={props.nextPageToken !== ""}>
-        <button onClick={(e) => props.onClickMore(e)} class={button}>
+        <button onClick={(e) => props.onClickMore(e)} class={pagenation.button}>
           もっと見る
         </button>
       </Show>

@@ -1,6 +1,6 @@
 import { For } from "solid-js";
 import type { Component } from "solid-js";
-import { wrapper } from "./CardsWrapper.css";
+import { cardsWrapper } from "../styles/style.css";
 import { Video } from "../types/types";
 import Card from "./Card";
 import { addVideo, removeVideo } from "../store/videos";
@@ -27,7 +27,7 @@ export const CardsWrapper: Component<Props> = (props) => {
   };
 
   return (
-    <div class={wrapper}>
+    <div class={cardsWrapper.wrapper}>
       <For each={props.videos}>
         {(video) => (
           <Card
