@@ -31,4 +31,5 @@ export type Video = {
   title: string;
   publishedAt: string;
   isStocked: boolean;
+  folder?: string;
 };

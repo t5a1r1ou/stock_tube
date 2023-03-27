@@ -21,7 +21,8 @@ export const SearchForm: Component<Props> = (props) => {
     <>
       <form onSubmit={(e) => props.submitQuery(e)} class={container}>
         <input
-          type="text"
+          type="search"
+          name="search"
           class={input}
           value={props.inputValue}
           onInput={(e) => props.setInputValue(e.currentTarget.value)}

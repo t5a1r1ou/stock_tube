@@ -19,7 +19,6 @@ type Props = {
 };
 
 const Layout: Component<Props> = (props) => {
-  console.log(props.user());
   return (
     <div class={wrapper}>
       <header class={header}>

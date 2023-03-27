@@ -3,12 +3,12 @@ import { style } from "@vanilla-extract/css";
 export const cardContainer = style({
   width: "100%",
   marginBottom: "2rem",
-  padding: "0.4rem",
   aspectRatio: "100 / 56.25",
   wordWrap: "break-word",
   "@media": {
     "screen and (min-width: 768px)": {
       width: "calc(100% / 3)",
+      padding: "0.4rem",
       display: "flex",
       flexDirection: "column",
       alignItems: "flex-start",

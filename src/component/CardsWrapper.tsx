@@ -8,6 +8,7 @@ import { addVideo, removeVideo } from "../store/videos";
 type Props = {
   videos: Video[];
   observeSearchStockedVideo: () => void;
+  modalShow?: (video: Video) => void;
 };
 
 export const CardsWrapper: Component<Props> = (props) => {
@@ -37,6 +38,7 @@ export const CardsWrapper: Component<Props> = (props) => {
             isStocked={video.isStocked}
             onClickAdd={onClickAdd}
             onClickDelete={onClickDelete}
+            modalShow={props.modalShow}
           />
         )}
       </For>

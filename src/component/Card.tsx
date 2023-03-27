@@ -12,6 +12,7 @@ import { useLocation } from "@solidjs/router";
 type Props = Video & {
   onClickAdd: (video: Video) => void;
   onClickDelete: (id: Video["id"]) => void;
+  modalShow?: (video: Video) => void;
 };
 
 const Card: Component<Props> = (props) => {
@@ -26,19 +27,29 @@ const Card: Component<Props> = (props) => {
     isStocked: props.isStocked,
   };
 
+  const onModalShow = () => {
+    if (props.modalShow) {
+      props.modalShow(video);
+    }
+  };
+
   return (
     <div class={cardContainer}>
       <div>
-        <img src={props.thumbnail} alt="サムネイル" class={cardImg} />
+        <img
+          src={props.thumbnail}
+          alt={`サムネイル: ${props.title}`}
+          class={cardImg}
+        />
         <h3 class={cardTitle}>{props.title}</h3>
         <time datetime={props.publishedAt} class={cardPublishedAt}>
-          {props.publishedAt.split("T").at(0)}
+          公開日: {props.publishedAt.split("T").at(0)}
         </time>
       </div>
       <Switch>
         <Match when={isSearchPage}>
           <Show when={!props.isStocked} fallback={<p>追加済み</p>}>
-            <button class={addButton} onClick={() => props.onClickAdd(video)}>
+            <button class={addButton} onClick={onModalShow}>
               追加する
             </button>
           </Show>
