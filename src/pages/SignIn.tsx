@@ -3,7 +3,7 @@ import { Component, createEffect } from "solid-js";
 import { AccountForm } from "../component/AccountForm";
 import { supabase } from "../scripts/supabase";
 
-export const SignIn: Component = () => {
+const SignIn: Component = () => {
   const navigate = useNavigate();
   createEffect(async () => {
     const { data, error } = await supabase.auth.getSession();
@@ -16,3 +16,5 @@ export const SignIn: Component = () => {
   }, []);
   return <AccountForm flag="signin" />;
 };
+
+export default SignIn;

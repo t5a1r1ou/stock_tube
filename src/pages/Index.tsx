@@ -5,7 +5,7 @@ import { getVideos } from "../store/videos";
 import { A } from "@solidjs/router";
 import { useCommon } from "../hooks/useCommon";
 
-export const Index: Component = () => {
+const Index: Component = () => {
   const videos = () => getVideos();
   const { observeSearchStockedVideo } = useCommon();
   return (
@@ -24,3 +24,5 @@ export const Index: Component = () => {
     </>
   );
 };
+
+export default Index;

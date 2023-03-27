@@ -1,12 +1,12 @@
-import { createEffect } from "solid-js";
+import { createEffect, lazy } from "solid-js";
 import { Routes, Route, useNavigate, useLocation } from "@solidjs/router";
 import { supabase } from "./scripts/supabase";
 
 import Layout from "./layout/Layout";
-import { SignIn } from "./pages/SignIn";
-import { SignUp } from "./pages/SignUp";
-import { Index } from "./pages/Index";
-import { Search } from "./pages/Search";
+const SignIn = lazy(() => import("./pages/SignIn"));
+const SignUp = lazy(() => import("./pages/SignUp"));
+const Index = lazy(() => import("./pages/Index"));
+const Search = lazy(() => import("./pages/Search"));
 import { user, setUser } from "./store/user";
 
 import type { Component } from "solid-js";

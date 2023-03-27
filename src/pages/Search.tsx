@@ -13,7 +13,7 @@ import { AddVideoForm } from "../component/AddVideoForm";
 import { setSavingVideoInfo } from "../store/savingVideo";
 import { Video } from "../types/types";
 
-export const Search: Component = () => {
+const Search: Component = () => {
   const [gapi, setGapi] = createSignal<any>(null);
   const searchState = () => getSearchState();
   const modalId = "search_modal";
@@ -75,3 +75,5 @@ export const Search: Component = () => {
     </>
   );
 };
+
+export default Search;
