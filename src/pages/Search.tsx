@@ -1,5 +1,5 @@
 import { Component, createEffect, createSignal } from "solid-js";
-import { commonStyles } from "../styles/style.css";
+import { componentStyles } from "../styles/style.css";
 import { CardsWrapper } from "../component/CardsWrapper";
 import { SearchForm } from "../component/SearchForm";
 import { Pagenation } from "../component/Pagenation";
@@ -10,13 +10,12 @@ import { useCommon } from "../hooks/useCommon";
 import { Modal } from "../component/Modal";
 import { useModal } from "../hooks/useModal";
 import { AddVideoForm } from "../component/AddVideoForm";
-import { getSavingVideo, setSavingVideoInfo } from "../store/savingVideo";
+import { setSavingVideoInfo } from "../store/savingVideo";
 import { Video } from "../types/types";
 
 export const Search: Component = () => {
   const [gapi, setGapi] = createSignal<any>(null);
   const searchState = () => getSearchState();
-  const savingVideo = () => getSavingVideo();
   const modalId = "search_modal";
 
   const { initApi, submitQuery, onClickMore } = useSearch({
@@ -51,8 +50,8 @@ export const Search: Component = () => {
 
   return (
     <>
-      <h2 class={commonStyles.heading}>検索</h2>
-      <A href="/">一覧へ</A>
+      <h2 class={componentStyles.heading}>検索</h2>
+      <A href="/">ライブラリへ</A>
       <SearchForm
         submitQuery={submitQuery}
         inputValue={searchState().inputValue}
@@ -71,7 +70,7 @@ export const Search: Component = () => {
         onClickMore={onClickMore}
       />
       <Modal id={modalId} modalClose={searchModalClose}>
-        <AddVideoForm video={savingVideo()} />
+        <AddVideoForm modalClose={searchModalClose} />
       </Modal>
     </>
   );
