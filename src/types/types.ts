@@ -33,3 +33,9 @@ export type Video = {
   isStocked: boolean;
   folder?: string;
 };
+
+export type Folder = {
+  id: string;
+  name: string;
+  icon: string;
+};
