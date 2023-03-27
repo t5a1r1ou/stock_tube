@@ -1,6 +1,6 @@
 import { style } from "@vanilla-extract/css";
 
-export const commonStyles = {
+export const layoutStyles = {
   wrapper: style({
     minHeight: "100vh",
     display: "grid",
@@ -48,6 +48,9 @@ export const commonStyles = {
     fontSize: "1.1rem",
     color: "#ccc",
   }),
+};
+
+export const componentStyles = {
   heading: style({
     marginBottom: "0.4rem",
     fontSize: "1.6rem",
@@ -63,9 +66,49 @@ export const commonStyles = {
       },
     },
   }),
+  button: style({
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: "5px",
+    padding: "0.8rem 1.2rem",
+    ":disabled": {
+      opacity: 0.6,
+      cursor: "not-allowed",
+    },
+  }),
+  primary: style({
+    border: "1px solid #999",
+    color: "#999",
+    fontWeight: "bold",
+  }),
+  secondary: style({
+    color: "#fff",
+    backgroundColor: "#999",
+  }),
+  error: style({
+    color: "#d9534f",
+  }),
+  videoContainer: style({
+    width: "100%",
+    aspectRatio: "100 / 56.25",
+  }),
+  img: style({
+    width: "100%",
+  }),
+  videoTitle: style({
+    marginTop: "0.8rem",
+    fontSize: "1.2rem",
+  }),
+  videoPublishedAt: style({
+    display: "block",
+    marginTop: "0.4rem",
+    fontSize: "0.8rem",
+    color: "#999",
+  }),
 };
 
-const componentStyles = {
+const unitStyles = {
   searchForm: {
     container: style({
       display: "flex",
@@ -78,30 +121,29 @@ const componentStyles = {
         },
       },
     }),
-    errorText: style({
-      marginTop: "0.8rem",
-      textAlign: "center",
-      color: "#d9534f",
-    }),
-    submitButton: style({
-      display: "flex",
-      justifyContent: "center",
-      alignItems: "center",
-      width: "30%",
-      marginTop: "1.6rem",
-      padding: "0.8rem 1.2rem",
-      color: "#fff",
-      backgroundColor: "#999",
-      borderRadius: "5px",
-      "@media": {
-        "screen and (min-width: 768px)": {
-          width: "auto",
-          height: "auto",
-          marginTop: "0",
-          marginLeft: "0.4rem",
+    errorText: style([
+      componentStyles.error,
+      {
+        marginTop: "0.8rem",
+        textAlign: "center",
+      },
+    ]),
+    submitButton: style([
+      componentStyles.button,
+      componentStyles.secondary,
+      {
+        width: "30%",
+        marginTop: "1.6rem",
+        "@media": {
+          "screen and (min-width: 768px)": {
+            width: "auto",
+            height: "auto",
+            marginTop: "0",
+            marginLeft: "0.4rem",
+          },
         },
       },
-    }),
+    ]),
     result: style({
       margin: "2rem 0 0.4rem",
     }),
@@ -141,21 +183,21 @@ const componentStyles = {
         },
       },
     }),
-    error: style({
-      marginTop: "0.5rem",
-      color: "#d9534f",
-    }),
-    submitButton: style({
-      display: "flex",
-      justifyContent: "center",
-      alignItems: "center",
-      width: "100%",
-      height: "2.5rem",
-      border: "1px solid #999",
-      borderRadius: "5px",
-      color: "#999",
-      fontWeight: "bold",
-    }),
+    input: style([componentStyles.input]),
+    error: style([
+      componentStyles.error,
+      {
+        marginTop: "0.5rem",
+      },
+    ]),
+    submitButton: style([
+      componentStyles.button,
+      componentStyles.primary,
+      {
+        width: "100%",
+        height: "2.5rem",
+      },
+    ]),
   },
   pagenation: {
     container: style({
@@ -164,12 +206,7 @@ const componentStyles = {
       gap: "0.4rem",
       margin: "0 auto 1.6rem",
     }),
-    button: style({
-      padding: "0.8rem 1.2rem",
-      color: "#fff",
-      backgroundColor: "#999",
-      borderRadius: "5px",
-    }),
+    button: style([componentStyles.button, componentStyles.primary]),
   },
   cardsWrapper: {
     wrapper: style({
@@ -205,47 +242,97 @@ const componentStyles = {
     }),
   },
   card: {
-    container: style({
-      width: "100%",
-      marginBottom: "2rem",
-      aspectRatio: "100 / 56.25",
-      wordWrap: "break-word",
-      "@media": {
-        "screen and (min-width: 768px)": {
-          width: "calc(100% / 3)",
-          padding: "0.4rem",
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "flex-start",
-          justifyContent: "space-between",
+    container: style([
+      componentStyles.videoContainer,
+      {
+        marginBottom: "2rem",
+        wordWrap: "break-word",
+        "@media": {
+          "screen and (min-width: 768px)": {
+            width: "calc(100% / 3)",
+            padding: "0.4rem",
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "flex-start",
+            justifyContent: "space-between",
+          },
         },
       },
-    }),
-    img: style({
-      width: "100%",
-    }),
-    title: style({
-      marginTop: "0.8rem",
-      fontSize: "1.2rem",
-    }),
-    publishedAt: style({
-      display: "block",
-      marginTop: "0.4rem",
-      fontSize: "0.8rem",
-      color: "#999",
-    }),
+    ]),
+    img: style([componentStyles.img]),
+    title: style([componentStyles.videoTitle]),
+    publishedAt: style([componentStyles.videoPublishedAt]),
     buttonContainer: style({
       width: "100%",
       display: "flex",
       justifyContent: "center",
     }),
-    button: style({
-      marginTop: "0.8rem",
-      padding: "0.8rem 1.2rem",
-      color: "#fff",
-      backgroundColor: "#999",
-      borderRadius: "5px",
+    button: style([
+      componentStyles.button,
+      componentStyles.secondary,
+      {
+        marginTop: "0.8rem",
+      },
+    ]),
+  },
+  addVideoForm: {
+    container: style({
+      "@media": {
+        "screen and (min-width: 768px)": {
+          display: "flex",
+        },
+      },
     }),
+    videoWrapper: style([componentStyles.videoContainer]),
+    box: style({
+      "@media": {
+        "screen and (min-width: 768px)": {
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "space-between",
+          padding: "1.2rem",
+        },
+      },
+    }),
+    img: style([componentStyles.img]),
+    title: style([
+      componentStyles.videoTitle,
+      {
+        "@media": {
+          "screen and (min-width: 768px)": {
+            marginTop: 0,
+          },
+        },
+      },
+    ]),
+    publishedAt: style([componentStyles.videoPublishedAt]),
+    formContainer: style({
+      display: "flex",
+      justifyContent: "center",
+      flexDirection: "column",
+      marginTop: "0.8rem",
+    }),
+    input: style([
+      componentStyles.input,
+      {
+        "@media": {
+          "screen and (min-width: 768px)": {
+            width: "100%",
+          },
+        },
+      },
+    ]),
+    error: style([
+      componentStyles.error,
+      {
+        marginTop: "0.4rem",
+      },
+    ]),
+    submitButton: style([
+      componentStyles.button,
+      componentStyles.secondary,
+      { marginTop: "0.8rem" },
+    ]),
   },
 };
 
@@ -256,4 +343,5 @@ export const {
   cardsWrapper,
   modal,
   card,
-} = componentStyles;
+  addVideoForm,
+} = unitStyles;

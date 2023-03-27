@@ -1,5 +1,5 @@
 import { Accessor, JSX, Show } from "solid-js";
-import { commonStyles } from "../styles/style.css";
+import { layoutStyles } from "../styles/style.css";
 import type { Component } from "solid-js";
 import { User } from "@supabase/supabase-js";
 
@@ -11,23 +11,23 @@ type Props = {
 
 const Layout: Component<Props> = (props) => {
   return (
-    <div class={commonStyles.wrapper}>
-      <header class={commonStyles.header}>
-        <div class={commonStyles.headerContainer}>
-          <h1 class={commonStyles.headerTitle}>StockTube</h1>
+    <div class={layoutStyles.wrapper}>
+      <header class={layoutStyles.header}>
+        <div class={layoutStyles.headerContainer}>
+          <h1 class={layoutStyles.headerTitle}>StockTube</h1>
           <Show when={props.user()}>
             <button
               onClick={() => props.signOut()}
-              class={commonStyles.headerButton}
+              class={layoutStyles.headerButton}
             >
               サインアウト
             </button>
           </Show>
         </div>
       </header>
-      <main class={commonStyles.main}>{props.children}</main>
-      <footer class={commonStyles.footer}>
-        <small class={commonStyles.footerText}>
+      <main class={layoutStyles.main}>{props.children}</main>
+      <footer class={layoutStyles.footer}>
+        <small class={layoutStyles.footerText}>
           <a href="https://github.com/t5a1r1ou" target="_blank">
             &copy;t5a1r1ou
           </a>

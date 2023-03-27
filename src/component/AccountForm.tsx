@@ -1,6 +1,6 @@
 import { Component } from "solid-js";
 import { A } from "@solidjs/router";
-import { commonStyles, accountForm } from "../styles/style.css";
+import { componentStyles, accountForm } from "../styles/style.css";
 import useAccountForm from "../hooks/useAccountForm";
 import type { AuthType } from "../types/types";
 
@@ -10,7 +10,7 @@ export const AccountForm: Component<AuthType> = (props) => {
 
   return (
     <>
-      <h2 class={commonStyles.heading}>
+      <h2 class={componentStyles.heading}>
         {props.flag === "signin" ? "サインイン" : "登録"}
       </h2>
       {props.flag === "signin" ? (
@@ -40,7 +40,7 @@ export const AccountForm: Component<AuthType> = (props) => {
             <input
               id="email"
               type="email"
-              class={commonStyles.input}
+              class={accountForm.input}
               value={credentials.email}
               onInput={(e) => setEmail(e.currentTarget.value)}
               onChange={(e) => setEmail(e.currentTarget.value)}
@@ -58,7 +58,7 @@ export const AccountForm: Component<AuthType> = (props) => {
             <input
               id="password"
               type="password"
-              class={commonStyles.input}
+              class={accountForm.input}
               value={credentials.password}
               onInput={(e) => setPassword(e.currentTarget.value)}
               onChange={(e) => setPassword(e.currentTarget.value)}
