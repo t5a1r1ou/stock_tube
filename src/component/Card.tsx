@@ -5,7 +5,7 @@ import { useLocation } from "@solidjs/router";
 
 type Props = Video & {
   onClickAdd: (video: Video) => void;
-  onClickDelete: (id: Video["youtubeId"]) => void;
+  onClickDelete: (id: Video["youtube_id"]) => void;
   modalShow?: (video: Video) => void;
 };
 
@@ -14,11 +14,11 @@ const Card: Component<Props> = (props) => {
   const isSearchPage = location.pathname === "/search";
 
   const video: Video = {
-    youtubeId: props.youtubeId,
+    youtube_id: props.youtube_id,
     thumbnail: props.thumbnail,
     title: props.title,
-    publishedAt: props.publishedAt,
-    isStocked: props.isStocked,
+    published_at: props.published_at,
+    is_stocked: props.is_stocked,
   };
 
   const onModalShow = () => {
@@ -36,13 +36,13 @@ const Card: Component<Props> = (props) => {
           class={card.img}
         />
         <h3 class={card.title}>{props.title}</h3>
-        <time datetime={props.publishedAt} class={card.publishedAt}>
-          公開日: {props.publishedAt.split("T").at(0)}
+        <time datetime={props.published_at} class={card.publishedAt}>
+          公開日: {props.published_at.split("T").at(0)}
         </time>
       </div>
       <Switch>
         <Match when={isSearchPage}>
-          <Show when={!props.isStocked} fallback={<p>追加済み</p>}>
+          <Show when={!props.is_stocked} fallback={<p>追加済み</p>}>
             <button class={card.button} onClick={onModalShow}>
               追加する
             </button>
@@ -51,7 +51,7 @@ const Card: Component<Props> = (props) => {
         <Match when={!isSearchPage}>
           <button
             class={card.button}
-            onClick={() => props.onClickDelete(video.youtubeId)}
+            onClick={() => props.onClickDelete(video.youtube_id)}
           >
             削除する
           </button>

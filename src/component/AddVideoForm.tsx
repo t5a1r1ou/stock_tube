@@ -29,7 +29,7 @@ export const AddVideoForm: Component<Props> = (props) => {
         <div>
           <h3 class={addVideoForm.title}>{savingVideo().title}</h3>
           <p class={addVideoForm.publishedAt}>
-            公開日: {savingVideo().publishedAt.split("T").at(0)}
+            公開日: {savingVideo().published_at.split("T").at(0)}
           </p>
         </div>
         <form class={addVideoForm.formContainer} onSubmit={(e) => onSubmit(e)}>

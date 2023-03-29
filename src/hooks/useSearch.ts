@@ -61,19 +61,19 @@ export const useSearch = (props: Props) => {
             pageInfo: { totalResults },
           } = data.result;
 
-          const stockedIds = getVideos().map((video) => video.youtubeId);
+          const stockedIds = getVideos().map((video) => video.youtube_id);
 
           const newVideos: Video[] = items.map((item: any) => {
             const {
-              id: { videoId: id },
-              snippet: { thumbnails, title, publishedAt },
+              id: { videoId: youtube_id },
+              snippet: { thumbnails, title, publishedAt: published_at },
             } = item;
             return {
-              id,
+              youtube_id,
               title,
-              publishedAt,
+              published_at,
               thumbnail: thumbnails.high.url,
-              isStocked: stockedIds.includes(id),
+              isStocked: stockedIds.includes(youtube_id),
             };
           });
 

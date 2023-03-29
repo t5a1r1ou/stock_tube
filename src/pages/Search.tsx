@@ -35,12 +35,12 @@ const Search: Component = () => {
   const searchModalClose = () => {
     modalClose();
     setSavingVideoInfo({
-      youtubeId: "",
+      youtube_id: "",
       title: "",
       thumbnail: "",
-      folder: "",
-      publishedAt: "",
-      isStocked: true,
+      folder_id: "",
+      published_at: "",
+      is_stocked: true,
     });
   };
 

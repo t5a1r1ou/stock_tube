@@ -26,14 +26,13 @@ export type SearchState = {
 };
 
 export type Video = {
-  youtubeId: string;
-  // id?: string;
-  createdAt?: string;
+  youtube_id: string;
+  created_at?: string;
   thumbnail: string;
   title: string;
-  publishedAt: string;
-  isStocked: boolean;
-  folder?: string;
+  published_at: string;
+  is_stocked: boolean;
+  folder_id?: string;
 };
 
 export type Folder = {

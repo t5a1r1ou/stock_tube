@@ -3,10 +3,10 @@ import { getVideos } from "../store/videos";
 
 export const useCommon = () => {
   const observeSearchStockedVideo = () => {
-    const stockedVideoIds = () => getVideos().map((video) => video.youtubeId);
+    const stockedVideoIds = () => getVideos().map((video) => video.youtube_id);
     const searchedVideos = () => getResultVideos();
     const resultVideos = searchedVideos().map((video) => {
-      const isStocked = stockedVideoIds().includes(video.youtubeId);
+      const isStocked = stockedVideoIds().includes(video.youtube_id);
       return { ...video, isStocked };
     });
     setResultVideo(resultVideos);

@@ -2,12 +2,12 @@ import { createStore } from "solid-js/store";
 import { Video } from "../types/types";
 
 const [savingVideo, setSavingVideo] = createStore<Video>({
-  youtubeId: "",
+  youtube_id: "",
   title: "",
   thumbnail: "",
-  folder: "",
-  publishedAt: "",
-  isStocked: true,
+  folder_id: "",
+  published_at: "",
+  is_stocked: true,
 });
 
 export const getSavingVideo = () => savingVideo;
@@ -15,16 +15,16 @@ export const getSavingVideo = () => savingVideo;
 export const setSavingVideoInfo = (video: Video) => {
   setSavingVideo({
     ...savingVideo,
-    youtubeId: video.youtubeId,
+    youtube_id: video.youtube_id,
     title: video.title,
     thumbnail: video.thumbnail,
-    publishedAt: video.publishedAt,
+    published_at: video.published_at,
   });
 };
 
-export const setSavingVideoFolder = (folder: string) => {
+export const setSavingVideoFolder = (folder_id: string) => {
   setSavingVideo({
     ...savingVideo,
-    folder,
+    folder_id,
   });
 };

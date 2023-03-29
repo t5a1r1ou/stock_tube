@@ -30,7 +30,7 @@ export const useSavingVideo = () => {
       return;
     }
 
-    addVideo({ ...video, folder: inputValue() });
+    addVideo({ ...video, folder_id: inputValue() });
     modalClose();
     navigate("/");
   };

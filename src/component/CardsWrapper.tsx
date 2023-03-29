@@ -19,7 +19,7 @@ export const CardsWrapper: Component<Props> = (props) => {
     }
   };
 
-  const onClickDelete = (id: Video["youtubeId"]) => {
+  const onClickDelete = (id: Video["youtube_id"]) => {
     removeVideo(id);
     if (props.observeSearchStockedVideo) {
       props.observeSearchStockedVideo();
@@ -32,10 +32,10 @@ export const CardsWrapper: Component<Props> = (props) => {
         {(video) => (
           <Card
             title={video.title}
-            publishedAt={video.publishedAt}
-            youtubeId={video.youtubeId}
+            published_at={video.published_at}
+            youtube_id={video.youtube_id}
             thumbnail={video.thumbnail}
-            isStocked={video.isStocked}
+            is_stocked={video.is_stocked}
             onClickAdd={onClickAdd}
             onClickDelete={onClickDelete}
             modalShow={props.modalShow}
