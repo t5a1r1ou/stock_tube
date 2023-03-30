@@ -564,6 +564,11 @@
   resolved "https://registry.npmjs.org/@types/phoenix/-/phoenix-1.5.5.tgz"
   integrity sha512-1eWWT19k0L4ZiTvdXjAvJ9KvW0B8SdiVftQmFPJGTEx78Q4PCSIQDpz+EfkFVR1N4U9gREjlW4JXL8YCIlY0bw==
 
+"@types/youtube@^0.0.47":
+  version "0.0.47"
+  resolved "https://registry.yarnpkg.com/@types/youtube/-/youtube-0.0.47.tgz#b6e24385ef3b8a6c972d7316d93e8e27c12d0e7c"
+  integrity sha512-uwqm0DUeg+2pff/8y9b22JJb+qWKOcG5aCn2yyT7hmLdK/M8+VECcK6QuNqdAR93IAqTmZeqK2nizTlQg5j+XA==
+
 "@vanilla-extract/babel-plugin-debug-ids@^1.0.2":
   version "1.0.2"
   resolved "https://registry.npmjs.org/@vanilla-extract/babel-plugin-debug-ids/-/babel-plugin-debug-ids-1.0.2.tgz"
@@ -791,7 +796,7 @@ electron-to-chromium@^1.4.284:
 
 emojibase@^6.1.0:
   version "6.1.0"
-  resolved "https://registry.yarnpkg.com/emojibase/-/emojibase-6.1.0.tgz#c3bc281e998a0e06398416090c23bac8c5ed3ee8"
+  resolved "https://registry.npmjs.org/emojibase/-/emojibase-6.1.0.tgz"
   integrity sha512-1GkKJPXP6tVkYJHOBSJHoGOr/6uaDxZ9xJ6H7m6PfdGXTmQgbALHLWaVRY4Gi/qf5x/gT/NUXLPuSHYLqtLtrQ==
 
 es5-ext@^0.10.35, es5-ext@^0.10.50:
@@ -1090,7 +1095,7 @@ pathe@^1.1.0:
 
 picmo@^5.8.1:
   version "5.8.1"
-  resolved "https://registry.yarnpkg.com/picmo/-/picmo-5.8.1.tgz#112594b5a26fe094c73ddb2b126809c697ec1c17"
+  resolved "https://registry.npmjs.org/picmo/-/picmo-5.8.1.tgz"
   integrity sha512-GQ4z52sO/bqTj6TGOFkg2tm0qXSSWlay2Q330wCBFJMCX5XX0mn0y+lS+JL3YkcqZ43+xY2P/32j5jn9L9vqFA==
   dependencies:
     emojibase "^6.1.0"
@@ -1156,6 +1161,11 @@ semver@^6.3.0:
   version "6.3.0"
   resolved "https://registry.npmjs.org/semver/-/semver-6.3.0.tgz"
   integrity sha512-b39TBaTSfV6yBrapU89p5fKekE2m/NwnDocOVruQFS1/veMgdzuPcnOM34M6CwxW8jH/lxEa5rBoDeUwu5HHTw==
+
+solid-icons@^1.0.4:
+  version "1.0.4"
+  resolved "https://registry.npmjs.org/solid-icons/-/solid-icons-1.0.4.tgz"
+  integrity sha512-gJTp4in3+OYCs9WvDkSLt4Los2unR3Uoder8wjh15GsfP20xiNOLfPTJllXmn+fI8+k3x7bRYtLGIgWd9fUQug==
 
 solid-js@^1.6.11:
   version "1.6.11"

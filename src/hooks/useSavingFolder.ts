@@ -3,12 +3,12 @@ import {
   getSavingFolder,
   setSavingFolderName,
   setSavingFolderIcon,
-  setSavingFolderId,
   setSavingFolderUrlId,
 } from "../store/savingFolder";
 import { createStore } from "solid-js/store";
 import { addFolder, getFolders } from "../store/folders";
 import { Folder } from "../types/types";
+import { user } from "../store/user";
 
 type FolderError = {
   name: string;
@@ -30,11 +30,23 @@ export const useSavingFolder = () => {
     value === "";
   const validateUrlId = (value: Folder["url_id"]) => !/^\w+$/.test(value);
 
+  const validateDuplicatedName = (name: Folder["name"]) => {
+    const folders = () => getFolders();
+    return folders().some((folder) => folder.name === name);
+  };
+
+  const validateDuplicatedUrlId = (url_id: Folder["url_id"]) => {
+    const folders = () => getFolders();
+    return folders().some((folder) => folder.url_id === url_id);
+  };
+
   const watchValidation = () => {
     const savingFolderData = savingFolder();
     if (
       validateEmpty(savingFolderData.name) ||
       validateEmpty(savingFolderData.icon) ||
+      validateDuplicatedName(savingFolderData.name) ||
+      validateDuplicatedUrlId(savingFolderData.url_id) ||
       validateUrlId(savingFolderData.url_id)
     ) {
       return false;
@@ -49,6 +61,11 @@ export const useSavingFolder = () => {
       setError({
         ...error,
         name: "新規フォルダを入力してください",
+      });
+    } else if (validateDuplicatedName(value)) {
+      setError({
+        ...error,
+        name: "すでに同じ名前のフォルダが登録されています",
       });
     } else {
       setError({
@@ -65,6 +82,11 @@ export const useSavingFolder = () => {
       setError({
         ...error,
         url_id: "半角英数字とアンダーバーのみで入力してください",
+      });
+    } else if (validateDuplicatedUrlId(value)) {
+      setError({
+        ...error,
+        name: "すでに同じ名前のURL_IDが登録されています",
       });
     } else {
       setError({
@@ -97,10 +119,7 @@ export const useSavingFolder = () => {
       return;
     }
 
-    const folderCount = getFolders().length;
-    setSavingFolderId(`temp${folderCount}`);
-
-    addFolder(savingFolder());
+    addFolder({ ...savingFolder(), user_id: user()?.id });
   };
 
   return { error, isValidForm, onInputName, onInputUrlId, onInputIcon, submit };

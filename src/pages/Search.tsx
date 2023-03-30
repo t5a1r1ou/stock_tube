@@ -1,4 +1,4 @@
-import { Component, For, createEffect, createSignal } from "solid-js";
+import { Component, For, createEffect } from "solid-js";
 import { componentStyles } from "../styles/style.css";
 import { CardsWrapper } from "../component/CardsWrapper";
 import { SearchForm } from "../component/SearchForm";
@@ -11,17 +11,13 @@ import { useModal } from "../hooks/useModal";
 import { AddVideoForm } from "../component/AddVideoForm";
 import { clearSavingVideo, setSavingVideoInfo } from "../store/savingVideo";
 import { Video } from "../types/types";
-import VideoCard from "../component/VideoCard";
+import SearchedVideoCard from "../component/SearchedVideoCard";
 
 const Search: Component = () => {
-  const [gapi, setGapi] = createSignal<any>(null);
   const searchState = () => getSearchState();
   const modalId = "search_modal";
 
-  const { initApi, submitQuery, onClickMore } = useSearch({
-    gapi,
-    setGapi,
-  });
+  const { initApi, submitQuery, onClickMore } = useSearch();
 
   const { modalShow, modalClose } = useModal(modalId);
 
@@ -53,7 +49,9 @@ const Search: Component = () => {
       />
       <CardsWrapper>
         <For each={searchState().resultVideos}>
-          {(video) => <VideoCard {...video} modalShow={searchModalShow} />}
+          {(video) => (
+            <SearchedVideoCard {...video} modalShow={searchModalShow} />
+          )}
         </For>
       </CardsWrapper>
       <Pagenation

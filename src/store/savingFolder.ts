@@ -1,20 +1,18 @@
 import { createStore } from "solid-js/store";
 import { Folder } from "../types/types";
 
-const [savingFolder, setSavingFolder] = createStore<Omit<Folder, "created_at">>(
-  {
-    id: "",
-    name: "",
-    icon: "",
-    url_id: "",
-  }
-);
+const [savingFolder, setSavingFolder] = createStore<
+  Omit<Folder, "id" | "created_at">
+>({
+  name: "",
+  icon: "",
+  url_id: "",
+});
 
 export const getSavingFolder = () => savingFolder;
 
 export const clearSavingFolder = () =>
   setSavingFolder({
-    id: "",
     name: "",
     icon: "",
     url_id: "",
@@ -38,12 +36,5 @@ export const setSavingFolderUrlId = (url_id: Folder["url_id"]) => {
   setSavingFolder({
     ...savingFolder,
     url_id,
-  });
-};
-
-export const setSavingFolderId = (id: Folder["id"]) => {
-  setSavingFolder({
-    ...savingFolder,
-    id,
   });
 };

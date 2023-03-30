@@ -11,6 +11,11 @@ import Libraries from "./pages/Libraries";
 import { user, setUser } from "./store/user";
 
 import type { Component } from "solid-js";
+import { useQueryVideos } from "./queries/useQueryVideos";
+import { setAllVideos } from "./store/videos";
+import { Folder, Video } from "./types/types";
+import { setAllFolders } from "./store/folders";
+import { useQueryFolders } from "./queries/useQueryFolders";
 
 const App: Component = () => {
   const navigate = useNavigate();
@@ -40,6 +45,30 @@ const App: Component = () => {
       setUser(data.session!.user);
     };
     validateSession();
+
+    const getVideos = async () => {
+      const { data: videos, error } = await useQueryVideos();
+
+      if (error) {
+        throw new Error();
+      }
+
+      setAllVideos(videos as Video[]);
+    };
+
+    getVideos();
+
+    const getFolders = async () => {
+      const { data: folders, error } = await useQueryFolders();
+
+      if (error) {
+        throw new Error();
+      }
+
+      setAllFolders(folders as Folder[]);
+    };
+
+    getFolders();
   }, []);
 
   const signOut = async () => {

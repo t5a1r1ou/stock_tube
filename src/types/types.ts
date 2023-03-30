@@ -16,6 +16,11 @@ export type GapiWindow = Window &
     onGoogleScriptLoad: () => void;
   };
 
+export type YoutubeWindow = Window &
+  typeof globalThis & {
+    onYouTubeIframeAPIReady: () => void;
+  };
+
 export type SearchState = {
   resultVideos: Video[];
   total: Number;
@@ -31,8 +36,8 @@ export type Video = {
   thumbnail: string;
   title: string;
   published_at: string;
-  is_stocked: boolean;
   folder_id?: string;
+  user_id?: string;
 };
 
 export type Folder = {
@@ -41,4 +46,5 @@ export type Folder = {
   name: string;
   icon: string;
   url_id: string;
+  user_id?: string;
 };

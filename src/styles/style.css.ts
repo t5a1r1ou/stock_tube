@@ -138,6 +138,7 @@ export const componentStyles = {
     },
   }),
   videoContainer: style({
+    position: "relative",
     width: "100%",
     aspectRatio: "100 / 56.25",
   }),
@@ -346,8 +347,22 @@ const unitStyles = {
     contentWrapper: style({
       width: "100%",
     }),
-    imgContainer: style([componentStyles.videoContainer]),
+    imgContainer: style([
+      componentStyles.videoContainer,
+      {
+        cursor: "pointer",
+      },
+    ]),
     img: style([componentStyles.img]),
+    youtubeIcon: style({
+      position: "absolute",
+      top: 0,
+      bottom: 0,
+      left: 0,
+      right: 0,
+      margin: "auto",
+      width: "25%",
+    }),
     title: style([componentStyles.videoTitle]),
     publishedAt: style([componentStyles.videoPublishedAt]),
     buttonContainer: style({
@@ -386,7 +401,20 @@ const unitStyles = {
         "screen and (min-width: 768px)": {
           margin: "0",
           aspectRatio: "auto",
-          flexDirection: "row",
+          flexDirection: "row-reverse",
+          justifyContent: "flex-end",
+          alignItems: "center",
+        },
+      },
+    }),
+    row: style({
+      display: "flex",
+      justifyContent: "space-between",
+      flexWrap: "wrap",
+      alignItems: "flex-start",
+      width: "100%",
+      "@media": {
+        "screen and (min-width: 768px)": {
           alignItems: "center",
         },
       },
@@ -525,6 +553,15 @@ const unitStyles = {
       },
     ]),
   },
+  youtubePlayer: {
+    container: style({
+      aspectRatio: "16 / 9",
+    }),
+    iframe: {
+      width: "100%",
+      height: "100%",
+    },
+  },
 };
 
 export const {
@@ -537,4 +574,5 @@ export const {
   folderCard,
   addVideoForm,
   addFolderForm,
+  youtubePlayer,
 } = unitStyles;

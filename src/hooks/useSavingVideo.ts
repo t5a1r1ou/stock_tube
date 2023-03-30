@@ -7,6 +7,7 @@ import {
   getSavingVideoFolder,
   setSavingVideoFolder,
 } from "../store/savingVideo";
+import { user } from "../store/user";
 
 export const useSavingVideo = () => {
   const [error, setError] = createSignal<string>("");
@@ -36,7 +37,11 @@ export const useSavingVideo = () => {
       return;
     }
 
-    addVideo({ ...savingVideo(), folder_id: savingVideoFolder() });
+    addVideo({
+      ...savingVideo(),
+      folder_id: savingVideoFolder(),
+      user_id: user()?.id,
+    });
     observeSearchStockedVideo();
     clearSavingVideo();
   };

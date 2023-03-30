@@ -1,8 +1,8 @@
-import type { GapiWindow } from "../types/types";
+import type { GapiWindow, YoutubeWindow } from "../types/types";
 
 export const loadGoogleScript = () => {
   (() => {
-    const id = "google-js";
+    const ids = ["google-js", "google-plusone-js"];
     const srcs = [
       "https://apis.google.com/js/api.js",
       "https://apis.google.com/js/client:plusone.js",
@@ -10,18 +10,35 @@ export const loadGoogleScript = () => {
 
     const firstJs = document.getElementsByTagName("script")[0];
 
-    if (document.getElementById(id)) {
+    if (document.getElementById(ids[0])) {
       return;
     }
     for (let i = 0; i < srcs.length; i++) {
       const js = document.createElement("script");
-      js.id = id;
+      js.id = ids[i];
       js.src = srcs[i];
       if (srcs[i] === "https://apis.google.com/js/api.js") {
         js.onload = (window as GapiWindow).onGoogleScriptLoad;
       }
       firstJs.parentNode?.insertBefore(js, firstJs);
     }
+  })();
+};
+
+export const loadYoutubeScript = () => {
+  (() => {
+    const id = "youtube-js";
+    const src = "https://www.youtube.com/iframe_api";
+
+    const firstJs = document.getElementsByTagName("script")[0];
+    if (document.getElementById(id)) {
+      return;
+    }
+    const js = document.createElement("script");
+    js.id = id;
+    js.src = src;
+    js.onload = (window as YoutubeWindow).onYouTubeIframeAPIReady;
+    firstJs.parentNode?.insertBefore(js, firstJs);
   })();
 };
 

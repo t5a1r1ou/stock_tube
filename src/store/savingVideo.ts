@@ -7,7 +7,6 @@ const [savingVideo, setSavingVideo] = createStore<Video>({
   thumbnail: "",
   folder_id: "",
   published_at: "",
-  is_stocked: true,
 });
 
 export const getSavingVideo = () => savingVideo;
@@ -20,7 +19,6 @@ export const clearSavingVideo = () => {
     thumbnail: "",
     folder_id: "",
     published_at: "",
-    is_stocked: true,
   });
 };
 

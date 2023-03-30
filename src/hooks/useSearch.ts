@@ -1,5 +1,5 @@
-import { Accessor, Setter } from "solid-js";
-import { initGoogleScript, loadGoogleScript } from "../scripts/googleScript";
+import { createSignal } from "solid-js";
+import { initGoogleScript, loadGoogleScript } from "../scripts/script";
 import { GapiWindow, Video } from "../types/types";
 import { getVideos } from "../store/videos";
 import {
@@ -10,21 +10,17 @@ import {
   setAllSearchState,
 } from "../store/search";
 
-type Props = {
-  gapi: Accessor<any>;
-  setGapi: Setter<any>;
-};
-
-export const useSearch = (props: Props) => {
+export const useSearch = () => {
+  const [gapi, setGapi] = createSignal<any>(null);
   const state = () => getSearchState();
 
   const initApi = () => {
     (window as GapiWindow).onGoogleScriptLoad = () => {
       const _gapi = window.gapi;
-      props.setGapi(_gapi);
+      setGapi(_gapi);
     };
 
-    if (!props.gapi()) {
+    if (!gapi()) {
       (window as GapiWindow).onGoogleScriptLoad();
     }
 
@@ -43,9 +39,8 @@ export const useSearch = (props: Props) => {
       });
       return;
     }
-    initGoogleScript(props.gapi(), () => {
-      props
-        .gapi()
+    initGoogleScript(gapi(), () => {
+      gapi()
         .client.youtube.search.list({
           q,
           part: "snippet",
