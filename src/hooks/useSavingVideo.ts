@@ -1,30 +1,33 @@
 import { createSignal } from "solid-js";
-import { Video } from "../types/types";
 import { addVideo } from "../store/videos";
-import { useNavigate } from "@solidjs/router";
 import { useCommon } from "./useCommon";
+import {
+  getSavingVideo,
+  getSavingVideoFolder,
+  setSavingVideoFolder,
+} from "../store/savingVideo";
 
 export const useSavingVideo = () => {
-  const [inputValue, setInputValue] = createSignal<string>("");
   const [error, setError] = createSignal<string>("");
   const [isValidForm, setIsValidForm] = createSignal<boolean>(false);
+  const savingVideo = () => getSavingVideo();
+  const savingVideoFolder = () => getSavingVideoFolder();
 
   const { observeSearchStockedVideo } = useCommon();
-  const navigate = useNavigate();
 
   const watchValidation = () => {
-    if (inputValue() === "") {
+    if (savingVideoFolder() === "") {
       return false;
     }
     return true;
   };
 
   const onInput = (value: string) => {
-    setInputValue(value);
+    setSavingVideoFolder(value);
     setIsValidForm(watchValidation());
   };
 
-  const submitAddVideo = (e: Event, video: Video, modalClose: () => void) => {
+  const submit = (e: Event) => {
     e.preventDefault();
 
     if (!watchValidation()) {
@@ -32,15 +35,12 @@ export const useSavingVideo = () => {
       return;
     }
 
-    addVideo({ ...video, folder_id: inputValue() });
+    addVideo({ ...savingVideo(), folder_id: savingVideoFolder() });
     observeSearchStockedVideo();
-    modalClose();
-    navigate(`/library/${inputValue()}`);
   };
 
   return {
-    inputValue,
-    submitAddVideo,
+    submit,
     error,
     isValidForm,
     onInput,

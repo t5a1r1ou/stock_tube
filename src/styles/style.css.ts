@@ -1,18 +1,5 @@
 import { style } from "@vanilla-extract/css";
 
-// style({
-//   border: "0 !important" as "0";
-//   clip: "rect(0 0 0 0) !important" as "rect(0 0 0 0)";
-//   clip-path: "inset(50%) !important" as "inset(50%)";
-//   height: "1px !important" as 1;
-//   margin: "-1px !important" as -1;
-//   overflow: "hidden !important" as "hidden";
-//   padding: "0 !important" as 0;
-//   position: "absolute !important" as "absolute";
-//   white-space: "nowrap !important" as "nowrap";
-//   width: "1px !important" as "1px";
-//   })
-
 export const mixin = {
   visuallyHidden: style({
     border: "0 !important",
@@ -364,7 +351,7 @@ const unitStyles = {
       display: "flex",
       flexDirection: "column",
       justifyContent: "space-between",
-      margin: "0 0.4rem",
+      margin: "0 0.4rem 0.8rem",
       padding: "1.2rem",
       backgroundColor: "#ddd",
       borderRadius: "0.4rem",
@@ -479,6 +466,39 @@ const unitStyles = {
       { marginTop: "0.8rem" },
     ]),
   },
+  addFolderForm: {
+    heading: style([componentStyles.heading]),
+    inputBlock: style({
+      marginTop: "1.2rem",
+    }),
+    inputLabel: style({
+      display: "block",
+      marginBottom: "0.4rem",
+    }),
+    input: style([
+      componentStyles.input,
+      {
+        "@media": {
+          "screen and (min-width: 768px)": {
+            width: "100%",
+          },
+        },
+      },
+    ]),
+    error: style([
+      componentStyles.error,
+      {
+        marginTop: "0.4rem",
+      },
+    ]),
+    submitButton: style([
+      componentStyles.button,
+      componentStyles.secondary,
+      {
+        margin: "1.2rem auto 0",
+      },
+    ]),
+  },
 };
 
 export const {
@@ -490,4 +510,5 @@ export const {
   videoCard,
   folderCard,
   addVideoForm,
+  addFolderForm,
 } = unitStyles;

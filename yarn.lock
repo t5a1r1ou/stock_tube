@@ -404,6 +404,18 @@
   resolved "https://registry.yarnpkg.com/@esbuild/win32-x64/-/win32-x64-0.16.17.tgz#c5a1a4bfe1b57f0c3e61b29883525c6da3e5c091"
   integrity sha512-y+EHuSchhL7FjHgvQL/0fnnFmO4T1bhvWANX6gcnqTjtnKWbTvUMCpGnv2+t+31d7RzyEAYAd4u2fnIhHL6N/Q==
 
+"@floating-ui/core@^1.2.4":
+  version "1.2.5"
+  resolved "https://registry.npmjs.org/@floating-ui/core/-/core-1.2.5.tgz"
+  integrity sha512-qrcbyfnRVziRlB6IYwjCopYhO7Vud750JlJyuljruIXcPxr22y8zdckcJGsuOdnQ639uVD1tTXddrcH3t3QYIQ==
+
+"@floating-ui/dom@^1.0.0":
+  version "1.2.5"
+  resolved "https://registry.npmjs.org/@floating-ui/dom/-/dom-1.2.5.tgz"
+  integrity sha512-+sAUfpQ3Frz+VCbPCqj+cZzvEESy3fjSeT/pDWkYCWOBXYNNKZfuVsHuv8/JO2zze8+Eb/Q7a6hZVgzS81fLbQ==
+  dependencies:
+    "@floating-ui/core" "^1.2.4"
+
 "@jridgewell/gen-mapping@^0.1.0":
   version "0.1.1"
   resolved "https://registry.npmjs.org/@jridgewell/gen-mapping/-/gen-mapping-0.1.1.tgz"
@@ -443,6 +455,13 @@
   dependencies:
     "@jridgewell/resolve-uri" "3.1.0"
     "@jridgewell/sourcemap-codec" "1.4.14"
+
+"@picmo/popup-picker@^5.8.1":
+  version "5.8.1"
+  resolved "https://registry.npmjs.org/@picmo/popup-picker/-/popup-picker-5.8.1.tgz"
+  integrity sha512-W70BsWFih5pyvrEYhYFEVS/mUKeSOnt8wIFvxH2+2WRjgd5Lw1nXZYCyN8UGPowzMByb7ORo4HtjGYGmJF048A==
+  dependencies:
+    "@floating-ui/dom" "^1.0.0"
 
 "@solidjs/router@^0.7.0":
   version "0.7.0"
@@ -537,7 +556,7 @@
 
 "@types/micromodal@^0.3.3":
   version "0.3.3"
-  resolved "https://registry.yarnpkg.com/@types/micromodal/-/micromodal-0.3.3.tgz#2ffc55fc90ca201054389b5eba118772c0189eaf"
+  resolved "https://registry.npmjs.org/@types/micromodal/-/micromodal-0.3.3.tgz"
   integrity sha512-XQg6nqg15A6ZKkMkDdqLkC5LTxLb7CZU6BX8uHBj4AVU7+k/W6kfriW5HCsarrjFpONNOMAmhA1ReUsMm7297g==
 
 "@types/phoenix@^1.5.4":
@@ -770,6 +789,11 @@ electron-to-chromium@^1.4.284:
   resolved "https://registry.npmjs.org/electron-to-chromium/-/electron-to-chromium-1.4.317.tgz"
   integrity sha512-JhCRm9v30FMNzQSsjl4kXaygU+qHBD0Yh7mKxyjmF0V8VwYVB6qpBRX28GyAucrM9wDCpSUctT6FpMUQxbyKuA==
 
+emojibase@^6.1.0:
+  version "6.1.0"
+  resolved "https://registry.yarnpkg.com/emojibase/-/emojibase-6.1.0.tgz#c3bc281e998a0e06398416090c23bac8c5ed3ee8"
+  integrity sha512-1GkKJPXP6tVkYJHOBSJHoGOr/6uaDxZ9xJ6H7m6PfdGXTmQgbALHLWaVRY4Gi/qf5x/gT/NUXLPuSHYLqtLtrQ==
+
 es5-ext@^0.10.35, es5-ext@^0.10.50:
   version "0.10.62"
   resolved "https://registry.npmjs.org/es5-ext/-/es5-ext-0.10.62.tgz"
@@ -980,7 +1004,7 @@ merge-anything@^5.1.4:
 
 micromodal@^0.4.10:
   version "0.4.10"
-  resolved "https://registry.yarnpkg.com/micromodal/-/micromodal-0.4.10.tgz#d6f59c21d2f4a5af480f65909eb9608a1d558c73"
+  resolved "https://registry.npmjs.org/micromodal/-/micromodal-0.4.10.tgz"
   integrity sha512-BUrEnzMPFBwK8nOE4xUDYHLrlGlLULQVjpja99tpJQPSUEWgw3kTLp1n1qv0HmKU29AiHE7Y7sMLiRziDK4ghQ==
 
 mlly@^1.1.0, mlly@^1.1.1:
@@ -1063,6 +1087,13 @@ pathe@^1.1.0:
   version "1.1.0"
   resolved "https://registry.npmjs.org/pathe/-/pathe-1.1.0.tgz"
   integrity sha512-ODbEPR0KKHqECXW1GoxdDb+AZvULmXjVPy4rt+pGo2+TnjJTIPJQSVS6N63n8T2Ip+syHhbn52OewKicV0373w==
+
+picmo@^5.8.1:
+  version "5.8.1"
+  resolved "https://registry.yarnpkg.com/picmo/-/picmo-5.8.1.tgz#112594b5a26fe094c73ddb2b126809c697ec1c17"
+  integrity sha512-GQ4z52sO/bqTj6TGOFkg2tm0qXSSWlay2Q330wCBFJMCX5XX0mn0y+lS+JL3YkcqZ43+xY2P/32j5jn9L9vqFA==
+  dependencies:
+    emojibase "^6.1.0"
 
 picocolors@^1.0.0:
   version "1.0.0"

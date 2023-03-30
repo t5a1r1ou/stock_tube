@@ -11,6 +11,7 @@ const [savingVideo, setSavingVideo] = createStore<Video>({
 });
 
 export const getSavingVideo = () => savingVideo;
+export const getSavingVideoFolder = () => savingVideo.folder_id;
 
 export const setSavingVideoInfo = (video: Video) => {
   setSavingVideo({

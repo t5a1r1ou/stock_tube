@@ -19,8 +19,10 @@
     "vite-plugin-solid": "^2.6.1"
   },
   "dependencies": {
+    "@picmo/popup-picker": "^5.8.1",
     "@supabase/supabase-js": "^2.10.0",
     "micromodal": "^0.4.10",
+    "picmo": "^5.8.1",
     "solid-js": "^1.6.11",
     "solid-meta": "^0.28.1",
     "solid-utils": "^0.8.1"

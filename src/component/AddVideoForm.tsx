@@ -3,19 +3,22 @@ import { addVideoForm } from "../styles/style.css";
 import { getSavingVideo } from "../store/savingVideo";
 import { useSavingVideo } from "../hooks/useSavingVideo";
 import { getFolders } from "../store/folders";
+import { useNavigate } from "@solidjs/router";
 
 type Props = {
   modalClose: () => void;
 };
 
 export const AddVideoForm: Component<Props> = (props) => {
-  const { submitAddVideo, error, inputValue, isValidForm, onInput } =
-    useSavingVideo();
+  const { submit, error, isValidForm, onInput } = useSavingVideo();
   const savingVideo = () => getSavingVideo();
   const folders = () => getFolders();
+  const navigate = useNavigate();
 
   const onSubmit = (e: Event) => {
-    submitAddVideo(e, savingVideo(), props.modalClose);
+    submit(e);
+    props.modalClose();
+    navigate(`/library/${savingVideo().folder_id}`);
   };
 
   return (
@@ -34,7 +37,7 @@ export const AddVideoForm: Component<Props> = (props) => {
             公開日: {savingVideo().published_at.split("T").at(0)}
           </p>
         </div>
-        <form class={addVideoForm.formContainer} onSubmit={(e) => onSubmit(e)}>
+        <form class={addVideoForm.formContainer} onSubmit={onSubmit}>
           <div class={addVideoForm.selectContainer}>
             <select
               name="folder"
@@ -42,7 +45,7 @@ export const AddVideoForm: Component<Props> = (props) => {
                 isValidForm() ? addVideoForm.select : addVideoForm.selectEmpty
               }
               onChange={(e) => onInput(e.currentTarget.value)}
-              value={inputValue()}
+              value={savingVideo().folder_id}
             >
               <option value="">フォルダを選択してください</option>
               <For each={folders()}>
