@@ -4,7 +4,6 @@ import {
   setSavingFolderName,
   setSavingFolderIcon,
   setSavingFolderId,
-  clearSavingFolder,
 } from "../store/savingFolder";
 import { createStore } from "solid-js/store";
 import { addFolder, getFolders } from "../store/folders";
