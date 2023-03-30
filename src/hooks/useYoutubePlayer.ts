@@ -13,12 +13,13 @@ export const useYoutubePlayer = (id: string) => {
         playerVars: {
           controls: 1,
           autoplay: 0,
-          disablekb: 1,
+          color: "white",
           enablejsapi: 1,
           iv_load_policy: 3,
           playsinline: 1,
           rel: 0,
           autohide: 0,
+          modestbranding: 1,
         },
       });
       setYoutubePlayer(player);
