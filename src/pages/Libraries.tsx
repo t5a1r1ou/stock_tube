@@ -16,7 +16,7 @@ const Library: Component = () => {
   const modalId = "library_modal";
   const { modalShow, modalClose } = useModal(modalId);
   let emojiPopup: PopupPickerController | undefined;
-  const { error, isValidForm, onInputName, onInputIcon, submit } =
+  const { error, isValidForm, onInputName, onInputUrlId, onInputIcon, submit } =
     useSavingFolder();
 
   onMount(() => {
@@ -61,7 +61,7 @@ const Library: Component = () => {
   return (
     <>
       <h2 class={componentStyles.heading}>ライブラリ</h2>
-      <FloatingButton modalShow={modalShow} />
+      <FloatingButton onClick={modalShow} text={"ライブラリを追加する"} />
       <Show
         when={folders().length > 0}
         fallback={<p>フォルダが登録されていません。</p>}
@@ -75,6 +75,7 @@ const Library: Component = () => {
           error={error}
           isValidForm={isValidForm}
           onInputName={onInputName}
+          onInputUrlId={onInputUrlId}
           submit={submit}
           modalClose={libraryModalClose}
           onToggleEmoji={onToggleEmoji}

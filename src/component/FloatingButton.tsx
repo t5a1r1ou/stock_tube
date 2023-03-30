@@ -2,16 +2,17 @@ import { Component } from "solid-js";
 import { componentStyles, mixin } from "../styles/style.css";
 
 type Props = {
-  modalShow: () => void;
+  onClick: () => void;
+  text: string;
 };
 
 export const FloatingButton: Component<Props> = (props) => {
   return (
     <button
       class={componentStyles.floatingButton.container}
-      onClick={props.modalShow}
+      onClick={props.onClick}
     >
-      <p class={mixin.visuallyHidden}>ライブラリを追加</p>
+      <p class={mixin.visuallyHidden}>{props.text}</p>
       <div class={componentStyles.floatingButton.iconAdd}></div>
     </button>
   );

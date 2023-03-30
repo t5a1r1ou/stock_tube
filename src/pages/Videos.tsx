@@ -1,17 +1,17 @@
 import { CardsWrapper } from "../component/CardsWrapper";
 import { componentStyles } from "../styles/style.css";
 import { Component, For, Show } from "solid-js";
-import { getFolderVideos, removeVideo } from "../store/videos";
+import { getFolderVideosFromUrl, removeVideo } from "../store/videos";
 import { A, useParams } from "@solidjs/router";
 import VideoCard from "../component/VideoCard";
-import { getFolder } from "../store/folders";
+import { getFolderFromUrl } from "../store/folders";
 import { Video } from "../types/types";
 import { useCommon } from "../hooks/useCommon";
 
 const Videos: Component = () => {
-  const { library_id } = useParams();
-  const videos = () => getFolderVideos(library_id);
-  const folder = () => getFolder(library_id);
+  const { url_id } = useParams();
+  const videos = () => getFolderVideosFromUrl(url_id);
+  const folder = () => getFolderFromUrl(url_id);
   const { observeSearchStockedVideo } = useCommon();
 
   const onDelete = (id: Video["youtube_id"]) => {

@@ -40,4 +40,5 @@ export type Folder = {
   created_at?: string;
   name: string;
   icon: string;
+  url_id: string;
 };

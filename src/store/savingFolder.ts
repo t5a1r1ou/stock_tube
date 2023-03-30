@@ -6,6 +6,7 @@ const [savingFolder, setSavingFolder] = createStore<Omit<Folder, "created_at">>(
     id: "",
     name: "",
     icon: "",
+    url_id: "",
   }
 );
 
@@ -16,6 +17,7 @@ export const clearSavingFolder = () =>
     id: "",
     name: "",
     icon: "",
+    url_id: "",
   });
 
 export const setSavingFolderName = (name: Folder["name"]) => {
@@ -29,6 +31,13 @@ export const setSavingFolderIcon = (icon: Folder["icon"]) => {
   setSavingFolder({
     ...savingFolder,
     icon,
+  });
+};
+
+export const setSavingFolderUrlId = (url_id: Folder["url_id"]) => {
+  setSavingFolder({
+    ...savingFolder,
+    url_id,
   });
 };
 

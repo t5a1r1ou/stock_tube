@@ -55,7 +55,7 @@ const App: Component = () => {
     <Layout user={user} signOut={signOut}>
       <Routes>
         <Route path="/library" component={Libraries}></Route>
-        <Route path="/library/:library_id" component={Videos}></Route>
+        <Route path="/library/:url_id" component={Videos}></Route>
         <Route path="/search" component={Search}></Route>
         <Route path="/signin" component={SignIn}></Route>
         <Route path="/signup" component={SignUp}></Route>

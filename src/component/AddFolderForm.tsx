@@ -6,12 +6,14 @@ import { Show } from "solid-js";
 type FolderError = {
   name: string;
   icon: string;
+  url_id: string;
 };
 
 type Props = {
   error: FolderError;
   isValidForm: Accessor<boolean>;
   onInputName: (value: string) => void;
+  onInputUrlId: (value: string) => void;
   submit: (e: Event) => void;
   modalClose: () => void;
   onToggleEmoji: (e: Event) => void;
@@ -45,6 +47,23 @@ export const AddFolderForm: Component<Props> = (props) => {
           />
           <Show when={props.error.name !== ""}>
             <p class={addFolderForm.error}>{props.error.name}</p>
+          </Show>
+        </div>
+        <div class={addFolderForm.inputBlock}>
+          <label class={addFolderForm.inputLabel} for="url_id">
+            URL_ID（URLの末尾のIDになります。半角英数字とアンダーバーのみで入力できます。）
+          </label>
+          <input
+            class={addFolderForm.input}
+            type="text"
+            name="name"
+            id="name"
+            value={savingFolder().url_id}
+            onChange={(e) => props.onInputUrlId(e.currentTarget.value)}
+            onInput={(e) => props.onInputUrlId(e.currentTarget.value)}
+          />
+          <Show when={props.error.url_id !== ""}>
+            <p class={addFolderForm.error}>{props.error.url_id}</p>
           </Show>
         </div>
         <div class={addFolderForm.inputBlock}>
