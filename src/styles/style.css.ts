@@ -1,5 +1,33 @@
 import { style } from "@vanilla-extract/css";
 
+// style({
+//   border: "0 !important" as "0";
+//   clip: "rect(0 0 0 0) !important" as "rect(0 0 0 0)";
+//   clip-path: "inset(50%) !important" as "inset(50%)";
+//   height: "1px !important" as 1;
+//   margin: "-1px !important" as -1;
+//   overflow: "hidden !important" as "hidden";
+//   padding: "0 !important" as 0;
+//   position: "absolute !important" as "absolute";
+//   white-space: "nowrap !important" as "nowrap";
+//   width: "1px !important" as "1px";
+//   })
+
+export const mixin = {
+  visuallyHidden: style({
+    border: "0 !important",
+    clip: "rect(0 0 0 0) !important",
+    clipPath: "inset(50%) !important",
+    height: "1px !important",
+    margin: "-1px !important",
+    overflow: "hidden !important",
+    padding: "0 !important",
+    position: "absolute !important" as "absolute",
+    whiteSpace: "nowrap !important" as "nowrap",
+    width: "1px !important",
+  }),
+};
+
 export const layoutStyles = {
   wrapper: style({
     minHeight: "100vh",
@@ -89,6 +117,16 @@ export const componentStyles = {
   error: style({
     color: "#d9534f",
   }),
+  cardContainer: style({
+    marginBottom: "2rem",
+    width: "100%",
+    wordWrap: "break-word",
+    "@media": {
+      "screen and (min-width: 768px)": {
+        width: "calc(100% / 3)",
+      },
+    },
+  }),
   videoContainer: style({
     width: "100%",
     aspectRatio: "100 / 56.25",
@@ -106,6 +144,49 @@ export const componentStyles = {
     fontSize: "0.8rem",
     color: "#999",
   }),
+  floatingButton: {
+    container: style({
+      position: "fixed",
+      right: "2rem",
+      bottom: "5rem",
+      width: "4rem",
+      height: "4rem",
+      borderRadius: "50%",
+      backgroundColor: "#999",
+    }),
+    iconAdd: style({
+      width: "100%",
+      height: "100%",
+      position: "absolute",
+      top: "50%",
+      left: "50%",
+      transform: "translate(-50%, -50%)",
+      ":before": {
+        content: "",
+        position: "absolute",
+        top: "calc(50% - 0.1rem)",
+        left: 0,
+        right: 0,
+        margin: "0 auto",
+        display: "block",
+        width: "35%",
+        height: "0.2rem",
+        backgroundColor: "#fff",
+      },
+      ":after": {
+        content: "",
+        position: "absolute",
+        left: "calc(50% - 0.1rem)",
+        top: 0,
+        bottom: 0,
+        margin: "auto 0",
+        display: "block",
+        height: "35%",
+        width: "0.2rem",
+        backgroundColor: "#fff",
+      },
+    }),
+  },
 };
 
 const unitStyles = {
@@ -241,24 +322,18 @@ const unitStyles = {
       backgroundColor: "#fff",
     }),
   },
-  card: {
+  videoCard: {
     container: style([
-      componentStyles.videoContainer,
+      componentStyles.cardContainer,
       {
-        marginBottom: "2rem",
-        wordWrap: "break-word",
-        "@media": {
-          "screen and (min-width: 768px)": {
-            width: "calc(100% / 3)",
-            padding: "0.4rem",
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "flex-start",
-            justifyContent: "space-between",
-          },
-        },
+        padding: "0.4rem",
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "flex-start",
+        justifyContent: "space-between",
       },
     ]),
+    imgContainer: style([componentStyles.videoContainer]),
     img: style([componentStyles.img]),
     title: style([componentStyles.videoTitle]),
     publishedAt: style([componentStyles.videoPublishedAt]),
@@ -274,6 +349,49 @@ const unitStyles = {
         marginTop: "0.8rem",
       },
     ]),
+  },
+  folderCard: {
+    container: style({
+      width: "50%",
+      "@media": {
+        "screen and (min-width: 768px)": {
+          marginBottom: "0.8rem",
+          width: "100%",
+        },
+      },
+    }),
+    card: style({
+      display: "flex",
+      flexDirection: "column",
+      justifyContent: "space-between",
+      margin: "0 0.4rem",
+      padding: "1.2rem",
+      backgroundColor: "#ddd",
+      borderRadius: "0.4rem",
+      aspectRatio: "6 / 7",
+      "@media": {
+        "screen and (min-width: 768px)": {
+          margin: "0",
+          aspectRatio: "auto",
+          flexDirection: "row",
+          alignItems: "center",
+        },
+      },
+    }),
+    icon: style({
+      textAlign: "right",
+      fontSize: "calc(52 / 375 * 100vw)",
+      "@media": {
+        "screen and (min-width: 768px)": {
+          fontSize: "3.2rem",
+        },
+      },
+    }),
+    title: style({
+      marginBottom: "0.4rem",
+      fontSize: "1.2rem",
+      fontWeight: "bold",
+    }),
   },
   addVideoForm: {
     container: style({
@@ -312,9 +430,36 @@ const unitStyles = {
       flexDirection: "column",
       marginTop: "0.8rem",
     }),
-    input: style([
+    selectContainer: style({
+      position: "relative",
+      ":after": {
+        content: "",
+        position: "absolute",
+        top: 0,
+        bottom: 0,
+        right: "0.6rem",
+        margin: "auto 0",
+        width: 0,
+        height: 0,
+        borderStyle: "solid",
+        borderWidth: "0.8rem 0.4rem 0 0.4rem",
+        borderColor: "#999 transparent transparent transparent",
+      },
+    }),
+    select: style([
       componentStyles.input,
       {
+        "@media": {
+          "screen and (min-width: 768px)": {
+            width: "100%",
+          },
+        },
+      },
+    ]),
+    selectEmpty: style([
+      componentStyles.input,
+      {
+        color: "#999",
         "@media": {
           "screen and (min-width: 768px)": {
             width: "100%",
@@ -342,6 +487,7 @@ export const {
   pagenation,
   cardsWrapper,
   modal,
-  card,
+  videoCard,
+  folderCard,
   addVideoForm,
 } = unitStyles;

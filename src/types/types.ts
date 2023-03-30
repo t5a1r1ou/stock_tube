@@ -13,7 +13,7 @@ export type User = {
 
 export type GapiWindow = Window &
   typeof globalThis & {
-    onGoogleScriptLoad: any;
+    onGoogleScriptLoad: () => void;
   };
 
 export type SearchState = {
@@ -37,6 +37,7 @@ export type Video = {
 
 export type Folder = {
   id: string;
+  created_at?: string;
   name: string;
   icon: string;
 };

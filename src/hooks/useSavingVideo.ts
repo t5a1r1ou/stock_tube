@@ -2,12 +2,14 @@ import { createSignal } from "solid-js";
 import { Video } from "../types/types";
 import { addVideo } from "../store/videos";
 import { useNavigate } from "@solidjs/router";
+import { useCommon } from "./useCommon";
 
 export const useSavingVideo = () => {
   const [inputValue, setInputValue] = createSignal<string>("");
   const [error, setError] = createSignal<string>("");
-  const [isValidForm, setIsValidForm] = createSignal<boolean>(true);
+  const [isValidForm, setIsValidForm] = createSignal<boolean>(false);
 
+  const { observeSearchStockedVideo } = useCommon();
   const navigate = useNavigate();
 
   const watchValidation = () => {
@@ -19,7 +21,7 @@ export const useSavingVideo = () => {
 
   const onInput = (value: string) => {
     setInputValue(value);
-    setIsValidForm(!watchValidation());
+    setIsValidForm(watchValidation());
   };
 
   const submitAddVideo = (e: Event, video: Video, modalClose: () => void) => {
@@ -31,8 +33,9 @@ export const useSavingVideo = () => {
     }
 
     addVideo({ ...video, folder_id: inputValue() });
+    observeSearchStockedVideo();
     modalClose();
-    navigate("/");
+    navigate(`/library/${inputValue()}`);
   };
 
   return {

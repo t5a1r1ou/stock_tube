@@ -1,4 +1,4 @@
-import { Component, createEffect, createSignal } from "solid-js";
+import { Component, For, createEffect, createSignal } from "solid-js";
 import { componentStyles } from "../styles/style.css";
 import { CardsWrapper } from "../component/CardsWrapper";
 import { SearchForm } from "../component/SearchForm";
@@ -6,12 +6,12 @@ import { Pagenation } from "../component/Pagenation";
 import { useSearch } from "../hooks/useSearch";
 import { A } from "@solidjs/router";
 import { getSearchState, setInputValue } from "../store/search";
-import { useCommon } from "../hooks/useCommon";
 import { Modal } from "../component/Modal";
 import { useModal } from "../hooks/useModal";
 import { AddVideoForm } from "../component/AddVideoForm";
 import { setSavingVideoInfo } from "../store/savingVideo";
 import { Video } from "../types/types";
+import VideoCard from "../component/VideoCard";
 
 const Search: Component = () => {
   const [gapi, setGapi] = createSignal<any>(null);
@@ -22,8 +22,6 @@ const Search: Component = () => {
     gapi,
     setGapi,
   });
-
-  const { observeSearchStockedVideo } = useCommon();
 
   const { modalShow, modalClose } = useModal(modalId);
 
@@ -51,7 +49,7 @@ const Search: Component = () => {
   return (
     <>
       <h2 class={componentStyles.heading}>検索</h2>
-      <A href="/">ライブラリへ</A>
+      <A href="/library">ライブラリへ</A>
       <SearchForm
         submitQuery={submitQuery}
         inputValue={searchState().inputValue}
@@ -60,11 +58,11 @@ const Search: Component = () => {
         currentWord={searchState().currentWord}
         total={searchState().total}
       />
-      <CardsWrapper
-        videos={searchState().resultVideos}
-        observeSearchStockedVideo={observeSearchStockedVideo}
-        modalShow={searchModalShow}
-      />
+      <CardsWrapper>
+        <For each={searchState().resultVideos}>
+          {(video) => <VideoCard {...video} modalShow={searchModalShow} />}
+        </For>
+      </CardsWrapper>
       <Pagenation
         nextPageToken={searchState().nextPageToken}
         onClickMore={onClickMore}

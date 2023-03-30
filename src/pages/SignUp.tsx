@@ -11,7 +11,7 @@ const SignUp: Component = () => {
       throw Error;
     }
     if (data.session) {
-      navigate("/");
+      navigate("/library");
     }
   }, []);
   return <AccountForm flag="signup" />;

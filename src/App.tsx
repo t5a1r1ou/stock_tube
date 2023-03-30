@@ -1,12 +1,13 @@
-import { createEffect, lazy } from "solid-js";
+import { createEffect } from "solid-js";
 import { Routes, Route, useNavigate, useLocation } from "@solidjs/router";
 import { supabase } from "./scripts/supabase";
 
 import Layout from "./layout/Layout";
-const SignIn = lazy(() => import("./pages/SignIn"));
-const SignUp = lazy(() => import("./pages/SignUp"));
-const Index = lazy(() => import("./pages/Index"));
-const Search = lazy(() => import("./pages/Search"));
+import SignIn from "./pages/SignIn";
+import SignUp from "./pages/SignUp";
+import Videos from "./pages/Videos";
+import Search from "./pages/Search";
+import Libraries from "./pages/Libraries";
 import { user, setUser } from "./store/user";
 
 import type { Component } from "solid-js";
@@ -18,7 +19,7 @@ const App: Component = () => {
 
   supabase.auth.onAuthStateChange((event, session) => {
     if (event === "SIGNED_IN" && isAuthenticationPage()) {
-      navigate("/");
+      navigate("/library");
       setUser(session!.user);
     } else if (event === "SIGNED_OUT") {
       navigate("/signin");
@@ -33,7 +34,7 @@ const App: Component = () => {
         navigate("/signin");
         return;
       } else if (isAuthenticationPage()) {
-        navigate("/");
+        navigate("/library");
       }
       setUser(data.session!.user);
     };
@@ -52,7 +53,8 @@ const App: Component = () => {
   return (
     <Layout user={user} signOut={signOut}>
       <Routes>
-        <Route path="/" component={Index}></Route>
+        <Route path="/library" component={Libraries}></Route>
+        <Route path="/library/:library_id" component={Videos}></Route>
         <Route path="/search" component={Search}></Route>
         <Route path="/signin" component={SignIn}></Route>
         <Route path="/signup" component={SignUp}></Route>
