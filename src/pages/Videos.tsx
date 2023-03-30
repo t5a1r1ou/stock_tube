@@ -1,6 +1,6 @@
 import { CardsWrapper } from "../component/CardsWrapper";
 import { componentStyles } from "../styles/style.css";
-import { Component, For, Show } from "solid-js";
+import { Component, For, Show, createEffect } from "solid-js";
 import { getFolderVideosFromUrl, removeVideo } from "../store/videos";
 import { A, useParams } from "@solidjs/router";
 import VideoCard from "../component/VideoCard";
@@ -10,6 +10,8 @@ import { useCommon } from "../hooks/useCommon";
 import { Modal } from "../component/Modal";
 import { useModal } from "../hooks/useModal";
 import { YoutubePlayer } from "../component/YoutubePlayer";
+import { useYoutubePlayer } from "../hooks/useYoutubePlayer";
+import { getPlayer } from "../store/player";
 
 const Videos: Component = () => {
   const { url_id } = useParams();
@@ -23,6 +25,24 @@ const Videos: Component = () => {
   const onDelete = (id: Video["youtube_id"]) => {
     removeVideo(id);
     observeSearchStockedVideo();
+  };
+
+  createEffect(() => {
+    const { initApi } = useYoutubePlayer(iframeId);
+    initApi();
+  }, []);
+
+  const playerModalShow = (id: Video["youtube_id"]) => {
+    const player = getPlayer();
+    player.loadVideoById({ videoId: id });
+    player.playVideo();
+    modalShow();
+  };
+
+  const playerModalClose = () => {
+    const player = getPlayer();
+    player.stopVideo();
+    modalClose();
   };
 
   return (
@@ -43,14 +63,14 @@ const Videos: Component = () => {
               <VideoCard
                 {...video}
                 onDelete={onDelete}
-                modalShow={modalShow}
+                modalShow={playerModalShow}
                 iframeId={iframeId}
               />
             )}
           </For>
         </CardsWrapper>
       </Show>
-      <Modal id={modalId} modalClose={modalClose}>
+      <Modal id={modalId} modalClose={playerModalClose}>
         <YoutubePlayer id={iframeId} />
       </Modal>
     </>

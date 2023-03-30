@@ -1,14 +1,13 @@
 import { YoutubeWindow } from "../types/types";
 import { loadYoutubeScript } from "../scripts/script";
+import { setYoutubePlayer } from "../store/player";
 
 export const useYoutubePlayer = (id: string) => {
-  let play: () => void, pause: () => void;
-  const initApi = (videoId: string) => {
+  const initApi = () => {
     loadYoutubeScript();
 
     (window as YoutubeWindow).onYouTubeIframeAPIReady = () => {
-      const newPlayer = new YT.Player(id, {
-        videoId,
+      const player = new YT.Player(id, {
         height: "100%",
         width: "100%",
         playerVars: {
@@ -21,23 +20,9 @@ export const useYoutubePlayer = (id: string) => {
           rel: 0,
           autohide: 0,
         },
-        events: {
-          onReady: (e) => {
-            console.log(e.target);
-            e.target.playVideo();
-          },
-        },
       });
-
-      play = () => {
-        newPlayer.playVideo();
-      };
-
-      pause = () => {
-        newPlayer.pauseVideo();
-      };
+      setYoutubePlayer(player);
     };
-    return { play, pause };
   };
 
   return { initApi };
