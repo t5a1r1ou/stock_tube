@@ -16,9 +16,12 @@ export const AddVideoForm: Component<Props> = (props) => {
   const navigate = useNavigate();
 
   const onSubmit = (e: Event) => {
+    const folder_url = folders().find(
+      (folder) => savingVideo().folder_id === folder.id
+    )?.url_id;
     submit(e);
     props.modalClose();
-    navigate(`/library/${savingVideo().folder_id}`);
+    navigate(`/library/${folder_url}`);
   };
 
   return (
@@ -49,7 +52,12 @@ export const AddVideoForm: Component<Props> = (props) => {
             >
               <option value="">フォルダを選択してください</option>
               <For each={folders()}>
-                {(folder) => <option value={folder.id}>{folder.name}</option>}
+                {(folder) => (
+                  <option value={folder.id}>
+                    {folder.name}
+                    {folder.icon}
+                  </option>
+                )}
               </For>
             </select>
           </div>

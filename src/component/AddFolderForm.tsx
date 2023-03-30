@@ -1,6 +1,6 @@
 import { Accessor, Component } from "solid-js";
 import { addFolderForm } from "../styles/style.css";
-import { clearSavingFolder, getSavingFolder } from "../store/savingFolder";
+import { getSavingFolder } from "../store/savingFolder";
 import { Show } from "solid-js";
 
 type FolderError = {
@@ -25,7 +25,6 @@ export const AddFolderForm: Component<Props> = (props) => {
   const onSubmit = (e: Event) => {
     props.submit(e);
     props.modalClose();
-    clearSavingFolder();
   };
 
   return (

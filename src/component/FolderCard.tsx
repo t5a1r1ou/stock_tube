@@ -10,7 +10,7 @@ export const FolderCard: Component<Props> = (props) => {
   const videoCounts = () => getFolderVideos(props.id).length;
   return (
     <div class={folderCard.container}>
-      <A href={`/library/${props.id}`} class={folderCard.card}>
+      <A href={`/library/${props.url_id}`} class={folderCard.card}>
         <div>
           <h3 class={folderCard.title}>{props.name}</h3>
           <p>{`${videoCounts()}件`}</p>
