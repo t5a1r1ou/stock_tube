@@ -2,6 +2,7 @@ import { createSignal } from "solid-js";
 import { addVideo } from "../store/videos";
 import { useCommon } from "./useCommon";
 import {
+  clearSavingVideo,
   getSavingVideo,
   getSavingVideoFolder,
   setSavingVideoFolder,
@@ -37,6 +38,7 @@ export const useSavingVideo = () => {
 
     addVideo({ ...savingVideo(), folder_id: savingVideoFolder() });
     observeSearchStockedVideo();
+    clearSavingVideo();
   };
 
   return {

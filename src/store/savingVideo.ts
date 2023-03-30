@@ -13,6 +13,17 @@ const [savingVideo, setSavingVideo] = createStore<Video>({
 export const getSavingVideo = () => savingVideo;
 export const getSavingVideoFolder = () => savingVideo.folder_id;
 
+export const clearSavingVideo = () => {
+  setSavingVideo({
+    youtube_id: "",
+    title: "",
+    thumbnail: "",
+    folder_id: "",
+    published_at: "",
+    is_stocked: true,
+  });
+};
+
 export const setSavingVideoInfo = (video: Video) => {
   setSavingVideo({
     ...savingVideo,

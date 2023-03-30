@@ -4,6 +4,7 @@ import {
   setSavingFolderName,
   setSavingFolderIcon,
   setSavingFolderId,
+  clearSavingFolder,
 } from "../store/savingFolder";
 import { createStore } from "solid-js/store";
 import { addFolder, getFolders } from "../store/folders";
@@ -37,6 +38,11 @@ export const useSavingFolder = () => {
         ...error,
         name: "新規フォルダを入力してください",
       });
+    } else {
+      setError({
+        ...error,
+        name: "",
+      });
     }
   };
 
@@ -47,6 +53,11 @@ export const useSavingFolder = () => {
       setError({
         ...error,
         icon: "アイコンを選択してください",
+      });
+    } else {
+      setError({
+        ...error,
+        icon: "",
       });
     }
   };
@@ -62,6 +73,7 @@ export const useSavingFolder = () => {
     setSavingFolderId(`temp${folderCount}`);
 
     addFolder(savingFolder());
+    clearSavingFolder();
   };
 
   return { error, isValidForm, onInputName, onInputIcon, submit };

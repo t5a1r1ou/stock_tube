@@ -9,7 +9,7 @@ import { getSearchState, setInputValue } from "../store/search";
 import { Modal } from "../component/Modal";
 import { useModal } from "../hooks/useModal";
 import { AddVideoForm } from "../component/AddVideoForm";
-import { setSavingVideoInfo } from "../store/savingVideo";
+import { clearSavingVideo, setSavingVideoInfo } from "../store/savingVideo";
 import { Video } from "../types/types";
 import VideoCard from "../component/VideoCard";
 
@@ -32,14 +32,7 @@ const Search: Component = () => {
 
   const searchModalClose = () => {
     modalClose();
-    setSavingVideoInfo({
-      youtube_id: "",
-      title: "",
-      thumbnail: "",
-      folder_id: "",
-      published_at: "",
-      is_stocked: true,
-    });
+    clearSavingVideo();
   };
 
   createEffect(() => {
