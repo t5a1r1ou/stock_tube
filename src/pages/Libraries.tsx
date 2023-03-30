@@ -22,17 +22,19 @@ const Library: Component = () => {
   onMount(() => {
     emojiPopup = createPopup(
       {
-        emojiSize: "1.25rem",
+        animate: false,
+        emojiSize: "1.2rem",
         showVariants: false,
+        showPreview: false,
         i18n: ja,
+        locale: "ja",
       },
       {
         position: {
           top: "3rem",
-          right: "3rem",
         },
         hideOnClickOutside: false,
-        hideOnEmojiSelect: false,
+        hideOnEmojiSelect: true,
         showCloseButton: true,
         hideOnEscape: true,
       }
@@ -67,7 +69,7 @@ const Library: Component = () => {
           <For each={folders()}>{(folder) => <FolderCard {...folder} />}</For>
         </CardsWrapper>
       </Show>
-      <Modal id={modalId} modalClose={modalClose}>
+      <Modal id={modalId} modalClose={libraryModalClose}>
         <AddFolderForm
           error={error}
           isValidForm={isValidForm}

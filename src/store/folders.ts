@@ -2,11 +2,13 @@ import { createStore } from "solid-js/store";
 import { Folder } from "../types/types";
 
 const [folders, setFolders] = createStore<Folder[]>([
-  { id: "test", name: "テスト", icon: "🐱" },
-  { id: "test1", name: "テスト1", icon: "🐶" },
+  { id: "default", name: "新規フォルダ", icon: "🐱" },
 ]);
 
 export const getFolders = () => folders;
+
+export const getFolder = (id: Folder["id"]) =>
+  folders.find((folder) => folder.id === id);
 
 export const getFolderName = (id: Folder["id"]) =>
   folders.find((folder) => folder.id === id)?.name;

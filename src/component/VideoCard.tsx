@@ -30,7 +30,7 @@ const VideoCard: Component<Props> = (props) => {
 
   return (
     <div class={videoCard.container}>
-      <div>
+      <div class={videoCard.contentWrapper}>
         <div class={videoCard.imgContainer}>
           <img
             src={props.thumbnail}

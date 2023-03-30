@@ -4,14 +4,14 @@ import { Component, For, Show } from "solid-js";
 import { getFolderVideos, removeVideo } from "../store/videos";
 import { A, useParams } from "@solidjs/router";
 import VideoCard from "../component/VideoCard";
-import { getFolderName } from "../store/folders";
+import { getFolder } from "../store/folders";
 import { Video } from "../types/types";
 import { useCommon } from "../hooks/useCommon";
 
 const Videos: Component = () => {
   const { library_id } = useParams();
   const videos = () => getFolderVideos(library_id);
-  const folderName = () => getFolderName(library_id);
+  const folder = () => getFolder(library_id);
   const { observeSearchStockedVideo } = useCommon();
 
   const onDelete = (id: Video["youtube_id"]) => {
@@ -21,7 +21,10 @@ const Videos: Component = () => {
 
   return (
     <>
-      <h2 class={componentStyles.heading}>{folderName()}</h2>
+      <h2 class={componentStyles.heading}>
+        {folder()?.name}
+        {folder()?.icon}
+      </h2>
       <A href="/search">検索へ</A>
       <A href="/library">ライブラリへ</A>
       <Show
