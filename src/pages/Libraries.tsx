@@ -28,6 +28,7 @@ const Library: Component = () => {
         showPreview: false,
         i18n: ja,
         locale: "ja",
+        autoFocus: "none",
       },
       {
         position: {
