@@ -16,9 +16,10 @@ const App: Component = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const isAuthenticationPage = () => /signin|signup/g.test(location.pathname);
+  const isRootPage = () => location.pathname === "/";
 
   supabase.auth.onAuthStateChange((event, session) => {
-    if (event === "SIGNED_IN" && isAuthenticationPage()) {
+    if (event === "SIGNED_IN" && (isAuthenticationPage() || isRootPage())) {
       navigate("/library");
       setUser(session!.user);
     } else if (event === "SIGNED_OUT") {
