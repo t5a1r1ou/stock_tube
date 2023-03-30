@@ -73,7 +73,6 @@ export const useSavingFolder = () => {
     setSavingFolderId(`temp${folderCount}`);
 
     addFolder(savingFolder());
-    clearSavingFolder();
   };
 
   return { error, isValidForm, onInputName, onInputIcon, submit };
