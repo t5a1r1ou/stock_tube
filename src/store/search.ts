@@ -33,3 +33,14 @@ export const setInputValue = (inputValue: SearchState["inputValue"]) => {
 export const setCurrentWord = (currentWord: SearchState["currentWord"]) => {
   setSearchState({ ...searchState, currentWord });
 };
+
+export const clearSearchState = () => {
+  setSearchState({
+    resultVideos: [],
+    total: 0,
+    nextPageToken: "",
+    currentWord: "",
+    inputValue: "",
+    error: "",
+  });
+};

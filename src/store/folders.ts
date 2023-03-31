@@ -1,6 +1,7 @@
 import { createStore } from "solid-js/store";
 import { Folder } from "../types/types";
 import { supabase } from "../scripts/supabase";
+import { User } from "@supabase/supabase-js";
 
 const [folders, setFolders] = createStore<Folder[]>([]);
 
@@ -24,13 +25,14 @@ export const addFolder = async (folder: Omit<Folder, "id" | "created_at">) => {
   const { data: newFolder, error } = await supabase
     .from("folders")
     .insert(folder)
-    .select();
+    .select()
+    .single();
 
   if (error) {
     console.log(error);
     throw new Error();
   } else if (newFolder) {
-    setFolders([...folders, newFolder[0]] as Folder[]);
+    setFolders([...folders, newFolder] as Folder[]);
   }
 };
 
@@ -55,4 +57,8 @@ export const update = (newFolder: Folder) => {
     }),
   ];
   setFolders(newFolders);
+};
+
+export const clearFolders = () => {
+  setFolders([]);
 };

@@ -12,10 +12,13 @@ import { user, setUser } from "./store/user";
 
 import type { Component } from "solid-js";
 import { useQueryVideos } from "./queries/useQueryVideos";
-import { setAllVideos } from "./store/videos";
+import { clearVideos, setAllVideos } from "./store/videos";
 import { Folder, Video } from "./types/types";
-import { setAllFolders } from "./store/folders";
+import { clearFolders, setAllFolders } from "./store/folders";
 import { useQueryFolders } from "./queries/useQueryFolders";
+import { clearSavingFolder } from "./store/savingFolder";
+import { clearSavingVideo } from "./store/savingVideo";
+import { clearSearchState } from "./store/search";
 
 const App: Component = () => {
   const navigate = useNavigate();
@@ -76,6 +79,12 @@ const App: Component = () => {
     if (error) {
       throw Error;
     } else {
+      clearVideos();
+      clearFolders();
+      clearSavingFolder();
+      clearSavingVideo();
+      clearSearchState();
+      setUser(null);
       navigate("signin", { replace: true });
     }
   };

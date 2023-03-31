@@ -24,13 +24,14 @@ export const addVideo = async (video: Video) => {
   const { data: newVideo, error } = await supabase
     .from("videos")
     .insert(video)
-    .select();
+    .select()
+    .single();
 
   if (error) {
     console.log(error);
     throw new Error();
   } else if (newVideo) {
-    setVideos([...videos, newVideo[0]] as Video[]);
+    setVideos([...videos, newVideo] as Video[]);
   }
 };
 
@@ -45,4 +46,8 @@ export const removeVideo = async (youtubeId: Video["youtube_id"]) => {
   } else {
     setVideos([...videos.filter((video) => video.youtube_id !== youtubeId)]);
   }
+};
+
+export const clearVideos = () => {
+  setVideos([]);
 };
