@@ -1,7 +1,6 @@
 import { createStore } from "solid-js/store";
 import { Folder } from "../types/types";
 import { supabase } from "../scripts/supabase";
-import { User } from "@supabase/supabase-js";
 
 const [folders, setFolders] = createStore<Folder[]>([]);
 
