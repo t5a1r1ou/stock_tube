@@ -16,6 +16,7 @@ import { useModal } from "../hooks/useModal";
 import { YoutubePlayer } from "../component/YoutubePlayer";
 import { useYoutubePlayer } from "../hooks/useYoutubePlayer";
 import { getPlayer } from "../store/player";
+import { currentVideoId, setCurrentVideoId } from "../store/currentVideo";
 
 const Videos: Component = () => {
   const { url_id } = useParams();
@@ -41,7 +42,10 @@ const Videos: Component = () => {
 
   const playerModalShow = (id: Video["youtube_id"]) => {
     const player = getPlayer();
-    player.loadVideoById({ videoId: id });
+    if (id !== currentVideoId()) {
+      setCurrentVideoId(id);
+      player.loadVideoById({ videoId: currentVideoId() });
+    }
     player.playVideo();
     modalShow();
   };
