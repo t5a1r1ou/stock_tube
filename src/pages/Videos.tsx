@@ -77,7 +77,7 @@ const Videos: Component = () => {
           </For>
         </CardsWrapper>
       </Show>
-      <Modal id={modalId} modalClose={playerModalClose}>
+      <Modal id={modalId} modalClose={playerModalClose} fullWidth={true}>
         <YoutubePlayer id={iframeId} />
       </Modal>
     </>

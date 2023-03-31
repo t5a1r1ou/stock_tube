@@ -198,6 +198,12 @@ export const componentStyles = {
       },
     }),
   },
+  modalContainer: style({
+    width: "80%",
+    maxWidth: "800px",
+    padding: "1rem",
+    backgroundColor: "#fff",
+  }),
 };
 
 const unitStyles = {
@@ -326,22 +332,28 @@ const unitStyles = {
       justifyContent: "center",
       alignItems: "center",
     }),
-    container: style({
-      width: "80%",
-      maxWidth: "800px",
-      padding: "1rem",
-      backgroundColor: "#fff",
-    }),
+    container: style([componentStyles.modalContainer]),
+    fullWidthContainer: style([
+      componentStyles.modalContainer,
+      {
+        width: "100%",
+        padding: 0,
+      },
+    ]),
   },
   videoCard: {
     container: style([
       componentStyles.cardContainer,
       {
-        padding: "0.4rem",
         display: "flex",
         flexDirection: "column",
         alignItems: "flex-start",
         justifyContent: "space-between",
+        "@media": {
+          "screen and (min-width: 768px)": {
+            padding: "0.4rem",
+          },
+        },
       },
     ]),
     contentWrapper: style({

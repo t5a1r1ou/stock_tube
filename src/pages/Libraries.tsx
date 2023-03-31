@@ -75,7 +75,7 @@ const Library: Component = () => {
           </For>
         </CardsWrapper>
       </Show>
-      <Modal id={modalId} modalClose={libraryModalClose}>
+      <Modal id={modalId} modalClose={libraryModalClose} fullWidth={false}>
         <EditFolderForm
           error={error}
           isValidForm={isValidForm}

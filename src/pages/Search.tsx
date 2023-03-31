@@ -58,7 +58,7 @@ const Search: Component = () => {
         nextPageToken={searchState().nextPageToken}
         onClickMore={onClickMore}
       />
-      <Modal id={modalId} modalClose={searchModalClose}>
+      <Modal id={modalId} modalClose={searchModalClose} fullWidth={false}>
         <AddVideoForm modalClose={searchModalClose} />
       </Modal>
     </>
