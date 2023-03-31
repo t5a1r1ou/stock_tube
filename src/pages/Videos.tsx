@@ -27,8 +27,8 @@ const Videos: Component = () => {
     observeSearchStockedVideo();
   };
 
+  const { initApi } = useYoutubePlayer(iframeId);
   createEffect(() => {
-    const { initApi } = useYoutubePlayer(iframeId);
     initApi();
   }, []);
 

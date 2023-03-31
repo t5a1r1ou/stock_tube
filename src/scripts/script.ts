@@ -32,6 +32,7 @@ export const loadYoutubeScript = () => {
 
     const firstJs = document.getElementsByTagName("script")[0];
     if (document.getElementById(id)) {
+      (window as YoutubeWindow).onYouTubeIframeAPIReady();
       return;
     }
     const js = document.createElement("script");
