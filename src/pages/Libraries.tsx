@@ -1,11 +1,11 @@
 import { Component, For, Show, onMount } from "solid-js";
-import { getFolders } from "../store/folders";
+import { getFolders, removeFolder } from "../store/folders";
 import { componentStyles } from "../styles/style.css";
 import { CardsWrapper } from "../component/CardsWrapper";
 import { FolderCard } from "../component/FolderCard";
 import { Modal } from "../component/Modal";
 import { useModal } from "../hooks/useModal";
-import { AddFolderForm } from "../component/AddFolderForm";
+import { EditFolderForm } from "../component/EditFolderForm";
 import { FloatingButton } from "../component/FloatingButton";
 import { PopupPickerController, createPopup } from "@picmo/popup-picker";
 import ja from "../lib/picmo/lang-ja";
@@ -67,11 +67,13 @@ const Library: Component = () => {
         fallback={<p>フォルダが登録されていません。</p>}
       >
         <CardsWrapper>
-          <For each={folders()}>{(folder) => <FolderCard {...folder} />}</For>
+          <For each={folders()}>
+            {(folder) => <FolderCard {...folder} onDelete={removeFolder} />}
+          </For>
         </CardsWrapper>
       </Show>
       <Modal id={modalId} modalClose={libraryModalClose}>
-        <AddFolderForm
+        <EditFolderForm
           error={error}
           isValidForm={isValidForm}
           onInputName={onInputName}

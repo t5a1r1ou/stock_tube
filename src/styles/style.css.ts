@@ -392,7 +392,7 @@ const unitStyles = {
       display: "flex",
       flexDirection: "column",
       justifyContent: "space-between",
-      margin: "0 0.4rem 0.8rem",
+      margin: "0 0.4rem 0.4rem",
       padding: "1.2rem",
       backgroundColor: "#ddd",
       borderRadius: "0.4rem",
@@ -419,12 +419,16 @@ const unitStyles = {
         },
       },
     }),
+    infoContainer: style({
+      width: "100%",
+    }),
     icon: style({
       textAlign: "right",
       fontSize: "calc(52 / 375 * 100vw)",
       "@media": {
         "screen and (min-width: 768px)": {
           fontSize: "3.2rem",
+          marginRight: "0.8rem",
         },
       },
     }),
@@ -433,6 +437,29 @@ const unitStyles = {
       fontSize: "1.2rem",
       fontWeight: "bold",
     }),
+    buttonContainer: style({
+      margin: "0 0.4rem 0.4rem",
+      "@media": {
+        "screen and (min-width: 768px)": {
+          margin: "0.4rem 0 0",
+        },
+      },
+    }),
+    editButton: style([
+      componentStyles.button,
+      componentStyles.primary,
+      {
+        width: "100%",
+        marginBottom: "0.4rem",
+      },
+    ]),
+    deleteButton: style([
+      componentStyles.button,
+      componentStyles.secondary,
+      {
+        width: "100%",
+      },
+    ]),
   },
   addVideoForm: {
     container: style({
@@ -520,7 +547,7 @@ const unitStyles = {
       { marginTop: "0.8rem" },
     ]),
   },
-  addFolderForm: {
+  editFolderForm: {
     heading: style([componentStyles.heading]),
     inputBlock: style({
       marginTop: "1.2rem",
@@ -573,6 +600,6 @@ export const {
   videoCard,
   folderCard,
   addVideoForm,
-  addFolderForm,
+  editFolderForm,
   youtubePlayer,
 } = unitStyles;

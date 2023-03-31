@@ -34,8 +34,14 @@ export const addFolder = async (folder: Omit<Folder, "id" | "created_at">) => {
   }
 };
 
-export const removeFolder = (id: Folder["id"]) => {
-  setFolders([...folders.filter((folder) => folder.id !== id)]);
+export const removeFolder = async (id: Folder["id"]) => {
+  const { error } = await supabase.from("folders").delete().eq("id", id);
+
+  if (error) {
+    throw new Error();
+  } else {
+    setFolders([...folders.filter((folder) => folder.id !== id)]);
+  }
 };
 
 export const update = (newFolder: Folder) => {
