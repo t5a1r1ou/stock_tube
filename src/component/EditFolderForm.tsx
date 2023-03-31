@@ -1,5 +1,5 @@
 import { Accessor, Component } from "solid-js";
-import { addFolderForm } from "../styles/style.css";
+import { editFolderForm } from "../styles/style.css";
 import { getSavingFolder } from "../store/savingFolder";
 import { Show } from "solid-js";
 
@@ -19,7 +19,7 @@ type Props = {
   onToggleEmoji: (e: Event) => void;
 };
 
-export const AddFolderForm: Component<Props> = (props) => {
+export const EditFolderForm: Component<Props> = (props) => {
   const savingFolder = () => getSavingFolder();
 
   const onSubmit = (e: Event) => {
@@ -29,14 +29,14 @@ export const AddFolderForm: Component<Props> = (props) => {
 
   return (
     <div>
-      <h3 class={addFolderForm.heading}>新規フォルダ作成</h3>
+      <h3 class={editFolderForm.heading}>新規フォルダ作成</h3>
       <form onSubmit={onSubmit}>
-        <div class={addFolderForm.inputBlock}>
-          <label class={addFolderForm.inputLabel} for="name">
+        <div class={editFolderForm.inputBlock}>
+          <label class={editFolderForm.inputLabel} for="name">
             フォルダ名
           </label>
           <input
-            class={addFolderForm.input}
+            class={editFolderForm.input}
             type="text"
             name="name"
             id="name"
@@ -45,15 +45,15 @@ export const AddFolderForm: Component<Props> = (props) => {
             onInput={(e) => props.onInputName(e.currentTarget.value)}
           />
           <Show when={props.error.name !== ""}>
-            <p class={addFolderForm.error}>{props.error.name}</p>
+            <p class={editFolderForm.error}>{props.error.name}</p>
           </Show>
         </div>
-        <div class={addFolderForm.inputBlock}>
-          <label class={addFolderForm.inputLabel} for="url_id">
+        <div class={editFolderForm.inputBlock}>
+          <label class={editFolderForm.inputLabel} for="url_id">
             URL_ID（URLの末尾のIDになります。半角英数字とアンダーバーのみで入力できます。）
           </label>
           <input
-            class={addFolderForm.input}
+            class={editFolderForm.input}
             type="text"
             name="name"
             id="name"
@@ -62,15 +62,15 @@ export const AddFolderForm: Component<Props> = (props) => {
             onInput={(e) => props.onInputUrlId(e.currentTarget.value)}
           />
           <Show when={props.error.url_id !== ""}>
-            <p class={addFolderForm.error}>{props.error.url_id}</p>
+            <p class={editFolderForm.error}>{props.error.url_id}</p>
           </Show>
         </div>
-        <div class={addFolderForm.inputBlock}>
-          <label class={addFolderForm.inputLabel} for="icon">
+        <div class={editFolderForm.inputBlock}>
+          <label class={editFolderForm.inputLabel} for="icon">
             アイコン
           </label>
           <input
-            class={addFolderForm.input}
+            class={editFolderForm.input}
             type="text"
             name="icon"
             id="icon"
@@ -79,11 +79,11 @@ export const AddFolderForm: Component<Props> = (props) => {
             value={savingFolder().icon}
           />
           <Show when={props.error.icon !== ""}>
-            <p class={addFolderForm.error}>{props.error.icon}</p>
+            <p class={editFolderForm.error}>{props.error.icon}</p>
           </Show>
         </div>
         <button
-          class={addFolderForm.submitButton}
+          class={editFolderForm.submitButton}
           type="submit"
           disabled={!props.isValidForm()}
         >
