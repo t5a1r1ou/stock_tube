@@ -1,10 +1,14 @@
 import { CardsWrapper } from "../component/CardsWrapper";
 import { componentStyles } from "../styles/style.css";
-import { Component, For, Show, createEffect } from "solid-js";
-import { getFolderVideosFromUrl, removeVideo } from "../store/videos";
+import { Component, For, Show, onMount } from "solid-js";
+import {
+  fetchVideos,
+  getFolderVideosFromUrl,
+  removeVideo,
+} from "../store/videos";
 import { A, useParams } from "@solidjs/router";
 import VideoCard from "../component/VideoCard";
-import { getFolderFromUrl } from "../store/folders";
+import { fetchFolders, getFolderFromUrl } from "../store/folders";
 import { Video } from "../types/types";
 import { useCommon } from "../hooks/useCommon";
 import { Modal } from "../component/Modal";
@@ -28,9 +32,12 @@ const Videos: Component = () => {
   };
 
   const { initApi } = useYoutubePlayer(iframeId);
-  createEffect(() => {
+
+  onMount(() => {
+    fetchVideos();
+    fetchFolders();
     initApi();
-  }, []);
+  });
 
   const playerModalShow = (id: Video["youtube_id"]) => {
     const player = getPlayer();

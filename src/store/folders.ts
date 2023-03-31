@@ -1,12 +1,23 @@
 import { createStore } from "solid-js/store";
 import { Folder } from "../types/types";
 import { supabase } from "../scripts/supabase";
+import { useQueryFolders } from "../queries/useQueryFolders";
 
 const [folders, setFolders] = createStore<Folder[]>([]);
 
 export const getFolders = () => folders;
 
 export const setAllFolders = (data: Folder[]) => setFolders([...data]);
+
+export const fetchFolders = async () => {
+  const { data: folders, error } = await useQueryFolders();
+
+  if (error) {
+    throw new Error();
+  }
+
+  setFolders(folders as Folder[]);
+};
 
 export const getFolder = (id: Folder["id"]) =>
   folders.find((folder) => folder.id === id);

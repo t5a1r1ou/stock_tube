@@ -2,8 +2,19 @@ import { createStore } from "solid-js/store";
 import { Folder, Video } from "../types/types";
 import { getFolders } from "./folders";
 import { supabase } from "../scripts/supabase";
+import { useQueryVideos } from "../queries/useQueryVideos";
 
 const [videos, setVideos] = createStore<Video[]>([]);
+
+export const fetchVideos = async () => {
+  const { data: videos, error } = await useQueryVideos();
+
+  if (error) {
+    throw new Error();
+  }
+
+  setVideos(videos as Video[]);
+};
 
 export const getVideos = () => videos;
 

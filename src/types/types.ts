@@ -27,6 +27,7 @@ export type SearchState = {
 };
 
 export type Video = {
+  id?: string;
   youtube_id: string;
   created_at?: string;
   thumbnail: string;

@@ -2,7 +2,8 @@ import { createStore } from "solid-js/store";
 import { supabase } from "../scripts/supabase";
 
 import type { Credentials, AuthType } from "../types/types";
-import { addFolder } from "../store/folders";
+import { addFolder, fetchFolders } from "../store/folders";
+import { fetchVideos } from "../store/videos";
 
 const useAccountForm = () => {
   const initialCredentials = {
@@ -67,6 +68,9 @@ const useAccountForm = () => {
         ...errors,
         server: "メールアドレスもしくはパスワードが間違っています。",
       });
+    } else {
+      fetchVideos();
+      fetchFolders();
     }
   };
 

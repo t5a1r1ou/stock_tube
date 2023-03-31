@@ -1,5 +1,5 @@
 import { Component, For, Show, onMount } from "solid-js";
-import { getFolders, removeFolder } from "../store/folders";
+import { fetchFolders, getFolders, removeFolder } from "../store/folders";
 import { componentStyles } from "../styles/style.css";
 import { CardsWrapper } from "../component/CardsWrapper";
 import { FolderCard } from "../component/FolderCard";
@@ -10,6 +10,7 @@ import { FloatingButton } from "../component/FloatingButton";
 import { PopupPickerController, createPopup } from "@picmo/popup-picker";
 import ja from "../lib/picmo/lang-ja";
 import { useSavingFolder } from "../hooks/useSavingFolder";
+import { fetchVideos } from "../store/videos";
 
 const Library: Component = () => {
   const folders = () => getFolders();
@@ -20,6 +21,8 @@ const Library: Component = () => {
     useSavingFolder();
 
   onMount(() => {
+    fetchVideos();
+    fetchFolders();
     emojiPopup = createPopup(
       {
         animate: false,
