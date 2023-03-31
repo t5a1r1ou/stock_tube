@@ -2,6 +2,7 @@ import { createStore } from "solid-js/store";
 import { supabase } from "../scripts/supabase";
 
 import type { Credentials, AuthType } from "../types/types";
+import { addFolder } from "../store/folders";
 
 const useAccountForm = () => {
   const initialCredentials = {
@@ -70,7 +71,7 @@ const useAccountForm = () => {
   };
 
   const signUp = async (credentials: Credentials) => {
-    const { error } = await supabase.auth.signUp({
+    const { data, error } = await supabase.auth.signUp({
       email: credentials.email,
       password: credentials.password,
     });
@@ -79,6 +80,13 @@ const useAccountForm = () => {
       setErrors({
         ...errors,
         server: "メールアドレスもしくはパスワードが間違っています。",
+      });
+    } else if (data.user) {
+      addFolder({
+        name: "新規フォルダ",
+        url_id: "default",
+        icon: "🐶",
+        user_id: data.user!.id,
       });
     }
   };
