@@ -86,7 +86,7 @@ export const useSavingFolder = () => {
     } else if (validateDuplicatedUrlId(value)) {
       setError({
         ...error,
-        name: "すでに同じ名前のURL_IDが登録されています",
+        url_id: "すでに同じ名前のURL_IDが登録されています",
       });
     } else {
       setError({
