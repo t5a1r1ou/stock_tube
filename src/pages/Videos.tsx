@@ -41,7 +41,7 @@ const Videos: Component = () => {
 
   const playerModalClose = () => {
     const player = getPlayer();
-    player.stopVideo();
+    player.pauseVideo();
     modalClose();
   };
 
