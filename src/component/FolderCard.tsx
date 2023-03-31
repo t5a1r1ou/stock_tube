@@ -4,6 +4,7 @@ import { Folder } from "../types/types";
 import { folderCard } from "../styles/style.css";
 import { A } from "@solidjs/router";
 import { getFolderVideos } from "../store/videos";
+import { getFolders } from "../store/folders";
 
 type Props = Folder & {
   onDelete: (id: Folder["id"]) => void;
@@ -12,6 +13,8 @@ type Props = Folder & {
 export const FolderCard: Component<Props> = (props) => {
   const [showMenu, setShowMenu] = createSignal<boolean>(false);
   const videoCounts = () => getFolderVideos(props.id).length;
+  const folderCounts = () => getFolders().length;
+  const LAST_ONE = 1;
   const toggleShow = (e: Event) => {
     e.preventDefault();
     setShowMenu(!showMenu());
@@ -39,12 +42,14 @@ export const FolderCard: Component<Props> = (props) => {
       <Show when={showMenu()}>
         <div class={folderCard.buttonContainer}>
           <button class={folderCard.editButton}>編集</button>
-          <button
-            class={folderCard.deleteButton}
-            onClick={(e) => onClickDelete(e)}
-          >
-            削除
-          </button>
+          <Show when={folderCounts() !== LAST_ONE}>
+            <button
+              class={folderCard.deleteButton}
+              onClick={(e) => onClickDelete(e)}
+            >
+              削除
+            </button>
+          </Show>
         </div>
       </Show>
     </div>
