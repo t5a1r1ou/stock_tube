@@ -12,8 +12,8 @@ type FolderError = {
 type Props = {
   error: FolderError;
   isValidForm: Accessor<boolean>;
-  onInputName: (value: string) => void;
-  onInputUrlId: (value: string) => void;
+  inputName: (value: string) => void;
+  inputUrlId: (value: string) => void;
   submit: (e: Event) => void;
   modalClose: () => void;
   onToggleEmoji: (e: Event) => void;
@@ -26,6 +26,10 @@ export const EditFolderForm: Component<Props> = (props) => {
     props.submit(e);
     props.modalClose();
   };
+  const onInputName = (e: { currentTarget: HTMLInputElement }) =>
+    props.inputName(e.currentTarget.value);
+  const onInputUrlId = (e: { currentTarget: HTMLInputElement }) =>
+    props.inputUrlId(e.currentTarget.value);
 
   return (
     <div>
@@ -41,8 +45,8 @@ export const EditFolderForm: Component<Props> = (props) => {
             name="name"
             id="name"
             value={savingFolder().name}
-            onChange={(e) => props.onInputName(e.currentTarget.value)}
-            onInput={(e) => props.onInputName(e.currentTarget.value)}
+            onChange={onInputName}
+            onInput={onInputName}
           />
           <Show when={props.error.name !== ""}>
             <p class={editFolderForm.error}>{props.error.name}</p>
@@ -58,8 +62,8 @@ export const EditFolderForm: Component<Props> = (props) => {
             name="name"
             id="name"
             value={savingFolder().url_id}
-            onChange={(e) => props.onInputUrlId(e.currentTarget.value)}
-            onInput={(e) => props.onInputUrlId(e.currentTarget.value)}
+            onChange={onInputUrlId}
+            onInput={onInputUrlId}
           />
           <Show when={props.error.url_id !== ""}>
             <p class={editFolderForm.error}>{props.error.url_id}</p>

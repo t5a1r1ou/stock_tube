@@ -1,37 +1,54 @@
-import { Component } from "solid-js";
+import { Component, Show } from "solid-js";
 import { A } from "@solidjs/router";
 import { componentStyles, accountForm } from "../styles/style.css";
 import useAccountForm from "../hooks/useAccountForm";
 import type { AuthType } from "../types/types";
+import { Dynamic } from "solid-js/web";
 
 export const AccountForm: Component<AuthType> = (props) => {
   const { credentials, setEmail, setPassword, errors, submitAccountForm } =
     useAccountForm();
 
-  return (
-    <>
-      <h2 class={componentStyles.heading}>
-        {props.flag === "signin" ? "サインイン" : "登録"}
-      </h2>
-      {props.flag === "signin" ? (
+  const onSubmit = (e: SubmitEvent) => submitAccountForm(e, props.flag);
+  const onInputEmail = (e: { currentTarget: HTMLInputElement }) =>
+    setEmail(e.currentTarget.value);
+  const onInputPassword = (e: { currentTarget: HTMLInputElement }) =>
+    setPassword(e.currentTarget.value);
+
+  const accountFormData = {
+    signin: {
+      heading: "サインイン",
+      link: () => (
         <p>
           まだ登録がお済みでない場合は
           <A href="/signup" class={accountForm.anker}>
             こちら
           </A>
         </p>
-      ) : (
+      ),
+      buttonText: "Sign In",
+    },
+    signup: {
+      heading: "登録",
+      link: () => (
         <p>
           登録済みの場合は
           <A href="/signin" class={accountForm.anker}>
             こちら
           </A>
         </p>
-      )}
-      <form
-        class={accountForm.form}
-        onSubmit={(e) => submitAccountForm(e, props.flag)}
-      >
+      ),
+      buttonText: "Sign Up",
+    },
+  };
+
+  return (
+    <>
+      <h2 class={componentStyles.heading}>
+        {accountFormData[props.flag].heading}
+      </h2>
+      <Dynamic component={accountFormData[props.flag].link} />
+      <form class={accountForm.form} onSubmit={onSubmit}>
         <div class={accountForm.formField}>
           <div class={accountForm.formContainer}>
             <label class={accountForm.inputLabel} for="email">
@@ -42,13 +59,13 @@ export const AccountForm: Component<AuthType> = (props) => {
               type="email"
               class={accountForm.input}
               value={credentials.email}
-              onInput={(e) => setEmail(e.currentTarget.value)}
-              onChange={(e) => setEmail(e.currentTarget.value)}
+              onInput={onInputEmail}
+              onChange={onInputEmail}
             />
           </div>
-          {errors.email ? (
+          <Show when={errors.email}>
             <p class={accountForm.error}>{errors.email}</p>
-          ) : null}
+          </Show>
         </div>
         <div class={accountForm.formField}>
           <div class={accountForm.formContainer}>
@@ -60,24 +77,22 @@ export const AccountForm: Component<AuthType> = (props) => {
               type="password"
               class={accountForm.input}
               value={credentials.password}
-              onInput={(e) => setPassword(e.currentTarget.value)}
-              onChange={(e) => setPassword(e.currentTarget.value)}
+              onInput={onInputPassword}
+              onChange={onInputPassword}
             />
           </div>
-          {errors.password ? (
+          <Show when={errors.password}>
             <p class={accountForm.error}>{errors.password}</p>
-          ) : null}
+          </Show>
         </div>
-        {errors.server ? (
+        <Show when={errors.server}>
           <div class={accountForm.formField}>
-            {errors.server ? (
-              <p class={accountForm.error}>{errors.server}</p>
-            ) : null}
+            <p class={accountForm.error}>{errors.server}</p>
           </div>
-        ) : null}
+        </Show>
         <div class={accountForm.formField}>
           <button type="submit" class={accountForm.submitButton}>
-            {props.flag === "signup" ? "Sign up" : "Sign in"}
+            {accountFormData[props.flag].buttonText}
           </button>
         </div>
       </form>

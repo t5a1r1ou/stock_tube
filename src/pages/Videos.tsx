@@ -89,7 +89,7 @@ const Videos: Component = () => {
           <For each={videos()}>
             {(video) => (
               <VideoCard
-                {...video}
+                video={video}
                 onDelete={onDelete}
                 modalShow={playerModalShow}
                 iframeId={iframeId}

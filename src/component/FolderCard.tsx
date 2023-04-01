@@ -43,10 +43,7 @@ export const FolderCard: Component<Props> = (props) => {
         <div class={folderCard.buttonContainer}>
           <button class={folderCard.editButton}>編集</button>
           <Show when={folderCounts() !== LAST_ONE}>
-            <button
-              class={folderCard.deleteButton}
-              onClick={(e) => onClickDelete(e)}
-            >
+            <button class={folderCard.deleteButton} onClick={onClickDelete}>
               削除
             </button>
           </Show>

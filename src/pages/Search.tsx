@@ -50,7 +50,7 @@ const Search: Component = () => {
       <CardsWrapper>
         <For each={searchState().resultVideos}>
           {(video) => (
-            <SearchedVideoCard {...video} modalShow={searchModalShow} />
+            <SearchedVideoCard video={video} modalShow={searchModalShow} />
           )}
         </For>
       </CardsWrapper>

@@ -10,7 +10,7 @@ export const Pagenation: Component<Props> = (props) => {
   return (
     <div class={pagenation.container}>
       <Show when={props.nextPageToken !== ""}>
-        <button onClick={(e) => props.onClickMore(e)} class={pagenation.button}>
+        <button onClick={props.onClickMore} class={pagenation.button}>
           もっと見る
         </button>
       </Show>

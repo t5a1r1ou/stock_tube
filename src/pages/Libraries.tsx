@@ -17,7 +17,7 @@ const Library: Component = () => {
   const modalId = "library_modal";
   const { modalShow, modalClose } = useModal(modalId);
   let emojiPopup: PopupPickerController | undefined;
-  const { error, isValidForm, onInputName, onInputUrlId, onInputIcon, submit } =
+  const { error, isValidForm, inputName, inputUrlId, onInputIcon, submit } =
     useSavingFolder();
 
   onMount(() => {
@@ -79,8 +79,8 @@ const Library: Component = () => {
         <EditFolderForm
           error={error}
           isValidForm={isValidForm}
-          onInputName={onInputName}
-          onInputUrlId={onInputUrlId}
+          inputName={inputName}
+          inputUrlId={inputUrlId}
           submit={submit}
           modalClose={libraryModalClose}
           onToggleEmoji={onToggleEmoji}

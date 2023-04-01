@@ -54,7 +54,7 @@ export const useSavingFolder = () => {
     return true;
   };
 
-  const onInputName = (value: string) => {
+  const inputName = (value: string) => {
     setSavingFolderName(value);
     setIsValidForm(watchValidation());
     if (validateEmpty(value)) {
@@ -75,7 +75,7 @@ export const useSavingFolder = () => {
     }
   };
 
-  const onInputUrlId = (value: string) => {
+  const inputUrlId = (value: string) => {
     setSavingFolderUrlId(value);
     setIsValidForm(watchValidation());
     if (validateUrlId(value)) {
@@ -122,5 +122,5 @@ export const useSavingFolder = () => {
     addFolder({ ...savingFolder(), user_id: user()?.id });
   };
 
-  return { error, isValidForm, onInputName, onInputUrlId, onInputIcon, submit };
+  return { error, isValidForm, inputName, inputUrlId, onInputIcon, submit };
 };
