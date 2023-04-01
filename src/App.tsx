@@ -16,7 +16,7 @@ import { clearFolders } from "./store/folders";
 import { clearSavingFolder } from "./store/savingFolder";
 import { clearSavingVideo } from "./store/savingVideo";
 import { clearSearchState } from "./store/search";
-import { clearCurrentVideoId } from "./store/currentVideo";
+import { clearCurrentYoutubeId } from "./store/currentVideo";
 
 const App: Component = () => {
   const navigate = useNavigate();
@@ -58,7 +58,7 @@ const App: Component = () => {
       clearSavingFolder();
       clearSavingVideo();
       clearSearchState();
-      clearCurrentVideoId();
+      clearCurrentYoutubeId();
       setUser(null);
       navigate("signin", { replace: true });
     }

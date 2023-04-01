@@ -16,7 +16,7 @@ import { useModal } from "../hooks/useModal";
 import { YoutubePlayer } from "../component/YoutubePlayer";
 import { useYoutubePlayer } from "../hooks/useYoutubePlayer";
 import { getPlayer } from "../store/player";
-import { currentVideoId, setCurrentVideoId } from "../store/currentVideo";
+import { currentYoutubeId, setCurrentYoutubeId } from "../store/currentVideo";
 
 const Videos: Component = () => {
   const { url_id } = useParams();
@@ -34,17 +34,11 @@ const Videos: Component = () => {
 
   const { initApi } = useYoutubePlayer(iframeId);
 
-  onMount(() => {
-    fetchVideos();
-    fetchFolders();
-    initApi();
-  });
-
   const playerModalShow = (id: Video["youtube_id"]) => {
     const player = getPlayer();
-    if (id !== currentVideoId()) {
-      setCurrentVideoId(id);
-      player.loadVideoById({ videoId: currentVideoId() });
+    if (id !== currentYoutubeId()) {
+      setCurrentYoutubeId(id);
+      player.loadVideoById({ videoId: currentYoutubeId() });
     }
     player.playVideo();
     modalShow();
@@ -55,6 +49,29 @@ const Videos: Component = () => {
     player.pauseVideo();
     modalClose();
   };
+
+  const continuousPlay = (event: YT.OnStateChangeEvent) => {
+    if (event.data === YT.PlayerState.ENDED) {
+      const index = videos().findIndex(
+        (video) => video.youtube_id === currentYoutubeId()
+      );
+      if (index === videos().length - 1) {
+        modalClose();
+      } else {
+        const nextVideoId = videos()[index + 1].youtube_id;
+        const player = getPlayer();
+        setCurrentYoutubeId(nextVideoId);
+        player.loadVideoById({ videoId: currentYoutubeId() });
+        player.playVideo();
+      }
+    }
+  };
+
+  onMount(() => {
+    fetchVideos();
+    fetchFolders();
+    initApi(continuousPlay);
+  });
 
   return (
     <>

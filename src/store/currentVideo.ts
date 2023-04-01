@@ -1,5 +1,5 @@
 import { createSignal } from "solid-js";
 
-export const [currentVideoId, setCurrentVideoId] = createSignal<String>("");
+export const [currentYoutubeId, setCurrentYoutubeId] = createSignal<String>("");
 
-export const clearCurrentVideoId = () => setCurrentVideoId("");
+export const clearCurrentYoutubeId = () => setCurrentYoutubeId("");

@@ -3,7 +3,7 @@ import { loadYoutubeScript } from "../scripts/script";
 import { setYoutubePlayer } from "../store/player";
 
 export const useYoutubePlayer = (id: string) => {
-  const initApi = () => {
+  const initApi = (onStateChange: (event: YT.OnStateChangeEvent) => void) => {
     loadYoutubeScript();
 
     (window as YoutubeWindow).onYouTubeIframeAPIReady = () => {
@@ -20,6 +20,9 @@ export const useYoutubePlayer = (id: string) => {
           rel: 0,
           autohide: 0,
           modestbranding: 1,
+        },
+        events: {
+          onStateChange,
         },
       });
       setYoutubePlayer(player);
