@@ -61,7 +61,21 @@ export const layoutStyles = {
     fontSize: "1.6rem",
     textAlign: "center",
   }),
-  headerButton: style({
+  headerLeftButton: style({
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    position: "absolute",
+    margin: "auto 0",
+    left: "1.4rem",
+    top: 0,
+    bottom: 0,
+    fontSize: "0.8rem",
+  }),
+  headerRightButton: style({
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
     position: "absolute",
     margin: "auto 0",
     right: "1.4rem",
