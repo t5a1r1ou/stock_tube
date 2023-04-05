@@ -218,6 +218,10 @@ export const componentStyles = {
     padding: "1rem",
     backgroundColor: "#fff",
   }),
+  backTo: style({
+    display: "block",
+    marginBottom: "1rem",
+  }),
 };
 
 const unitStyles = {

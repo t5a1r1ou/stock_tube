@@ -75,12 +75,13 @@ const Videos: Component = () => {
 
   return (
     <>
+      <A href="/library" class={componentStyles.backTo}>
+        &lt; ライブラリ一覧へ戻る
+      </A>
       <h2 class={componentStyles.heading}>
         {folder()?.name}
         {folder()?.icon}
       </h2>
-      <A href="/search">検索へ</A>
-      <A href="/library">ライブラリへ</A>
       <Show
         when={videos().length > 0}
         fallback={<p>動画が登録されていません。</p>}

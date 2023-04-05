@@ -38,7 +38,6 @@ const Search: Component = () => {
   return (
     <>
       <h2 class={componentStyles.heading}>検索</h2>
-      <A href="/library">ライブラリへ</A>
       <SearchForm
         submitQuery={submitQuery}
         inputValue={searchState().inputValue}
