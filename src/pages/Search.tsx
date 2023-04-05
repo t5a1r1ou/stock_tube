@@ -1,17 +1,17 @@
 import { Component, For, createEffect } from "solid-js";
-import { componentStyles } from "../styles/style.css";
-import { CardsWrapper } from "../component/CardsWrapper";
-import { SearchForm } from "../component/SearchForm";
-import { Pagenation } from "../component/Pagenation";
-import { useSearch } from "../hooks/useSearch";
-import { A } from "@solidjs/router";
 import { getSearchState, setInputValue } from "../store/search";
-import { Modal } from "../component/Modal";
-import { useModal } from "../hooks/useModal";
-import { AddVideoForm } from "../component/AddVideoForm";
 import { clearSavingVideo, setSavingVideoInfo } from "../store/savingVideo";
-import { Video } from "../types/types";
-import SearchedVideoCard from "../component/SearchedVideoCard";
+import { useModal, useSearch } from "../hooks/";
+import {
+  AddVideoForm,
+  CardsWrapper,
+  Modal,
+  Pagenation,
+  SearchForm,
+  SearchedVideoCard,
+} from "../component";
+import { componentStyles } from "../styles/style.css";
+import type { Video } from "../types/types";
 
 const Search: Component = () => {
   const searchState = () => getSearchState();

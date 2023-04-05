@@ -10,7 +10,7 @@ type Props = {
   iframeId: string;
 };
 
-const VideoCard: Component<Props> = (props) => {
+export const VideoCard: Component<Props> = (props) => {
   return (
     <div class={videoCard.container}>
       <div class={videoCard.contentWrapper}>
@@ -39,5 +39,3 @@ const VideoCard: Component<Props> = (props) => {
     </div>
   );
 };
-
-export default VideoCard;

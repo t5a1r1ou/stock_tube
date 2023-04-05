@@ -1,9 +1,9 @@
 import { Component, For, Show } from "solid-js";
-import { addVideoForm } from "../styles/style.css";
-import { getSavingVideo } from "../store/savingVideo";
-import { useSavingVideo } from "../hooks/useSavingVideo";
-import { getFolders } from "../store/folders";
 import { useNavigate } from "@solidjs/router";
+import { getSavingVideo } from "../store/savingVideo";
+import { getFolders } from "../store/folders";
+import { useSavingVideo } from "../hooks/";
+import { addVideoForm } from "../styles/style.css";
 
 type Props = {
   modalClose: () => void;

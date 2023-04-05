@@ -1,22 +1,17 @@
-import { CardsWrapper } from "../component/CardsWrapper";
-import { componentStyles } from "../styles/style.css";
 import { Component, For, Show, onMount } from "solid-js";
+import { A, useParams } from "@solidjs/router";
 import {
   fetchVideos,
   getFolderVideosFromUrl,
   removeVideo,
 } from "../store/videos";
-import { A, useParams } from "@solidjs/router";
-import VideoCard from "../component/VideoCard";
-import { fetchFolders, getFolderFromUrl } from "../store/folders";
-import { Video } from "../types/types";
-import { useCommon } from "../hooks/useCommon";
-import { Modal } from "../component/Modal";
-import { useModal } from "../hooks/useModal";
-import { YoutubePlayer } from "../component/YoutubePlayer";
-import { useYoutubePlayer } from "../hooks/useYoutubePlayer";
-import { getPlayer } from "../store/player";
 import { currentYoutubeId, setCurrentYoutubeId } from "../store/currentVideo";
+import { fetchFolders, getFolderFromUrl } from "../store/folders";
+import { getPlayer } from "../store/player";
+import { useCommon, useModal, useYoutubePlayer } from "../hooks/";
+import { CardsWrapper, Modal, VideoCard, YoutubePlayer } from "../component";
+import { componentStyles } from "../styles/style.css";
+import type { Video } from "../types/types";
 
 const Videos: Component = () => {
   const { url_id } = useParams();

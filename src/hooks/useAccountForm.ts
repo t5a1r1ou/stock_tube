@@ -5,7 +5,7 @@ import type { Credentials, AuthType } from "../types/types";
 import { addFolder, fetchFolders } from "../store/folders";
 import { fetchVideos } from "../store/videos";
 
-const useAccountForm = () => {
+export const useAccountForm = () => {
   const initialCredentials = {
     email: "",
     password: "",
@@ -111,5 +111,3 @@ const useAccountForm = () => {
 
   return { credentials, setPassword, setEmail, errors, submitAccountForm };
 };
-
-export default useAccountForm;

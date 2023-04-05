@@ -154,7 +154,7 @@ export const componentStyles = {
   videoContainer: style({
     position: "relative",
     width: "100%",
-    aspectRatio: "100 / 56.25",
+    aspectRatio: "16 / 9",
   }),
   img: style({
     width: "100%",

@@ -1,6 +1,6 @@
 import { useNavigate } from "@solidjs/router";
 import { Component, createEffect } from "solid-js";
-import { AccountForm } from "../component/AccountForm";
+import { AccountForm } from "../component/";
 import { supabase } from "../scripts/supabase";
 
 const SignUp: Component = () => {

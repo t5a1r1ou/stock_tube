@@ -8,7 +8,7 @@ type Props = {
   modalShow: (video: Video) => void;
 };
 
-const SearchedVideoCard: Component<Props> = (props) => {
+export const SearchedVideoCard: Component<Props> = (props) => {
   const isStocked = () =>
     getVideos()
       .map((video) => video.youtube_id)
@@ -39,5 +39,3 @@ const SearchedVideoCard: Component<Props> = (props) => {
     </div>
   );
 };
-
-export default SearchedVideoCard;
