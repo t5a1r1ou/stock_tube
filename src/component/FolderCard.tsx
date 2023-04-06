@@ -1,8 +1,7 @@
 import { Component, Show, createSignal } from "solid-js";
 import { A } from "@solidjs/router";
 import { IoSettingsOutline } from "solid-icons/io";
-import { getFolderVideos } from "../store/videos";
-import { getFolders } from "../store/folders";
+import { foldersStore, videosStore } from "../store/";
 import { folderCard } from "../styles/style.css";
 import type { Folder } from "../types/types";
 
@@ -12,8 +11,8 @@ type Props = Folder & {
 
 export const FolderCard: Component<Props> = (props) => {
   const [showMenu, setShowMenu] = createSignal<boolean>(false);
-  const videoCounts = () => getFolderVideos(props.id).length;
-  const folderCounts = () => getFolders().length;
+  const videoCounts = () => videosStore.getFromFolder(props.id).length;
+  const folderCounts = () => foldersStore.data.length;
   const LAST_ONE = 1;
   const toggleShow = (e: Event) => {
     e.preventDefault();

@@ -1,7 +1,8 @@
-import { createSignal } from "solid-js";
+import { createRoot, createSignal } from "solid-js";
 
-const [player, setPlayer] = createSignal<any>(null);
+const player = () => {
+  const [data, setData] = createSignal<any>(null);
+  return { data, setData };
+};
 
-export const getPlayer = () => player();
-
-export const setYoutubePlayer = (value: any) => setPlayer(value);
+export default createRoot(player);

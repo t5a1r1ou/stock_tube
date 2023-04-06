@@ -1,64 +1,76 @@
 import { createStore } from "solid-js/store";
 import { Folder, Video } from "../types/types";
-import { getFolders } from "./folders";
+import folders from "./folders";
 import { supabase } from "../scripts/supabase";
 import { useQueryVideos } from "../queries/useQueryVideos";
+import { createRoot } from "solid-js";
 
-const [videos, setVideos] = createStore<Video[]>([]);
+const videos = () => {
+  const [data, setData] = createStore<Video[]>([]);
 
-export const fetchVideos = async () => {
-  const { data: videos, error } = await useQueryVideos();
+  const fetchData = async () => {
+    const { data: videos, error } = await useQueryVideos();
 
-  if (error) {
-    throw new Error();
-  }
+    if (error) {
+      throw new Error();
+    }
 
-  setVideos(videos as Video[]);
+    setData(videos as Video[]);
+  };
+
+  const getFromFolder = (id: Folder["id"]) =>
+    data.filter((video) => video.folder_id === id);
+
+  const getFromUrl = (url_id: Folder["url_id"]) => {
+    const targetFolder = folders.data.find(
+      (folder) => folder.url_id === url_id
+    );
+    if (targetFolder) {
+      return data.filter((video) => video.folder_id === targetFolder.id);
+    }
+    return [];
+  };
+
+  const addData = async (video: Video) => {
+    const { data: newVideo, error } = await supabase
+      .from("videos")
+      .insert(video)
+      .select()
+      .single();
+
+    if (error) {
+      console.log(error);
+      throw new Error();
+    } else if (newVideo) {
+      setData([...data, newVideo] as Video[]);
+    }
+  };
+
+  const removeData = async (youtubeId: Video["youtube_id"]) => {
+    const { error } = await supabase
+      .from("videos")
+      .delete()
+      .eq("youtube_id", youtubeId);
+
+    if (error) {
+      throw new Error();
+    } else {
+      setData([...data.filter((video) => video.youtube_id !== youtubeId)]);
+    }
+  };
+
+  const clearData = () => setData([]);
+
+  return {
+    data,
+    setData,
+    fetchData,
+    getFromFolder,
+    getFromUrl,
+    addData,
+    removeData,
+    clearData,
+  };
 };
 
-export const getVideos = () => videos;
-
-export const setAllVideos = (data: Video[]) => setVideos(data);
-
-export const getFolderVideos = (id: Folder["id"]) =>
-  videos.filter((video) => video.folder_id === id);
-
-export const getFolderVideosFromUrl = (url_id: Folder["url_id"]) => {
-  const targetFolder = getFolders().find((folder) => folder.url_id === url_id);
-  if (targetFolder) {
-    return videos.filter((video) => video.folder_id === targetFolder.id);
-  }
-  return [];
-};
-
-export const addVideo = async (video: Video) => {
-  const { data: newVideo, error } = await supabase
-    .from("videos")
-    .insert(video)
-    .select()
-    .single();
-
-  if (error) {
-    console.log(error);
-    throw new Error();
-  } else if (newVideo) {
-    setVideos([...videos, newVideo] as Video[]);
-  }
-};
-
-export const removeVideo = async (youtubeId: Video["youtube_id"]) => {
-  const { error } = await supabase
-    .from("videos")
-    .delete()
-    .eq("youtube_id", youtubeId);
-
-  if (error) {
-    throw new Error();
-  } else {
-    setVideos([...videos.filter((video) => video.youtube_id !== youtubeId)]);
-  }
-};
-
-export const clearVideos = () => {
-  setVideos([]);
-};
+export default createRoot(videos);

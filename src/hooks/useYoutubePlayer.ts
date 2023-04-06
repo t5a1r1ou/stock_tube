@@ -1,9 +1,14 @@
 import { loadYoutubeScript } from "../scripts/script";
-import { setYoutubePlayer } from "../store/player";
+import { playerStore } from "../store/";
 import { YoutubeWindow } from "../types/types";
 
+type YTEvents = {
+  onStateChange: (event: YT.OnStateChangeEvent) => void;
+  onError: () => void;
+};
+
 export const useYoutubePlayer = (id: string) => {
-  const initApi = (onStateChange: (event: YT.OnStateChangeEvent) => void) => {
+  const initApi = (props: YTEvents) => {
     loadYoutubeScript();
 
     (window as YoutubeWindow).onYouTubeIframeAPIReady = () => {
@@ -22,10 +27,11 @@ export const useYoutubePlayer = (id: string) => {
           modestbranding: 1,
         },
         events: {
-          onStateChange,
+          onStateChange: props.onStateChange,
+          onError: props.onError,
         },
       });
-      setYoutubePlayer(player);
+      playerStore.setData(player);
     };
   };
 

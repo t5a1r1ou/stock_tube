@@ -1,15 +1,14 @@
-import { getResultVideos, setResultVideo } from "../store/search";
-import { getVideos } from "../store/videos";
+import { searchStateStore, videosStore } from "../store/";
 
 export const useCommon = () => {
   const observeSearchStockedVideo = () => {
-    const stockedVideoIds = () => getVideos().map((video) => video.youtube_id);
-    const searchedVideos = () => getResultVideos();
-    const resultVideos = searchedVideos().map((video) => {
+    const stockedVideoIds = () =>
+      videosStore.data.map((video) => video.youtube_id);
+    const resultVideos = searchStateStore.data.resultVideos.map((video) => {
       const isStocked = stockedVideoIds().includes(video.youtube_id);
       return { ...video, isStocked };
     });
-    setResultVideo(resultVideos);
+    searchStateStore.setResultVideo(resultVideos);
   };
 
   return { observeSearchStockedVideo };

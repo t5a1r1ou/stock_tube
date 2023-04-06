@@ -1,8 +1,7 @@
 import { Component, For, Show, onMount } from "solid-js";
 import { PopupPickerController, createPopup } from "@picmo/popup-picker";
 import { Head } from "../layout/Head";
-import { fetchFolders, getFolders, removeFolder } from "../store/folders";
-import { fetchVideos } from "../store/videos";
+import { foldersStore, videosStore } from "../store";
 import { useModal, useSavingFolder } from "../hooks/";
 import ja from "../lib/picmo/lang-ja";
 import {
@@ -15,7 +14,6 @@ import {
 import { componentStyles } from "../styles/style.css";
 
 const Library: Component = () => {
-  const folders = () => getFolders();
   const modalId = "library_modal";
   const { modalShow, modalClose } = useModal(modalId);
   let emojiPopup: PopupPickerController | undefined;
@@ -23,8 +21,8 @@ const Library: Component = () => {
     useSavingFolder();
 
   onMount(() => {
-    fetchVideos();
-    fetchFolders();
+    videosStore.fetchData();
+    foldersStore.fetchData();
     emojiPopup = createPopup(
       {
         animate: false,
@@ -69,12 +67,14 @@ const Library: Component = () => {
       <h2 class={componentStyles.heading}>ライブラリ</h2>
       <FloatingButton onClick={modalShow} text={"ライブラリを追加する"} />
       <Show
-        when={folders().length > 0}
+        when={foldersStore.data.length > 0}
         fallback={<p>フォルダが登録されていません。</p>}
       >
         <CardsWrapper>
-          <For each={folders()}>
-            {(folder) => <FolderCard {...folder} onDelete={removeFolder} />}
+          <For each={foldersStore.data}>
+            {(folder) => (
+              <FolderCard {...folder} onDelete={foldersStore.removeFolder} />
+            )}
           </For>
         </CardsWrapper>
       </Show>

@@ -1,40 +1,43 @@
+import { createRoot } from "solid-js";
 import { createStore } from "solid-js/store";
 import { Folder } from "../types/types";
 
-const [savingFolder, setSavingFolder] = createStore<
-  Omit<Folder, "id" | "created_at">
->({
-  name: "",
-  icon: "",
-  url_id: "",
-});
-
-export const getSavingFolder = () => savingFolder;
-
-export const clearSavingFolder = () =>
-  setSavingFolder({
+const savingFolder = () => {
+  const [data, setData] = createStore<Omit<Folder, "id" | "created_at">>({
     name: "",
     icon: "",
     url_id: "",
   });
 
-export const setSavingFolderName = (name: Folder["name"]) => {
-  setSavingFolder({
-    ...savingFolder,
-    name,
-  });
+  const clearData = () =>
+    setData({
+      name: "",
+      icon: "",
+      url_id: "",
+    });
+
+  const setName = (name: Folder["name"]) => {
+    setData({
+      ...savingFolder,
+      name,
+    });
+  };
+
+  const setIcon = (icon: Folder["icon"]) => {
+    setData({
+      ...data,
+      icon,
+    });
+  };
+
+  const setUrlId = (url_id: Folder["url_id"]) => {
+    setData({
+      ...data,
+      url_id,
+    });
+  };
+
+  return { data, setData, clearData, setName, setIcon, setUrlId };
 };
 
-export const setSavingFolderIcon = (icon: Folder["icon"]) => {
-  setSavingFolder({
-    ...savingFolder,
-    icon,
-  });
-};
-
-export const setSavingFolderUrlId = (url_id: Folder["url_id"]) => {
-  setSavingFolder({
-    ...savingFolder,
-    url_id,
-  });
-};
+export default createRoot(savingFolder);

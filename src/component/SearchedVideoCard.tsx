@@ -1,5 +1,5 @@
 import { Component, Show } from "solid-js";
-import { getVideos } from "../store/videos";
+import { videosStore } from "../store/";
 import { videoCard } from "../styles/style.css";
 import type { Video } from "../types/types";
 
@@ -10,7 +10,7 @@ type Props = {
 
 export const SearchedVideoCard: Component<Props> = (props) => {
   const isStocked = () =>
-    getVideos()
+    videosStore.data
       .map((video) => video.youtube_id)
       .includes(props.video.youtube_id);
 

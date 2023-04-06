@@ -2,13 +2,15 @@ import { createEffect } from "solid-js";
 import { Routes, Route, useNavigate, useLocation } from "@solidjs/router";
 import { MetaProvider } from "@solidjs/meta";
 import { supabase } from "./scripts/supabase";
-import { user, setUser } from "./store/user";
-import { clearVideos } from "./store/videos";
-import { clearFolders } from "./store/folders";
-import { clearSavingFolder } from "./store/savingFolder";
-import { clearSavingVideo } from "./store/savingVideo";
-import { clearSearchState } from "./store/search";
-import { clearCurrentYoutubeId } from "./store/currentVideo";
+import {
+  currentVideoStore,
+  foldersStore,
+  savingFolderStore,
+  savingVideoStore,
+  searchStateStore,
+  userStore,
+  videosStore,
+} from "./store/";
 import Layout from "./layout/Layout";
 import { Libraries, NotFound, Search, SignIn, SignUp, Videos } from "./pages";
 import type { Component } from "solid-js";
@@ -22,10 +24,10 @@ const App: Component = () => {
   supabase.auth.onAuthStateChange((event, session) => {
     if (event === "SIGNED_IN" && (isAuthenticationPage() || isRootPage())) {
       navigate("/library");
-      setUser(session!.user);
+      userStore.setData(session!.user);
     } else if (event === "SIGNED_OUT") {
       navigate("/signin");
-      setUser(null);
+      userStore.setData(null);
     }
   });
 
@@ -38,7 +40,7 @@ const App: Component = () => {
       } else if (isAuthenticationPage()) {
         navigate("/library");
       }
-      setUser(data.session!.user);
+      userStore.setData(data.session!.user);
     };
     validateSession();
   }, []);
@@ -48,20 +50,20 @@ const App: Component = () => {
     if (error) {
       throw Error;
     } else {
-      clearVideos();
-      clearFolders();
-      clearSavingFolder();
-      clearSavingVideo();
-      clearSearchState();
-      clearCurrentYoutubeId();
-      setUser(null);
+      videosStore.clearData();
+      foldersStore.clearFolder();
+      savingFolderStore.clearData();
+      savingVideoStore.clearData();
+      searchStateStore.clearData();
+      currentVideoStore.clearId();
+      userStore.setData(null);
       navigate("signin", { replace: true });
     }
   };
 
   return (
     <MetaProvider>
-      <Layout user={user} signOut={signOut}>
+      <Layout user={userStore.data} signOut={signOut}>
         <Routes>
           <Route path="/library" component={Libraries}></Route>
           <Route path="/library/:url_id" component={Videos}></Route>

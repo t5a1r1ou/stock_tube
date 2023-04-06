@@ -1,18 +1,10 @@
 import { createSignal } from "solid-js";
 import { initGoogleScript, loadGoogleScript } from "../scripts/script";
-import { getVideos } from "../store/videos";
-import {
-  getSearchState,
-  setApiData,
-  setError,
-  setCurrentWord,
-  setAllSearchState,
-} from "../store/search";
+import { searchStateStore, videosStore } from "../store";
 import type { GapiWindow, Video } from "../types/types";
 
 export const useSearch = () => {
   const [gapi, setGapi] = createSignal<any>(null);
-  const state = () => getSearchState();
 
   const initApi = () => {
     (window as GapiWindow).onGoogleScriptLoad = () => {
@@ -29,7 +21,7 @@ export const useSearch = () => {
 
   const searchVideo = async (q: string, pageToken: string = "") => {
     if (q === "") {
-      setAllSearchState({
+      searchStateStore.setData({
         resultVideos: [],
         total: 0,
         nextPageToken: "",
@@ -56,7 +48,7 @@ export const useSearch = () => {
             pageInfo: { totalResults },
           } = data.result;
 
-          const stockedIds = getVideos().map((video) => video.youtube_id);
+          const stockedIds = videosStore.data.map((video) => video.youtube_id);
 
           const newVideos: Video[] = items.map((item: any) => {
             const {
@@ -72,38 +64,41 @@ export const useSearch = () => {
             };
           });
 
-          setApiData({
+          searchStateStore.setApiData({
             resultVideos:
-              q === state().currentWord
-                ? [...state().resultVideos, ...newVideos]
+              q === searchStateStore.data.currentWord
+                ? [...searchStateStore.data.resultVideos, ...newVideos]
                 : newVideos,
             total: totalResults,
             nextPageToken: nextPageToken || "",
           });
 
-          if (q !== state().currentWord) {
-            setCurrentWord(state().inputValue);
+          if (q !== searchStateStore.data.currentWord) {
+            searchStateStore.setCurrentWord(searchStateStore.data.inputValue);
           }
 
           if (!newVideos.length) {
-            setError("該当する動画がありません。");
+            searchStateStore.setError("該当する動画がありません。");
           } else {
-            setError("");
+            searchStateStore.setError("");
           }
         });
     }).catch((error) => {
-      setError(error.message);
+      searchStateStore.setError(error.message);
     });
   };
 
   const submitQuery = (e: Event) => {
     e.preventDefault();
-    searchVideo(state().inputValue);
+    searchVideo(searchStateStore.data.inputValue);
   };
 
   const onClickMore = (e: Event) => {
     e.preventDefault();
-    searchVideo(state().currentWord, state().nextPageToken);
+    searchVideo(
+      searchStateStore.data.currentWord,
+      searchStateStore.data.nextPageToken
+    );
   };
 
   return {

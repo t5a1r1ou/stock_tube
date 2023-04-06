@@ -1,13 +1,11 @@
-import { Component, For, Show, onMount } from "solid-js";
+import { Component, For, Show, onMount, createMemo } from "solid-js";
 import { A, useParams } from "@solidjs/router";
 import {
-  fetchVideos,
-  getFolderVideosFromUrl,
-  removeVideo,
-} from "../store/videos";
-import { currentYoutubeId, setCurrentYoutubeId } from "../store/currentVideo";
-import { fetchFolders, getFolderFromUrl } from "../store/folders";
-import { getPlayer } from "../store/player";
+  currentVideoStore,
+  foldersStore,
+  playerStore,
+  videosStore,
+} from "../store";
 import { useCommon, useModal, useYoutubePlayer } from "../hooks/";
 import { CardsWrapper, Modal, VideoCard, YoutubePlayer } from "../component";
 import { componentStyles } from "../styles/style.css";
@@ -16,57 +14,59 @@ import { Head } from "../layout/Head";
 
 const Videos: Component = () => {
   const { url_id } = useParams();
-  const videos = () => getFolderVideosFromUrl(url_id);
-  const folder = () => getFolderFromUrl(url_id);
+  const urlVideos = createMemo(() => videosStore.getFromUrl(url_id));
+  const folder = () => foldersStore.getFolderFromUrl(url_id);
   const modalId = "play_modal";
   const iframeId = "play_iframe";
   const { observeSearchStockedVideo } = useCommon();
   const { modalShow, modalClose } = useModal(modalId);
 
   const onDelete = (id: Video["youtube_id"]) => {
-    removeVideo(id);
+    videosStore.removeData(id);
     observeSearchStockedVideo();
   };
 
   const { initApi } = useYoutubePlayer(iframeId);
 
   const playerModalShow = (id: Video["youtube_id"]) => {
-    const player = getPlayer();
-    if (id !== currentYoutubeId()) {
-      setCurrentYoutubeId(id);
-      player.loadVideoById({ videoId: currentYoutubeId() });
+    if (id !== currentVideoStore.id()) {
+      currentVideoStore.setId(id);
+      playerStore.data().loadVideoById({ videoId: currentVideoStore.id() });
     }
-    player.playVideo();
+    playerStore.data().playVideo();
     modalShow();
   };
 
   const playerModalClose = () => {
-    const player = getPlayer();
-    player.pauseVideo();
+    playerStore.data().pauseVideo();
     modalClose();
   };
 
-  const continuousPlay = (event: YT.OnStateChangeEvent) => {
+  const onStateChange = (event: YT.OnStateChangeEvent) => {
     if (event.data === YT.PlayerState.ENDED) {
-      const index = videos().findIndex(
-        (video) => video.youtube_id === currentYoutubeId()
+      const index = urlVideos().findIndex(
+        (video) => video.youtube_id === currentVideoStore.id()
       );
-      if (index === videos().length - 1) {
+      if (index === urlVideos().length - 1) {
         modalClose();
       } else {
-        const nextVideoId = videos()[index + 1].youtube_id;
-        const player = getPlayer();
-        setCurrentYoutubeId(nextVideoId);
-        player.loadVideoById({ videoId: currentYoutubeId() });
-        player.playVideo();
+        const nextVideoId = urlVideos()[index + 1].youtube_id;
+        currentVideoStore.setId(nextVideoId);
+        playerStore.data().loadVideoById({ videoId: currentVideoStore.id() });
+        playerStore.data().playVideo();
       }
     }
   };
 
+  const onError = () => {
+    playerStore.data().loadVideoById({ videoId: currentVideoStore.id() });
+    playerStore.data().playVideo();
+  };
+
   onMount(() => {
-    fetchVideos();
-    fetchFolders();
-    initApi(continuousPlay);
+    videosStore.fetchData();
+    foldersStore.fetchData();
+    initApi({ onStateChange, onError });
   });
 
   return (
@@ -80,11 +80,11 @@ const Videos: Component = () => {
         {folder()?.icon}
       </h2>
       <Show
-        when={videos().length > 0}
+        when={urlVideos().length > 0}
         fallback={<p>動画が登録されていません。</p>}
       >
         <CardsWrapper>
-          <For each={videos()}>
+          <For each={urlVideos()}>
             {(video) => (
               <VideoCard
                 video={video}

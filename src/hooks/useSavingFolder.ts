@@ -1,13 +1,6 @@
 import { createSignal } from "solid-js";
 import { createStore } from "solid-js/store";
-import {
-  getSavingFolder,
-  setSavingFolderName,
-  setSavingFolderIcon,
-  setSavingFolderUrlId,
-} from "../store/savingFolder";
-import { addFolder, getFolders } from "../store/folders";
-import { user } from "../store/user";
+import { foldersStore, savingFolderStore, userStore } from "../store/";
 import type { Folder } from "../types/types";
 
 type FolderError = {
@@ -24,30 +17,25 @@ export const useSavingFolder = () => {
   });
   const [isValidForm, setIsValidForm] = createSignal<boolean>(false);
 
-  const savingFolder = () => getSavingFolder();
-
   const validateEmpty = (value: Folder["name"] | Folder["icon"]) =>
     value === "";
   const validateUrlId = (value: Folder["url_id"]) => !/^\w+$/.test(value);
 
   const validateDuplicatedName = (name: Folder["name"]) => {
-    const folders = () => getFolders();
-    return folders().some((folder) => folder.name === name);
+    return foldersStore.data.some((folder) => folder.name === name);
   };
 
   const validateDuplicatedUrlId = (url_id: Folder["url_id"]) => {
-    const folders = () => getFolders();
-    return folders().some((folder) => folder.url_id === url_id);
+    return foldersStore.data.some((folder) => folder.url_id === url_id);
   };
 
   const watchValidation = () => {
-    const savingFolderData = savingFolder();
     if (
-      validateEmpty(savingFolderData.name) ||
-      validateEmpty(savingFolderData.icon) ||
-      validateDuplicatedName(savingFolderData.name) ||
-      validateDuplicatedUrlId(savingFolderData.url_id) ||
-      validateUrlId(savingFolderData.url_id)
+      validateEmpty(savingFolderStore.data.name) ||
+      validateEmpty(savingFolderStore.data.icon) ||
+      validateDuplicatedName(savingFolderStore.data.name) ||
+      validateDuplicatedUrlId(savingFolderStore.data.url_id) ||
+      validateUrlId(savingFolderStore.data.url_id)
     ) {
       return false;
     }
@@ -55,7 +43,7 @@ export const useSavingFolder = () => {
   };
 
   const inputName = (value: string) => {
-    setSavingFolderName(value);
+    savingFolderStore.setName(value);
     setIsValidForm(watchValidation());
     if (validateEmpty(value)) {
       setError({
@@ -76,7 +64,7 @@ export const useSavingFolder = () => {
   };
 
   const inputUrlId = (value: string) => {
-    setSavingFolderUrlId(value);
+    savingFolderStore.setUrlId(value);
     setIsValidForm(watchValidation());
     if (validateUrlId(value)) {
       setError({
@@ -97,7 +85,7 @@ export const useSavingFolder = () => {
   };
 
   const onInputIcon = (value: string) => {
-    setSavingFolderIcon(value);
+    savingFolderStore.setIcon(value);
     setIsValidForm(watchValidation());
     if (validateEmpty(value)) {
       setError({
@@ -119,7 +107,10 @@ export const useSavingFolder = () => {
       return;
     }
 
-    addFolder({ ...savingFolder(), user_id: user()?.id });
+    foldersStore.addFolder({
+      ...savingFolderStore.data,
+      user_id: userStore.data()?.id,
+    });
   };
 
   return { error, isValidForm, inputName, inputUrlId, onInputIcon, submit };

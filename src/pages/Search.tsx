@@ -1,7 +1,6 @@
 import { Component, For, createEffect } from "solid-js";
 import { Head } from "../layout/Head";
-import { getSearchState, setInputValue } from "../store/search";
-import { clearSavingVideo, setSavingVideoInfo } from "../store/savingVideo";
+import { savingVideoStore, searchStateStore } from "../store";
 import { useModal, useSearch } from "../hooks/";
 import {
   AddVideoForm,
@@ -15,7 +14,6 @@ import { componentStyles } from "../styles/style.css";
 import type { Video } from "../types/types";
 
 const Search: Component = () => {
-  const searchState = () => getSearchState();
   const modalId = "search_modal";
 
   const { initApi, submitQuery, onClickMore } = useSearch();
@@ -24,12 +22,12 @@ const Search: Component = () => {
 
   const searchModalShow = (video: Video) => {
     modalShow();
-    setSavingVideoInfo(video);
+    savingVideoStore.setInfo(video);
   };
 
   const searchModalClose = () => {
     modalClose();
-    clearSavingVideo();
+    savingVideoStore.clearData();
   };
 
   createEffect(() => {
@@ -42,21 +40,21 @@ const Search: Component = () => {
       <h2 class={componentStyles.heading}>検索</h2>
       <SearchForm
         submitQuery={submitQuery}
-        inputValue={searchState().inputValue}
-        setInputValue={setInputValue}
-        error={searchState().error}
-        currentWord={searchState().currentWord}
-        total={searchState().total}
+        inputValue={searchStateStore.data.inputValue}
+        setInputValue={searchStateStore.setInputValue}
+        error={searchStateStore.data.error}
+        currentWord={searchStateStore.data.currentWord}
+        total={searchStateStore.data.total}
       />
       <CardsWrapper>
-        <For each={searchState().resultVideos}>
+        <For each={searchStateStore.data.resultVideos}>
           {(video) => (
             <SearchedVideoCard video={video} modalShow={searchModalShow} />
           )}
         </For>
       </CardsWrapper>
       <Pagenation
-        nextPageToken={searchState().nextPageToken}
+        nextPageToken={searchStateStore.data.nextPageToken}
         onClickMore={onClickMore}
       />
       <Modal id={modalId} modalClose={searchModalClose} fullWidth={false}>

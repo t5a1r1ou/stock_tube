@@ -1,31 +1,23 @@
 import { createSignal } from "solid-js";
-import { addVideo } from "../store/videos";
-import {
-  clearSavingVideo,
-  getSavingVideo,
-  getSavingVideoFolder,
-  setSavingVideoFolder,
-} from "../store/savingVideo";
-import { user } from "../store/user";
+import { savingVideoStore, userStore, videosStore } from "../store/";
 import { useCommon } from "./useCommon";
+import type { Folder } from "../types/types";
 
 export const useSavingVideo = () => {
   const [error, setError] = createSignal<string>("");
   const [isValidForm, setIsValidForm] = createSignal<boolean>(false);
-  const savingVideo = () => getSavingVideo();
-  const savingVideoFolder = () => getSavingVideoFolder();
 
   const { observeSearchStockedVideo } = useCommon();
 
   const watchValidation = () => {
-    if (savingVideoFolder() === "") {
+    if (savingVideoStore.data.folder_id === "") {
       return false;
     }
     return true;
   };
 
-  const onInput = (value: string) => {
-    setSavingVideoFolder(value);
+  const onInput = (value: Folder["id"]) => {
+    savingVideoStore.setFolder(value);
     setIsValidForm(watchValidation());
   };
 
@@ -37,13 +29,13 @@ export const useSavingVideo = () => {
       return;
     }
 
-    addVideo({
-      ...savingVideo(),
-      folder_id: savingVideoFolder(),
-      user_id: user()?.id,
+    videosStore.addData({
+      ...savingVideoStore.data,
+      folder_id: savingVideoStore.data.folder_id,
+      user_id: userStore.data()?.id,
     });
     observeSearchStockedVideo();
-    clearSavingVideo();
+    savingVideoStore.clearData();
   };
 
   return {

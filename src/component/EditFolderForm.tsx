@@ -1,5 +1,5 @@
 import { Accessor, Component, Show } from "solid-js";
-import { getSavingFolder } from "../store/savingFolder";
+import { savingFolderStore } from "../store/";
 import { editFolderForm } from "../styles/style.css";
 
 type FolderError = {
@@ -19,8 +19,6 @@ type Props = {
 };
 
 export const EditFolderForm: Component<Props> = (props) => {
-  const savingFolder = () => getSavingFolder();
-
   const onSubmit = (e: Event) => {
     props.submit(e);
     props.modalClose();
@@ -43,7 +41,7 @@ export const EditFolderForm: Component<Props> = (props) => {
             type="text"
             name="name"
             id="name"
-            value={savingFolder().name}
+            value={savingFolderStore.data.name}
             onChange={onInputName}
             onInput={onInputName}
           />
@@ -60,7 +58,7 @@ export const EditFolderForm: Component<Props> = (props) => {
             type="text"
             name="name"
             id="name"
-            value={savingFolder().url_id}
+            value={savingFolderStore.data.url_id}
             onChange={onInputUrlId}
             onInput={onInputUrlId}
           />
@@ -79,7 +77,7 @@ export const EditFolderForm: Component<Props> = (props) => {
             id="icon"
             readOnly
             onFocus={props.onToggleEmoji}
-            value={savingFolder().icon}
+            value={savingFolderStore.data.icon}
           />
           <Show when={props.error.icon !== ""}>
             <p class={editFolderForm.error}>{props.error.icon}</p>

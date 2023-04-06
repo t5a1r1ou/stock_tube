@@ -1,5 +1,9 @@
-import { createSignal } from "solid-js";
+import { createSignal, createRoot } from "solid-js";
 
-export const [currentYoutubeId, setCurrentYoutubeId] = createSignal<String>("");
+const currentVideo = () => {
+  const [id, setId] = createSignal<String>("");
+  const clearId = () => setId("");
+  return { id, setId, clearId };
+};
 
-export const clearCurrentYoutubeId = () => setCurrentYoutubeId("");
+export default createRoot(currentVideo);
