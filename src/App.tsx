@@ -1,24 +1,17 @@
 import { createEffect } from "solid-js";
 import { Routes, Route, useNavigate, useLocation } from "@solidjs/router";
+import { MetaProvider } from "@solidjs/meta";
 import { supabase } from "./scripts/supabase";
-
-import Layout from "./layout/Layout";
-import SignIn from "./pages/SignIn";
-import SignUp from "./pages/SignUp";
-import Videos from "./pages/Videos";
-import Search from "./pages/Search";
-import Libraries from "./pages/Libraries";
-import NotFound from "./pages/NotFound";
 import { user, setUser } from "./store/user";
-
-import type { Component } from "solid-js";
 import { clearVideos } from "./store/videos";
 import { clearFolders } from "./store/folders";
 import { clearSavingFolder } from "./store/savingFolder";
 import { clearSavingVideo } from "./store/savingVideo";
 import { clearSearchState } from "./store/search";
 import { clearCurrentYoutubeId } from "./store/currentVideo";
-import { MetaProvider } from "@solidjs/meta";
+import Layout from "./layout/Layout";
+import { Libraries, NotFound, Search, SignIn, SignUp, Videos } from "./pages";
+import type { Component } from "solid-js";
 
 const App: Component = () => {
   const navigate = useNavigate();
