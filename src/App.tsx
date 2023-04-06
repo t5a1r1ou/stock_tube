@@ -8,6 +8,7 @@ import SignUp from "./pages/SignUp";
 import Videos from "./pages/Videos";
 import Search from "./pages/Search";
 import Libraries from "./pages/Libraries";
+import NotFound from "./pages/NotFound";
 import { user, setUser } from "./store/user";
 
 import type { Component } from "solid-js";
@@ -17,6 +18,7 @@ import { clearSavingFolder } from "./store/savingFolder";
 import { clearSavingVideo } from "./store/savingVideo";
 import { clearSearchState } from "./store/search";
 import { clearCurrentYoutubeId } from "./store/currentVideo";
+import { MetaProvider } from "@solidjs/meta";
 
 const App: Component = () => {
   const navigate = useNavigate();
@@ -65,15 +67,18 @@ const App: Component = () => {
   };
 
   return (
-    <Layout user={user} signOut={signOut}>
-      <Routes>
-        <Route path="/library" component={Libraries}></Route>
-        <Route path="/library/:url_id" component={Videos}></Route>
-        <Route path="/search" component={Search}></Route>
-        <Route path="/signin" component={SignIn}></Route>
-        <Route path="/signup" component={SignUp}></Route>
-      </Routes>
-    </Layout>
+    <MetaProvider>
+      <Layout user={user} signOut={signOut}>
+        <Routes>
+          <Route path="/library" component={Libraries}></Route>
+          <Route path="/library/:url_id" component={Videos}></Route>
+          <Route path="/search" component={Search}></Route>
+          <Route path="/signin" component={SignIn}></Route>
+          <Route path="/signup" component={SignUp}></Route>
+          <Route path="*" component={NotFound}></Route>
+        </Routes>
+      </Layout>
+    </MetaProvider>
   );
 };
 

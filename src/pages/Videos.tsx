@@ -12,6 +12,7 @@ import { useCommon, useModal, useYoutubePlayer } from "../hooks/";
 import { CardsWrapper, Modal, VideoCard, YoutubePlayer } from "../component";
 import { componentStyles } from "../styles/style.css";
 import type { Video } from "../types/types";
+import { Head } from "../layout/Head";
 
 const Videos: Component = () => {
   const { url_id } = useParams();
@@ -70,6 +71,7 @@ const Videos: Component = () => {
 
   return (
     <>
+      <Head title={`StockTube | ${folder()?.name}${folder()?.icon}`} />
       <A href="/library" class={componentStyles.backTo}>
         &lt; ライブラリ一覧へ戻る
       </A>

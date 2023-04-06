@@ -20,6 +20,7 @@
   },
   "dependencies": {
     "@picmo/popup-picker": "^5.8.1",
+    "@solidjs/meta": "^0.28.4",
     "@supabase/supabase-js": "^2.10.0",
     "@types/youtube": "^0.0.47",
     "micromodal": "^0.4.10",

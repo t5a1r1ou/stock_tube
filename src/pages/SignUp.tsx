@@ -1,5 +1,6 @@
 import { useNavigate } from "@solidjs/router";
 import { Component, createEffect } from "solid-js";
+import { Head } from "../layout/Head";
 import { AccountForm } from "../component/";
 import { supabase } from "../scripts/supabase";
 
@@ -14,7 +15,12 @@ const SignUp: Component = () => {
       navigate("/library");
     }
   }, []);
-  return <AccountForm flag="signup" />;
+  return (
+    <>
+      <Head title="StockTube | サインアップ" />
+      <AccountForm flag="signup" />
+    </>
+  );
 };
 
 export default SignUp;

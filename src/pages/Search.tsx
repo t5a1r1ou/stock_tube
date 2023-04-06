@@ -1,4 +1,5 @@
 import { Component, For, createEffect } from "solid-js";
+import { Head } from "../layout/Head";
 import { getSearchState, setInputValue } from "../store/search";
 import { clearSavingVideo, setSavingVideoInfo } from "../store/savingVideo";
 import { useModal, useSearch } from "../hooks/";
@@ -37,6 +38,7 @@ const Search: Component = () => {
 
   return (
     <>
+      <Head title="StockTube | 検索" />
       <h2 class={componentStyles.heading}>検索</h2>
       <SearchForm
         submitQuery={submitQuery}

@@ -463,6 +463,11 @@
   dependencies:
     "@floating-ui/dom" "^1.0.0"
 
+"@solidjs/meta@^0.28.4":
+  version "0.28.4"
+  resolved "https://registry.yarnpkg.com/@solidjs/meta/-/meta-0.28.4.tgz#80f9d10661e289ef780b8920a33f494211199f04"
+  integrity sha512-1USElsQuGVcJnmZ6CxPfUVmKvCsVdBQoGrUyMxLtFw36Ytt90dPs/qLyXLvPR/ZPD16/qauWqg6APEkbrDOLcA==
+
 "@solidjs/router@^0.7.0":
   version "0.7.0"
   resolved "https://registry.npmjs.org/@solidjs/router/-/router-0.7.0.tgz"

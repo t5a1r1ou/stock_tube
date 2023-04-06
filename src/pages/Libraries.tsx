@@ -1,5 +1,6 @@
 import { Component, For, Show, onMount } from "solid-js";
 import { PopupPickerController, createPopup } from "@picmo/popup-picker";
+import { Head } from "../layout/Head";
 import { fetchFolders, getFolders, removeFolder } from "../store/folders";
 import { fetchVideos } from "../store/videos";
 import { useModal, useSavingFolder } from "../hooks/";
@@ -64,6 +65,7 @@ const Library: Component = () => {
 
   return (
     <>
+      <Head title="StockTube | ライブラリ" />
       <h2 class={componentStyles.heading}>ライブラリ</h2>
       <FloatingButton onClick={modalShow} text={"ライブラリを追加する"} />
       <Show
