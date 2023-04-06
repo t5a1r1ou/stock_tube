@@ -1,7 +1,7 @@
 import { Component, Show } from "solid-js";
+import { getVideos } from "../store/videos";
 import { videoCard } from "../styles/style.css";
 import type { Video } from "../types/types";
-import { getVideos } from "../store/videos";
 
 type Props = {
   video: Video;

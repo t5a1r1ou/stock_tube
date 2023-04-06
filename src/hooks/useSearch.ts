@@ -1,6 +1,5 @@
 import { createSignal } from "solid-js";
 import { initGoogleScript, loadGoogleScript } from "../scripts/script";
-import { GapiWindow, Video } from "../types/types";
 import { getVideos } from "../store/videos";
 import {
   getSearchState,
@@ -9,6 +8,7 @@ import {
   setCurrentWord,
   setAllSearchState,
 } from "../store/search";
+import type { GapiWindow, Video } from "../types/types";
 
 export const useSearch = () => {
   const [gapi, setGapi] = createSignal<any>(null);

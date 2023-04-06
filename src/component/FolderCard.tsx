@@ -1,10 +1,10 @@
 import { Component, Show, createSignal } from "solid-js";
-import { IoSettingsOutline } from "solid-icons/io";
-import { Folder } from "../types/types";
-import { folderCard } from "../styles/style.css";
 import { A } from "@solidjs/router";
+import { IoSettingsOutline } from "solid-icons/io";
 import { getFolderVideos } from "../store/videos";
 import { getFolders } from "../store/folders";
+import { folderCard } from "../styles/style.css";
+import type { Folder } from "../types/types";
 
 type Props = Folder & {
   onDelete: (id: Folder["id"]) => void;

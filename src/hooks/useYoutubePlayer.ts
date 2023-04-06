@@ -1,6 +1,6 @@
-import { YoutubeWindow } from "../types/types";
 import { loadYoutubeScript } from "../scripts/script";
 import { setYoutubePlayer } from "../store/player";
+import type { YoutubeWindow } from "../types/types";
 
 export const useYoutubePlayer = (id: string) => {
   const initApi = (onStateChange: (event: YT.OnStateChangeEvent) => void) => {

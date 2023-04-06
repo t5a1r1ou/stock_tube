@@ -1,8 +1,8 @@
 import { Accessor, JSX, Match, Show, Switch } from "solid-js";
+import { A, useLocation } from "@solidjs/router";
+import { User } from "@supabase/supabase-js";
 import { layoutStyles } from "../styles/style.css";
 import type { Component } from "solid-js";
-import { User } from "@supabase/supabase-js";
-import { A, useLocation } from "@solidjs/router";
 
 type Props = {
   children: JSX.Element;

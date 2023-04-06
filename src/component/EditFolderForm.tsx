@@ -1,7 +1,6 @@
-import { Accessor, Component } from "solid-js";
-import { editFolderForm } from "../styles/style.css";
+import { Accessor, Component, Show } from "solid-js";
 import { getSavingFolder } from "../store/savingFolder";
-import { Show } from "solid-js";
+import { editFolderForm } from "../styles/style.css";
 
 type FolderError = {
   name: string;

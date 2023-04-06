@@ -1,9 +1,8 @@
 import { createStore } from "solid-js/store";
 import { supabase } from "../scripts/supabase";
-
-import type { Credentials, AuthType } from "../types/types";
 import { addFolder, fetchFolders } from "../store/folders";
 import { fetchVideos } from "../store/videos";
+import type { Credentials, AuthType } from "../types/types";
 
 export const useAccountForm = () => {
   const initialCredentials = {

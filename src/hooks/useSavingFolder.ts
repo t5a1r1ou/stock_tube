@@ -1,14 +1,14 @@
 import { createSignal } from "solid-js";
+import { createStore } from "solid-js/store";
 import {
   getSavingFolder,
   setSavingFolderName,
   setSavingFolderIcon,
   setSavingFolderUrlId,
 } from "../store/savingFolder";
-import { createStore } from "solid-js/store";
 import { addFolder, getFolders } from "../store/folders";
-import { Folder } from "../types/types";
 import { user } from "../store/user";
+import type { Folder } from "../types/types";
 
 type FolderError = {
   name: string;
