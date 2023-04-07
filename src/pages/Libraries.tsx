@@ -92,7 +92,11 @@ const Library: Component = () => {
   const editModalShow = (folder: Folder) => {
     if (modalType() === "new") {
       setModalType("edit");
-    } else if (folder.id !== savingFolderStore.data.id) {
+    }
+    if (
+      savingFolderStore.data.id === "" ||
+      folder.id !== savingFolderStore.data.id
+    ) {
       savingFolderStore.setData(folder);
     }
     modalShow();
