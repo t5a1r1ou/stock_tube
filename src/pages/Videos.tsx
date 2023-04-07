@@ -79,8 +79,8 @@ const Videos: Component = () => {
   };
 
   onMount(() => {
-    videosStore.fetchData(() => setLoadingVideo(true));
-    foldersStore.fetchData(() => setLoadingFolder(true));
+    videosStore.fetchData(() => setLoadingVideo(false));
+    foldersStore.fetchData(() => setLoadingFolder(false));
     initApi({ onStateChange, onError });
   });
 
