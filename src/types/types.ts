@@ -38,6 +38,15 @@ export type Video = {
 };
 
 export type Folder = {
+  id: string;
+  created_at?: string;
+  name: string;
+  icon: string;
+  url_id: string;
+  user_id?: string;
+};
+
+export type SavingFolder = {
   id?: string;
   created_at?: string;
   name: string;

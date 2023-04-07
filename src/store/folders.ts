@@ -29,7 +29,7 @@ const folders = () => {
   const getFolderUrlId = (id: Folder["id"]) =>
     data.find((folder) => folder.id === id)?.url_id;
 
-  const addData = async (folder: Folder) => {
+  const addData = async (folder: Omit<Folder, "id" | "created_at">) => {
     const { data: newFolder, error } = await supabase
       .from("folders")
       .insert(folder)

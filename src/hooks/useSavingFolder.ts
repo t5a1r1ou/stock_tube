@@ -136,8 +136,11 @@ export const useSavingFolder = () => {
         url_id: generateUrlId(),
         user_id: userStore.data()?.id,
       });
-    } else {
-      foldersStore.updateData(savingFolderStore.data);
+    } else if (type === "edit" && savingFolderStore.data.id) {
+      foldersStore.updateData({
+        ...savingFolderStore.data,
+        id: savingFolderStore.data.id,
+      });
     }
     return true;
   };
