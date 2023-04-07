@@ -59,6 +59,14 @@ const animations = {
       transform: "translateX(2px) rotate(1deg)",
     },
   }),
+  spinnerAnimation: keyframes({
+    "0%": {
+      transform: "rotate(0deg)",
+    },
+    "100%": {
+      transform: "rotate(360deg)",
+    },
+  }),
 };
 
 export const mixin = {
@@ -264,6 +272,29 @@ export const componentStyles = {
       },
     }),
   },
+  spinner: style({
+    position: "absolute",
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)",
+    display: "inline-block",
+    width: "6.4rem",
+    height: "6.4rem",
+    ":after": {
+      content: "",
+      display: "block",
+      width: "4.8rem",
+      height: "4.8rem",
+      margin: "0.8rem",
+      borderRadius: "50%",
+      border: "12px solid #999",
+      borderColor: "#999 transparent #999 transparent",
+      animationName: animations.spinnerAnimation,
+      animationDuration: "1.2s",
+      animationTimingFunction: "linear",
+      animationIterationCount: "infinite",
+    },
+  }),
   modalContainer: style({
     width: "80%",
     maxWidth: "800px",

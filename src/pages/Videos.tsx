@@ -1,4 +1,11 @@
-import { Component, For, Show, onMount, createMemo } from "solid-js";
+import {
+  Component,
+  For,
+  Show,
+  onMount,
+  createMemo,
+  createSignal,
+} from "solid-js";
 import { A, useParams } from "@solidjs/router";
 import {
   currentVideoStore,
@@ -7,12 +14,20 @@ import {
   videosStore,
 } from "../store";
 import { useCommon, useModal, useYoutubePlayer } from "../hooks/";
-import { CardsWrapper, Modal, VideoCard, YoutubePlayer } from "../component";
+import {
+  CardsWrapper,
+  Modal,
+  Spinner,
+  VideoCard,
+  YoutubePlayer,
+} from "../component";
 import { componentStyles } from "../styles/style.css";
 import type { Video } from "../types/types";
 import { Head } from "../layout/Head";
 
 const Videos: Component = () => {
+  const [loadingVideo, setLoadingVideo] = createSignal<boolean>(true);
+  const [loadingFolder, setLoadingFolder] = createSignal<boolean>(true);
   const { url_id } = useParams();
   const urlVideos = createMemo(() => videosStore.getFromUrl(url_id));
   const folder = () => foldersStore.getFolderFromUrl(url_id);
@@ -64,8 +79,8 @@ const Videos: Component = () => {
   };
 
   onMount(() => {
-    videosStore.fetchData();
-    foldersStore.fetchData();
+    videosStore.fetchData(() => setLoadingVideo(true));
+    foldersStore.fetchData(() => setLoadingFolder(true));
     initApi({ onStateChange, onError });
   });
 
@@ -79,22 +94,24 @@ const Videos: Component = () => {
         {folder()?.name}
         {folder()?.icon}
       </h2>
-      <Show
-        when={urlVideos().length > 0}
-        fallback={<p>動画が登録されていません。</p>}
-      >
-        <CardsWrapper>
-          <For each={urlVideos()}>
-            {(video) => (
-              <VideoCard
-                video={video}
-                onDelete={onDelete}
-                modalShow={playerModalShow}
-                iframeId={iframeId}
-              />
-            )}
-          </For>
-        </CardsWrapper>
+      <Show when={!loadingVideo() && !loadingFolder()} fallback={<Spinner />}>
+        <Show
+          when={urlVideos().length > 0}
+          fallback={<p>動画が登録されていません。</p>}
+        >
+          <CardsWrapper>
+            <For each={urlVideos()}>
+              {(video) => (
+                <VideoCard
+                  video={video}
+                  onDelete={onDelete}
+                  modalShow={playerModalShow}
+                  iframeId={iframeId}
+                />
+              )}
+            </For>
+          </CardsWrapper>
+        </Show>
       </Show>
       <Modal id={modalId} modalClose={playerModalClose} fullWidth={true}>
         <YoutubePlayer id={iframeId} />

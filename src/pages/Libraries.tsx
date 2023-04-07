@@ -13,12 +13,20 @@ import { Head } from "../layout/Head";
 import { foldersStore, savingFolderStore, videosStore } from "../store";
 import { useModal, useSavingFolder } from "../hooks/";
 import ja from "../lib/picmo/lang-ja";
-import { CardsWrapper, EditFolderForm, FolderCard, Modal } from "../component";
+import {
+  CardsWrapper,
+  EditFolderForm,
+  FolderCard,
+  Modal,
+  Spinner,
+} from "../component";
 import { componentStyles } from "../styles/style.css";
 import type { Folder } from "../types/types";
 
 const Library: Component = () => {
   const modalId = "library_modal";
+  const [loadingVideo, setLoadingVideo] = createSignal<boolean>(true);
+  const [loadingFolder, setLoadingFolder] = createSignal<boolean>(true);
   const [modalType, setModalType] = createSignal<"new" | "edit">("new");
   const [isEditMode, setIsEditMode] = createSignal<boolean>(false);
   const { modalShow, modalClose } = useModal(modalId);
@@ -27,8 +35,8 @@ const Library: Component = () => {
     useSavingFolder();
 
   onMount(() => {
-    videosStore.fetchData();
-    foldersStore.fetchData();
+    videosStore.fetchData(() => setLoadingVideo(false));
+    foldersStore.fetchData(() => setLoadingFolder(false));
     emojiPopup = createPopup(
       {
         animate: false,
@@ -126,22 +134,24 @@ const Library: Component = () => {
           </Match>
         </Switch>
       </h2>
-      <Show
-        when={foldersStore.data.length > 0}
-        fallback={<p>フォルダが登録されていません。</p>}
-      >
-        <CardsWrapper>
-          <For each={foldersStore.data}>
-            {(folder) => (
-              <FolderCard
-                {...folder}
-                isEditMode={isEditMode}
-                modalShow={editModalShow}
-                onDelete={foldersStore.removeData}
-              />
-            )}
-          </For>
-        </CardsWrapper>
+      <Show when={!loadingVideo() && !loadingFolder()} fallback={<Spinner />}>
+        <Show
+          when={foldersStore.data.length > 0}
+          fallback={<p>フォルダが登録されていません。</p>}
+        >
+          <CardsWrapper>
+            <For each={foldersStore.data}>
+              {(folder) => (
+                <FolderCard
+                  {...folder}
+                  isEditMode={isEditMode}
+                  modalShow={editModalShow}
+                  onDelete={foldersStore.removeData}
+                />
+              )}
+            </For>
+          </CardsWrapper>
+        </Show>
       </Show>
       <Modal id={modalId} modalClose={libraryModalClose} fullWidth={false}>
         <EditFolderForm

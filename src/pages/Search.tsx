@@ -1,4 +1,4 @@
-import { Component, For, createEffect } from "solid-js";
+import { Component, For, Show, createEffect, createSignal } from "solid-js";
 import { Head } from "../layout/Head";
 import { savingVideoStore, searchStateStore } from "../store";
 import { useModal, useSearch } from "../hooks/";
@@ -9,14 +9,16 @@ import {
   Pagenation,
   SearchForm,
   SearchedVideoCard,
+  Spinner,
 } from "../component";
 import { componentStyles } from "../styles/style.css";
 import type { Video } from "../types/types";
 
 const Search: Component = () => {
   const modalId = "search_modal";
+  const [loadingSearch, setLoadingSearch] = createSignal<boolean>(false);
 
-  const { initApi, submitQuery, onClickMore } = useSearch();
+  const { initApi, submitQuery, onClickMore } = useSearch(setLoadingSearch);
 
   const { modalShow, modalClose } = useModal(modalId);
 
@@ -30,9 +32,7 @@ const Search: Component = () => {
     savingVideoStore.clearData();
   };
 
-  createEffect(() => {
-    initApi();
-  }, []);
+  createEffect(() => initApi(), []);
 
   return (
     <>
@@ -46,20 +46,22 @@ const Search: Component = () => {
         currentWord={searchStateStore.data.currentWord}
         total={searchStateStore.data.total}
       />
-      <CardsWrapper>
-        <For each={searchStateStore.data.resultVideos}>
-          {(video) => (
-            <SearchedVideoCard video={video} modalShow={searchModalShow} />
-          )}
-        </For>
-      </CardsWrapper>
-      <Pagenation
-        nextPageToken={searchStateStore.data.nextPageToken}
-        onClickMore={onClickMore}
-      />
-      <Modal id={modalId} modalClose={searchModalClose} fullWidth={false}>
-        <AddVideoForm modalClose={searchModalClose} />
-      </Modal>
+      <Show when={!loadingSearch()} fallback={<Spinner />}>
+        <CardsWrapper>
+          <For each={searchStateStore.data.resultVideos}>
+            {(video) => (
+              <SearchedVideoCard video={video} modalShow={searchModalShow} />
+            )}
+          </For>
+        </CardsWrapper>
+        <Pagenation
+          nextPageToken={searchStateStore.data.nextPageToken}
+          onClickMore={onClickMore}
+        />
+        <Modal id={modalId} modalClose={searchModalClose} fullWidth={false}>
+          <AddVideoForm modalClose={searchModalClose} />
+        </Modal>
+      </Show>
     </>
   );
 };

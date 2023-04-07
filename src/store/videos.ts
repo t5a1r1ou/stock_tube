@@ -8,8 +8,10 @@ import { createRoot } from "solid-js";
 const videos = () => {
   const [data, setData] = createStore<Video[]>([]);
 
-  const fetchData = async () => {
-    const { data: videos, error } = await useQueryVideos();
+  const fetchData = async (callback: () => void) => {
+    const { data: videos, error } = await useQueryVideos().finally(() => {
+      callback();
+    });
 
     if (error) {
       throw new Error();
