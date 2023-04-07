@@ -1,4 +1,4 @@
-import { style, globalStyle } from "@vanilla-extract/css";
+import { style, globalStyle, keyframes } from "@vanilla-extract/css";
 
 globalStyle("body", {
   fontFamily:
@@ -22,6 +22,44 @@ globalStyle(".picmo__popupContainer", {
 globalStyle(".picmo__picker", {
   width: "100% !important",
 });
+
+const animations = {
+  shakeAnimation: keyframes({
+    "0%": {
+      transform: "translateX(0)",
+    },
+    "10%": {
+      transform: "translateX(-2px) rotate(-1deg)",
+    },
+    "20%": {
+      transform: "translateX(2px) rotate(1deg)",
+    },
+    "30%": {
+      transform: "translateX(-2px) rotate(-1deg)",
+    },
+    "40%": {
+      transform: "translateX(2px) rotate(1deg)",
+    },
+    "50%": {
+      transform: "translateX(-2px) rotate(-1deg)",
+    },
+    "60%": {
+      transform: "translateX(2px) rotate(1deg)",
+    },
+    "70%": {
+      transform: "translateX(-2px) rotate(-1deg)",
+    },
+    "80%": {
+      transform: "translateX(2px) rotate(1deg)",
+    },
+    "90%": {
+      transform: "translateX(-2px) rotate(-1deg)",
+    },
+    "100%": {
+      transform: "translateX(2px) rotate(1deg)",
+    },
+  }),
+};
 
 export const mixin = {
   visuallyHidden: style({
@@ -109,10 +147,17 @@ export const componentStyles = {
   }),
   headingSideButton: style({
     display: "inline-block",
-    marginLeft: "0.4rem",
+    marginLeft: "0.8rem",
     cursor: "pointer",
     fontSize: "1.2rem",
     color: "#999",
+  }),
+  headingSideButtonActive: style({
+    display: "inline-block",
+    marginLeft: "0.8rem",
+    cursor: "pointer",
+    fontSize: "1.2rem",
+    color: "#0044CC",
   }),
   input: style({
     border: "1px solid #999",
@@ -425,15 +470,38 @@ const unitStyles = {
         },
       },
     }),
+    editContainer: style({
+      width: "50%",
+      animationName: animations.shakeAnimation,
+      animationDuration: "1.5s",
+      animationIterationCount: "infinite",
+      "@media": {
+        "screen and (min-width: 768px)": {
+          marginBottom: "0.8rem",
+          width: "100%",
+          animation: "none",
+        },
+      },
+      selectors: {
+        "&:nth-child(4n-1)": {
+          animationDirection: "reverse",
+        },
+        "&:nth-child(4n-2)": {
+          animationDirection: "reverse",
+        },
+      },
+    }),
     card: style({
+      position: "relative",
       display: "flex",
       flexDirection: "column",
       justifyContent: "space-between",
-      margin: "0 0.4rem 0.4rem",
+      margin: "0 0.4rem 1.2rem",
       padding: "1.2rem",
       backgroundColor: "#ddd",
       borderRadius: "0.4rem",
-      aspectRatio: "6 / 7",
+      aspectRatio: "1",
+      cursor: "pointer",
       "@media": {
         "screen and (min-width: 768px)": {
           margin: "0",
@@ -474,6 +542,14 @@ const unitStyles = {
       fontSize: "1.2rem",
       fontWeight: "bold",
     }),
+    editIcon: style({
+      display: "none",
+      "@media": {
+        "screen and (min-width: 768px)": {
+          display: "block",
+        },
+      },
+    }),
     buttonContainer: style({
       margin: "0 0.4rem 0.4rem",
       "@media": {
@@ -490,13 +566,27 @@ const unitStyles = {
         marginBottom: "0.4rem",
       },
     ]),
-    deleteButton: style([
-      componentStyles.button,
-      componentStyles.secondary,
-      {
-        width: "100%",
+    deleteButton: style({
+      position: "absolute",
+      top: "-0.4rem",
+      left: "-0.4rem",
+      width: "1.6rem",
+      height: "1.6rem",
+      borderRadius: "50%",
+      backgroundColor: "#d9534f",
+      ":after": {
+        content: "",
+        position: "absolute",
+        top: 0,
+        bottom: 0,
+        left: 0,
+        right: 0,
+        margin: "auto",
+        width: "65%",
+        height: "0.1rem",
+        backgroundColor: "#fff",
       },
-    ]),
+    }),
   },
   addVideoForm: {
     container: style({
