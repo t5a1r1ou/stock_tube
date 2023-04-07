@@ -1,6 +1,7 @@
 export type Credentials = {
   email: string;
   password: string;
+  passwordConfirm: string;
 };
 
 export type AuthType = {

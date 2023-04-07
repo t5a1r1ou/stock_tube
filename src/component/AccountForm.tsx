@@ -6,18 +6,26 @@ import { componentStyles, accountForm } from "../styles/style.css";
 import type { AuthType } from "../types/types";
 
 export const AccountForm: Component<AuthType> = (props) => {
-  const { credentials, setEmail, setPassword, errors, submitAccountForm } =
-    useAccountForm();
+  const {
+    credentials,
+    setEmail,
+    setPassword,
+    setPasswordConfirm,
+    errors,
+    submitAccountForm,
+  } = useAccountForm();
 
   const onSubmit = (e: SubmitEvent) => submitAccountForm(e, props.flag);
   const onInputEmail = (e: { currentTarget: HTMLInputElement }) =>
     setEmail(e.currentTarget.value);
   const onInputPassword = (e: { currentTarget: HTMLInputElement }) =>
     setPassword(e.currentTarget.value);
+  const onInputPasswordConfirm = (e: { currentTarget: HTMLInputElement }) =>
+    setPasswordConfirm(e.currentTarget.value);
 
   const accountFormData = {
     signin: {
-      heading: "サインイン",
+      text: "サインイン",
       link: () => (
         <p>
           まだ登録がお済みでない場合は
@@ -26,10 +34,9 @@ export const AccountForm: Component<AuthType> = (props) => {
           </A>
         </p>
       ),
-      buttonText: "Sign In",
     },
     signup: {
-      heading: "登録",
+      text: "登録",
       link: () => (
         <p>
           登録済みの場合は
@@ -38,21 +45,20 @@ export const AccountForm: Component<AuthType> = (props) => {
           </A>
         </p>
       ),
-      buttonText: "Sign Up",
     },
   };
 
   return (
     <>
       <h2 class={componentStyles.heading}>
-        {accountFormData[props.flag].heading}
+        {accountFormData[props.flag].text}
       </h2>
       <Dynamic component={accountFormData[props.flag].link} />
       <form class={accountForm.form} onSubmit={onSubmit}>
         <div class={accountForm.formField}>
           <div class={accountForm.formContainer}>
             <label class={accountForm.inputLabel} for="email">
-              Email
+              メールアドレス
             </label>
             <input
               id="email"
@@ -70,7 +76,7 @@ export const AccountForm: Component<AuthType> = (props) => {
         <div class={accountForm.formField}>
           <div class={accountForm.formContainer}>
             <label class={accountForm.inputLabel} for="password">
-              Password
+              パスワード（英数字6文字以上）
             </label>
             <input
               id="password"
@@ -85,6 +91,26 @@ export const AccountForm: Component<AuthType> = (props) => {
             <p class={accountForm.error}>{errors.password}</p>
           </Show>
         </div>
+        <Show when={props.flag === "signup"}>
+          <div class={accountForm.formField}>
+            <div class={accountForm.formContainer}>
+              <label class={accountForm.inputLabel} for="passwordConfirm">
+                パスワード確認
+              </label>
+              <input
+                id="passwordConfirm"
+                type="password"
+                class={accountForm.input}
+                value={credentials.passwordConfirm}
+                onInput={onInputPasswordConfirm}
+                onChange={onInputPasswordConfirm}
+              />
+            </div>
+            <Show when={errors.passwordConfirm}>
+              <p class={accountForm.error}>{errors.passwordConfirm}</p>
+            </Show>
+          </div>
+        </Show>
         <Show when={errors.server}>
           <div class={accountForm.formField}>
             <p class={accountForm.error}>{errors.server}</p>
@@ -92,7 +118,7 @@ export const AccountForm: Component<AuthType> = (props) => {
         </Show>
         <div class={accountForm.formField}>
           <button type="submit" class={accountForm.submitButton}>
-            {accountFormData[props.flag].buttonText}
+            {accountFormData[props.flag].text}
           </button>
         </div>
       </form>
