@@ -123,18 +123,25 @@ export const useSavingFolder = () => {
     return urlId;
   };
 
-  const submit = (e: Event) => {
+  const submit = (e: Event, type: "new" | "edit") => {
     e.preventDefault();
 
     if (submitValidation()) {
       return false;
     }
 
-    foldersStore.addFolder({
-      ...savingFolderStore.data,
-      url_id: generateUrlId(),
-      user_id: userStore.data()?.id,
-    });
+    if (type === "new") {
+      foldersStore.addData({
+        ...savingFolderStore.data,
+        url_id: generateUrlId(),
+        user_id: userStore.data()?.id,
+      });
+    } else if (type === "edit" && savingFolderStore.data.id) {
+      foldersStore.updateData({
+        ...savingFolderStore.data,
+        id: savingFolderStore.data.id,
+      });
+    }
     return true;
   };
 

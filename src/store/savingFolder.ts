@@ -1,9 +1,9 @@
 import { createRoot } from "solid-js";
 import { createStore } from "solid-js/store";
-import { Folder } from "../types/types";
+import { Folder, SavingFolder } from "../types/types";
 
 const savingFolder = () => {
-  const [data, setData] = createStore<Omit<Folder, "id" | "created_at">>({
+  const [data, setData] = createStore<SavingFolder>({
     name: "",
     icon: "",
     url_id: "",
