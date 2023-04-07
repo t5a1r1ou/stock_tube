@@ -24,12 +24,11 @@ export const FolderCard: Component<Props> = (props) => {
 
   const onClickDelete = (e: Event) => {
     e.preventDefault();
+    e.stopPropagation();
     if (window.confirm(`${folder.name}フォルダを削除してよろしいですか？`)) {
       fnc.onDelete(folder.id);
     }
   };
-
-  console.log(props.isEditMode());
 
   return (
     <Switch>
