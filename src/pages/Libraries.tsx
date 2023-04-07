@@ -1,16 +1,11 @@
 import { Component, For, Show, onMount } from "solid-js";
 import { PopupPickerController, createPopup } from "@picmo/popup-picker";
+import { AiFillFolderAdd } from "solid-icons/ai";
 import { Head } from "../layout/Head";
 import { foldersStore, videosStore } from "../store";
 import { useModal, useSavingFolder } from "../hooks/";
 import ja from "../lib/picmo/lang-ja";
-import {
-  CardsWrapper,
-  EditFolderForm,
-  FloatingButton,
-  FolderCard,
-  Modal,
-} from "../component";
+import { CardsWrapper, EditFolderForm, FolderCard, Modal } from "../component";
 import { componentStyles } from "../styles/style.css";
 
 const Library: Component = () => {
@@ -64,8 +59,17 @@ const Library: Component = () => {
   return (
     <>
       <Head title="StockTube | ライブラリ" />
-      <h2 class={componentStyles.heading}>ライブラリ</h2>
-      <FloatingButton onClick={modalShow} text={"ライブラリを追加する"} />
+      <h2 class={componentStyles.heading}>
+        ライブラリ
+        <span
+          class={componentStyles.headingSideButton}
+          role="button"
+          onClick={modalShow}
+        >
+          追加
+          <AiFillFolderAdd color="#999"></AiFillFolderAdd>
+        </span>
+      </h2>
       <Show
         when={foldersStore.data.length > 0}
         fallback={<p>フォルダが登録されていません。</p>}

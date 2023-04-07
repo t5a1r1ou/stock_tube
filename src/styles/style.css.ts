@@ -104,8 +104,15 @@ export const layoutStyles = {
 
 export const componentStyles = {
   heading: style({
-    marginBottom: "0.4rem",
+    marginBottom: "1.2rem",
     fontSize: "1.6rem",
+  }),
+  headingSideButton: style({
+    display: "inline-block",
+    marginLeft: "0.4rem",
+    cursor: "pointer",
+    fontSize: "1.2rem",
+    color: "#999",
   }),
   input: style({
     border: "1px solid #999",
