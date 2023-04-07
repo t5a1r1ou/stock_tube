@@ -1,4 +1,12 @@
-import { Component, For, Show, createSignal, onMount } from "solid-js";
+import {
+  Component,
+  For,
+  Match,
+  Show,
+  Switch,
+  createSignal,
+  onMount,
+} from "solid-js";
 import { PopupPickerController, createPopup } from "@picmo/popup-picker";
 import { AiFillFolderAdd } from "solid-icons/ai";
 import { Head } from "../layout/Head";
@@ -12,6 +20,7 @@ import type { Folder } from "../types/types";
 const Library: Component = () => {
   const modalId = "library_modal";
   const [modalType, setModalType] = createSignal<"new" | "edit">("new");
+  const [isEditMode, setIsEditMode] = createSignal<boolean>(true);
   const { modalShow, modalClose } = useModal(modalId);
   let emojiPopup: PopupPickerController | undefined;
   const { error, isValidForm, inputName, inputIcon, submit } =
@@ -53,6 +62,17 @@ const Library: Component = () => {
     }
   };
 
+  const buttonClass = () => {
+    return isEditMode()
+      ? componentStyles.headingSideButton
+      : componentStyles.headingSideButton;
+  };
+
+  const onToggleMode = () => {
+    setIsEditMode(!isEditMode());
+    buttonClass();
+  };
+
   const newModalShow = () => {
     setModalType("new");
     savingFolderStore.clearData();
@@ -75,14 +95,36 @@ const Library: Component = () => {
       <Head title="StockTube | ライブラリ" />
       <h2 class={componentStyles.heading}>
         ライブラリ
-        <span
-          class={componentStyles.headingSideButton}
-          role="button"
-          onClick={newModalShow}
-        >
-          追加
-          <AiFillFolderAdd color="#999"></AiFillFolderAdd>
-        </span>
+        <Switch>
+          <Match when={isEditMode()}>
+            <span
+              class={componentStyles.headingSideButtonActive}
+              role="button"
+              onClick={onToggleMode}
+            >
+              編集終了
+              <AiFillFolderAdd color="#0044CC"></AiFillFolderAdd>
+            </span>
+          </Match>
+          <Match when={!isEditMode()}>
+            <span
+              class={componentStyles.headingSideButton}
+              role="button"
+              onClick={newModalShow}
+            >
+              追加
+              <AiFillFolderAdd color="#999"></AiFillFolderAdd>
+            </span>
+            <span
+              class={componentStyles.headingSideButton}
+              role="button"
+              onClick={onToggleMode}
+            >
+              編集
+              <AiFillFolderAdd color="#999"></AiFillFolderAdd>
+            </span>
+          </Match>
+        </Switch>
       </h2>
       <Show
         when={foldersStore.data.length > 0}
@@ -93,6 +135,7 @@ const Library: Component = () => {
             {(folder) => (
               <FolderCard
                 {...folder}
+                isEditMode={isEditMode}
                 modalShow={editModalShow}
                 onDelete={foldersStore.removeData}
               />
