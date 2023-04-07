@@ -51,7 +51,7 @@ const App: Component = () => {
       throw Error;
     } else {
       videosStore.clearData();
-      foldersStore.clearFolder();
+      foldersStore.clearData();
       savingFolderStore.clearData();
       savingVideoStore.clearData();
       searchStateStore.clearData();
