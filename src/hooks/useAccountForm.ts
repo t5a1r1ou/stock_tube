@@ -1,16 +1,19 @@
 import { createStore } from "solid-js/store";
+import { useNavigate } from "@solidjs/router";
 import { supabase } from "../scripts/supabase";
-import { foldersStore, videosStore } from "../store/";
 import type { Credentials, AuthType } from "../types/types";
 
 export const useAccountForm = () => {
+  const navigate = useNavigate();
   const initialCredentials = {
     email: "",
     password: "",
+    passwordConfirm: "",
   };
   const initialErrors = {
     email: "",
     password: "",
+    passwordConfirm: "",
     server: "",
   };
   const [credentials, setCredentials] = createStore(initialCredentials);
@@ -22,7 +25,11 @@ export const useAccountForm = () => {
   const setPassword = (password: Credentials["password"]) =>
     setCredentials({ ...credentials, password });
 
-  const validation = () => {
+  const setPasswordConfirm = (
+    passwordConfirm: Credentials["passwordConfirm"]
+  ) => setCredentials({ ...credentials, passwordConfirm });
+
+  const validation = (flag: AuthType["flag"]) => {
     const emailValidation = () => {
       if (credentials.email === "") {
         setErrors({ ...errors, email: "メールアドレスを入力してください。" });
@@ -49,10 +56,31 @@ export const useAccountForm = () => {
       }
     };
 
+    const passwordConfirmValidation = () => {
+      if (credentials.password === "") {
+        setErrors({
+          ...errors,
+          passwordConfirm: "パスワードを入力してください。",
+        });
+        return false;
+      } else if (credentials.password !== credentials.passwordConfirm) {
+        setErrors({ ...errors, passwordConfirm: "パスワードが一致しません。" });
+        return false;
+      } else {
+        setErrors({ ...errors, passwordConfirm: "" });
+        return true;
+      }
+    };
+
     const emailResult = emailValidation();
     const passwordResult = passwordValidation();
 
-    return emailResult && passwordResult;
+    if (flag === "signup") {
+      const passwordConfirmResult = passwordConfirmValidation();
+      return emailResult && passwordResult && passwordConfirmResult;
+    } else {
+      return emailResult && passwordResult;
+    }
   };
 
   const signIn = async (credentials: Credentials) => {
@@ -66,14 +94,11 @@ export const useAccountForm = () => {
         ...errors,
         server: "メールアドレスもしくはパスワードが間違っています。",
       });
-    } else {
-      videosStore.fetchData();
-      foldersStore.fetchData();
     }
   };
 
   const signUp = async (credentials: Credentials) => {
-    const { data, error } = await supabase.auth.signUp({
+    const { error } = await supabase.auth.signUp({
       email: credentials.email,
       password: credentials.password,
     });
@@ -83,20 +108,15 @@ export const useAccountForm = () => {
         ...errors,
         server: "メールアドレスもしくはパスワードが間違っています。",
       });
-    } else if (data.user) {
-      foldersStore.addData({
-        name: "新規フォルダ",
-        url_id: "default",
-        icon: "🐶",
-        user_id: data.user!.id,
-      });
+    } else {
+      navigate("/confirm");
     }
   };
 
   const submitAccountForm = async (e: Event, flag: AuthType["flag"]) => {
     e.preventDefault();
 
-    if (!validation()) {
+    if (!validation(flag)) {
       return;
     }
 
@@ -107,5 +127,12 @@ export const useAccountForm = () => {
     }
   };
 
-  return { credentials, setPassword, setEmail, errors, submitAccountForm };
+  return {
+    credentials,
+    setPassword,
+    setPasswordConfirm,
+    setEmail,
+    errors,
+    submitAccountForm,
+  };
 };
