@@ -11,7 +11,7 @@ import {
   SearchedVideoCard,
   Spinner,
 } from "../component";
-import { componentStyles } from "../styles/style.css";
+import { mixin } from "../styles/style.css";
 import type { Video } from "../types/types";
 
 const Search: Component = () => {
@@ -37,7 +37,7 @@ const Search: Component = () => {
   return (
     <>
       <Head title="StockTube | 検索" />
-      <h2 class={componentStyles.heading}>検索</h2>
+      <h2 class={mixin.visuallyHidden}>検索</h2>
       <SearchForm
         submitQuery={submitQuery}
         inputValue={searchStateStore.data.inputValue}
