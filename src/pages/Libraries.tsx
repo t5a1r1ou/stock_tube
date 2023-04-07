@@ -82,14 +82,19 @@ const Library: Component = () => {
   };
 
   const newModalShow = () => {
-    setModalType("new");
-    savingFolderStore.clearData();
+    if (modalType() === "edit") {
+      setModalType("new");
+      savingFolderStore.clearData();
+    }
     modalShow();
   };
 
   const editModalShow = (folder: Folder) => {
-    setModalType("edit");
-    savingFolderStore.setData(folder);
+    if (modalType() === "new") {
+      setModalType("edit");
+    } else if (folder.id !== savingFolderStore.data.id) {
+      savingFolderStore.setData(folder);
+    }
     modalShow();
   };
 
