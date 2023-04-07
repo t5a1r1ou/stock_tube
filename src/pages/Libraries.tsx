@@ -17,7 +17,7 @@ const Library: Component = () => {
   const modalId = "library_modal";
   const { modalShow, modalClose } = useModal(modalId);
   let emojiPopup: PopupPickerController | undefined;
-  const { error, isValidForm, inputName, inputUrlId, onInputIcon, submit } =
+  const { error, isValidForm, inputName, inputIcon, submit } =
     useSavingFolder();
 
   onMount(() => {
@@ -44,7 +44,7 @@ const Library: Component = () => {
       }
     );
     emojiPopup.addEventListener("emoji:select", (selection) => {
-      onInputIcon(selection.emoji);
+      inputIcon(selection.emoji);
       emojiPopup?.close();
     });
   });
@@ -83,7 +83,6 @@ const Library: Component = () => {
           error={error}
           isValidForm={isValidForm}
           inputName={inputName}
-          inputUrlId={inputUrlId}
           submit={submit}
           modalClose={libraryModalClose}
           onToggleEmoji={onToggleEmoji}
