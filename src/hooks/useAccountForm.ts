@@ -84,7 +84,7 @@ export const useAccountForm = () => {
         server: "メールアドレスもしくはパスワードが間違っています。",
       });
     } else if (data.user) {
-      foldersStore.addFolder({
+      foldersStore.addData({
         name: "新規フォルダ",
         url_id: "default",
         icon: "🐶",
