@@ -12,21 +12,20 @@ type Props = {
   error: FolderError;
   isValidForm: Accessor<boolean>;
   inputName: (value: string) => void;
-  inputUrlId: (value: string) => void;
-  submit: (e: Event) => void;
+  submit: (e: Event) => boolean;
   modalClose: () => void;
   onToggleEmoji: (e: Event) => void;
 };
 
 export const EditFolderForm: Component<Props> = (props) => {
   const onSubmit = (e: Event) => {
-    props.submit(e);
-    props.modalClose();
+    const success = props.submit(e);
+    if (success) {
+      props.modalClose();
+    }
   };
   const onInputName = (e: { currentTarget: HTMLInputElement }) =>
     props.inputName(e.currentTarget.value);
-  const onInputUrlId = (e: { currentTarget: HTMLInputElement }) =>
-    props.inputUrlId(e.currentTarget.value);
 
   return (
     <div>
@@ -47,23 +46,6 @@ export const EditFolderForm: Component<Props> = (props) => {
           />
           <Show when={props.error.name !== ""}>
             <p class={editFolderForm.error}>{props.error.name}</p>
-          </Show>
-        </div>
-        <div class={editFolderForm.inputBlock}>
-          <label class={editFolderForm.inputLabel} for="url_id">
-            URL_ID（URLの末尾のIDになります。半角英数字とアンダーバーのみで入力できます。）
-          </label>
-          <input
-            class={editFolderForm.input}
-            type="text"
-            name="name"
-            id="name"
-            value={savingFolderStore.data.url_id}
-            onChange={onInputUrlId}
-            onInput={onInputUrlId}
-          />
-          <Show when={props.error.url_id !== ""}>
-            <p class={editFolderForm.error}>{props.error.url_id}</p>
           </Show>
         </div>
         <div class={editFolderForm.inputBlock}>

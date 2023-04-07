@@ -1,4 +1,4 @@
-import { createSignal } from "solid-js";
+import { createSignal, createUniqueId } from "solid-js";
 import { createStore } from "solid-js/store";
 import { foldersStore, savingFolderStore, userStore } from "../store/";
 import type { Folder } from "../types/types";
@@ -10,6 +10,8 @@ type FolderError = {
 };
 
 export const useSavingFolder = () => {
+  const HAS_ERROR = true;
+  const NO_ERROR = false;
   const [error, setError] = createStore<FolderError>({
     name: "",
     icon: "",
@@ -17,101 +19,130 @@ export const useSavingFolder = () => {
   });
   const [isValidForm, setIsValidForm] = createSignal<boolean>(false);
 
-  const validateEmpty = (value: Folder["name"] | Folder["icon"]) =>
-    value === "";
-  const validateUrlId = (value: Folder["url_id"]) => !/^\w+$/.test(value);
+  const validateEmpty = (value: Folder["name"] | Folder["icon"]) => {
+    if (value === "") {
+      return HAS_ERROR;
+    } else {
+      return NO_ERROR;
+    }
+  };
 
   const validateDuplicatedName = (name: Folder["name"]) => {
-    return foldersStore.data.some((folder) => folder.name === name);
+    if (foldersStore.data.some((folder) => folder.name === name)) {
+      return HAS_ERROR;
+    } else {
+      return NO_ERROR;
+    }
   };
 
   const validateDuplicatedUrlId = (url_id: Folder["url_id"]) => {
-    return foldersStore.data.some((folder) => folder.url_id === url_id);
+    if (foldersStore.data.some((folder) => folder.url_id === url_id)) {
+      return HAS_ERROR;
+    } else {
+      return NO_ERROR;
+    }
+  };
+
+  const validateName = (value: Folder["name"]) => {
+    if (validateEmpty(value)) {
+      setError({
+        ...error,
+        name: "新規フォルダを入力してください",
+      });
+      return HAS_ERROR;
+    } else if (validateDuplicatedName(value)) {
+      setError({
+        ...error,
+        name: "すでに同じ名前のフォルダが登録されています",
+      });
+      return HAS_ERROR;
+    } else {
+      setError({
+        ...error,
+        name: "",
+      });
+      return NO_ERROR;
+    }
+  };
+
+  const validateIcon = (value: Folder["icon"]) => {
+    if (validateEmpty(value)) {
+      setError({
+        ...error,
+        icon: "アイコンを選択してください",
+      });
+      return HAS_ERROR;
+    } else {
+      setError({
+        ...error,
+        icon: "",
+      });
+      return NO_ERROR;
+    }
   };
 
   const watchValidation = () => {
     if (
       validateEmpty(savingFolderStore.data.name) ||
       validateEmpty(savingFolderStore.data.icon) ||
-      validateDuplicatedName(savingFolderStore.data.name) ||
-      validateDuplicatedUrlId(savingFolderStore.data.url_id) ||
-      validateUrlId(savingFolderStore.data.url_id)
+      validateDuplicatedName(savingFolderStore.data.name)
     ) {
       return false;
+    } else {
+      return true;
     }
-    return true;
   };
 
-  const inputName = (value: string) => {
+  const submitValidation = () => {
+    const invalidName = validateName(savingFolderStore.data.name);
+    const invalidIcon = validateIcon(savingFolderStore.data.icon);
+    if (invalidName || invalidIcon) {
+      return true;
+    } else {
+      return false;
+    }
+  };
+
+  const inputName = (value: Folder["name"]) => {
     savingFolderStore.setName(value);
     setIsValidForm(watchValidation());
-    if (validateEmpty(value)) {
-      setError({
-        ...error,
-        name: "新規フォルダを入力してください",
-      });
-    } else if (validateDuplicatedName(value)) {
-      setError({
-        ...error,
-        name: "すでに同じ名前のフォルダが登録されています",
-      });
-    } else {
-      setError({
-        ...error,
-        name: "",
-      });
-    }
+    validateName(value);
   };
 
-  const inputUrlId = (value: string) => {
-    savingFolderStore.setUrlId(value);
-    setIsValidForm(watchValidation());
-    if (validateUrlId(value)) {
-      setError({
-        ...error,
-        url_id: "半角英数字とアンダーバーのみで入力してください",
-      });
-    } else if (validateDuplicatedUrlId(value)) {
-      setError({
-        ...error,
-        url_id: "すでに同じ名前のURL_IDが登録されています",
-      });
-    } else {
-      setError({
-        ...error,
-        url_id: "",
-      });
-    }
-  };
-
-  const onInputIcon = (value: string) => {
+  const inputIcon = (value: Folder["icon"]) => {
     savingFolderStore.setIcon(value);
     setIsValidForm(watchValidation());
-    if (validateEmpty(value)) {
-      setError({
-        ...error,
-        icon: "アイコンを選択してください",
-      });
-    } else {
-      setError({
-        ...error,
-        icon: "",
-      });
+    validateIcon(value);
+  };
+
+  const generateUrlId = () => {
+    let urlId = encodeURI(createUniqueId());
+    while (validateDuplicatedUrlId(urlId)) {
+      urlId = encodeURI(createUniqueId());
     }
+    return urlId;
   };
 
   const submit = (e: Event) => {
     e.preventDefault();
 
-    if (!watchValidation()) {
-      return;
+    if (submitValidation()) {
+      return false;
     }
 
     foldersStore.addFolder({
       ...savingFolderStore.data,
+      url_id: generateUrlId(),
       user_id: userStore.data()?.id,
     });
+    return true;
   };
 
-  return { error, isValidForm, inputName, inputUrlId, onInputIcon, submit };
+  return {
+    error,
+    isValidForm,
+    inputName,
+    inputIcon,
+    submit,
+  };
 };
