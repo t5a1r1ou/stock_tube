@@ -1,9 +1,9 @@
-import { createSignal } from "solid-js";
+import { Setter, createSignal } from "solid-js";
 import { initGoogleScript, loadGoogleScript } from "../scripts/script";
 import { searchStateStore, videosStore } from "../store";
 import type { GapiWindow, Video } from "../types/types";
 
-export const useSearch = () => {
+export const useSearch = (setLoading: Setter<boolean>) => {
   const [gapi, setGapi] = createSignal<any>(null);
 
   const initApi = () => {
@@ -31,6 +31,7 @@ export const useSearch = () => {
       });
       return;
     }
+    setLoading(true);
     initGoogleScript(gapi(), () => {
       gapi()
         .client.youtube.search.list({
@@ -83,6 +84,7 @@ export const useSearch = () => {
             searchStateStore.setError("");
           }
         });
+      setLoading(false);
     }).catch((error) => {
       searchStateStore.setError(error.message);
     });

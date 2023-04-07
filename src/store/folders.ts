@@ -8,8 +8,12 @@ import { foldersStore } from ".";
 const folders = () => {
   const [data, setData] = createStore<Folder[]>([]);
 
-  const fetchData = async () => {
-    const { data: folders, error } = await useQueryFolders();
+  const fetchData = async (callback?: () => void) => {
+    const { data: folders, error } = await useQueryFolders().finally(() => {
+      if (callback) {
+        callback();
+      }
+    });
 
     if (error) {
       throw new Error();
