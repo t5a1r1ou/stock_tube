@@ -1,15 +1,17 @@
-import { Component, For, Show, onMount } from "solid-js";
+import { Component, For, Show, createSignal, onMount } from "solid-js";
 import { PopupPickerController, createPopup } from "@picmo/popup-picker";
 import { AiFillFolderAdd } from "solid-icons/ai";
 import { Head } from "../layout/Head";
-import { foldersStore, videosStore } from "../store";
+import { foldersStore, savingFolderStore, videosStore } from "../store";
 import { useModal, useSavingFolder } from "../hooks/";
 import ja from "../lib/picmo/lang-ja";
 import { CardsWrapper, EditFolderForm, FolderCard, Modal } from "../component";
 import { componentStyles } from "../styles/style.css";
+import type { Folder } from "../types/types";
 
 const Library: Component = () => {
   const modalId = "library_modal";
+  const [modalType, setModalType] = createSignal<"new" | "edit">("new");
   const { modalShow, modalClose } = useModal(modalId);
   let emojiPopup: PopupPickerController | undefined;
   const { error, isValidForm, inputName, inputIcon, submit } =
@@ -51,6 +53,18 @@ const Library: Component = () => {
     }
   };
 
+  const newModalShow = () => {
+    setModalType("new");
+    savingFolderStore.clearData();
+    modalShow();
+  };
+
+  const editModalShow = (folder: Folder) => {
+    setModalType("edit");
+    savingFolderStore.setData(folder);
+    modalShow();
+  };
+
   const libraryModalClose = () => {
     emojiPopup?.close();
     modalClose();
@@ -64,7 +78,7 @@ const Library: Component = () => {
         <span
           class={componentStyles.headingSideButton}
           role="button"
-          onClick={modalShow}
+          onClick={newModalShow}
         >
           追加
           <AiFillFolderAdd color="#999"></AiFillFolderAdd>
@@ -77,13 +91,18 @@ const Library: Component = () => {
         <CardsWrapper>
           <For each={foldersStore.data}>
             {(folder) => (
-              <FolderCard {...folder} onDelete={foldersStore.removeFolder} />
+              <FolderCard
+                {...folder}
+                modalShow={editModalShow}
+                onDelete={foldersStore.removeData}
+              />
             )}
           </For>
         </CardsWrapper>
       </Show>
       <Modal id={modalId} modalClose={libraryModalClose} fullWidth={false}>
         <EditFolderForm
+          modalType={modalType}
           error={error}
           isValidForm={isValidForm}
           inputName={inputName}

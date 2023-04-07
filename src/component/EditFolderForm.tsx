@@ -1,4 +1,4 @@
-import { Accessor, Component, Show } from "solid-js";
+import { Accessor, Component, Match, Show, Switch, createMemo } from "solid-js";
 import { savingFolderStore } from "../store/";
 import { editFolderForm } from "../styles/style.css";
 
@@ -9,17 +9,20 @@ type FolderError = {
 };
 
 type Props = {
+  modalType: Accessor<"new" | "edit">;
   error: FolderError;
   isValidForm: Accessor<boolean>;
   inputName: (value: string) => void;
-  submit: (e: Event) => boolean;
+  submit: (e: Event, type: "new" | "edit") => boolean;
   modalClose: () => void;
   onToggleEmoji: (e: Event) => void;
 };
 
 export const EditFolderForm: Component<Props> = (props) => {
+  const isNew = createMemo(() => props.modalType() === "new");
+  const isEdit = createMemo(() => props.modalType() === "edit");
   const onSubmit = (e: Event) => {
-    const success = props.submit(e);
+    const success = props.submit(e, props.modalType());
     if (success) {
       props.modalClose();
     }
@@ -29,7 +32,12 @@ export const EditFolderForm: Component<Props> = (props) => {
 
   return (
     <div>
-      <h3 class={editFolderForm.heading}>新規フォルダ作成</h3>
+      <h3 class={editFolderForm.heading}>
+        <Switch>
+          <Match when={isNew()}>新規フォルダ作成</Match>
+          <Match when={isEdit()}>フォルダ編集</Match>
+        </Switch>
+      </h3>
       <form onSubmit={onSubmit}>
         <div class={editFolderForm.inputBlock}>
           <label class={editFolderForm.inputLabel} for="name">
@@ -70,7 +78,10 @@ export const EditFolderForm: Component<Props> = (props) => {
           type="submit"
           disabled={!props.isValidForm()}
         >
-          追加する
+          <Switch>
+            <Match when={isNew()}>追加する</Match>
+            <Match when={isEdit()}>編集する</Match>
+          </Switch>
         </button>
       </form>
     </div>

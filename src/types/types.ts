@@ -38,7 +38,7 @@ export type Video = {
 };
 
 export type Folder = {
-  id: string;
+  id?: string;
   created_at?: string;
   name: string;
   icon: string;

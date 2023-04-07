@@ -3,6 +3,7 @@ import { createStore } from "solid-js/store";
 import { Folder } from "../types/types";
 import { supabase } from "../scripts/supabase";
 import { useQueryFolders } from "../queries/useQueryFolders";
+import { foldersStore } from ".";
 
 const folders = () => {
   const [data, setData] = createStore<Folder[]>([]);
@@ -28,7 +29,7 @@ const folders = () => {
   const getFolderUrlId = (id: Folder["id"]) =>
     data.find((folder) => folder.id === id)?.url_id;
 
-  const addFolder = async (folder: Omit<Folder, "id" | "created_at">) => {
+  const addData = async (folder: Folder) => {
     const { data: newFolder, error } = await supabase
       .from("folders")
       .insert(folder)
@@ -43,7 +44,7 @@ const folders = () => {
     }
   };
 
-  const removeFolder = async (id: Folder["id"]) => {
+  const removeData = async (id: Folder["id"]) => {
     const { error } = await supabase.from("folders").delete().eq("id", id);
 
     if (error) {
@@ -53,20 +54,29 @@ const folders = () => {
     }
   };
 
-  const updateFolder = (newFolder: Folder) => {
-    const newFolders = [
-      ...data.map((folder) => {
-        if (newFolder.id === folder.id) {
-          return newFolder;
+  const updateData = async (newFolder: Folder) => {
+    const { data, error } = await supabase
+      .from("folders")
+      .update({ name: newFolder.name, icon: newFolder.icon })
+      .eq("id", newFolder.id)
+      .select()
+      .single();
+
+    if (error) {
+      throw new Error();
+    } else {
+      const newFolders = foldersStore.data.map((folder) => {
+        if (folder.id === newFolder.id) {
+          return data;
         } else {
           return folder;
         }
-      }),
-    ];
-    setData(newFolders);
+      }) as Folder[];
+      setData(newFolders);
+    }
   };
 
-  const clearFolder = () => {
+  const clearData = () => {
     setData([]);
   };
 
@@ -78,10 +88,10 @@ const folders = () => {
     getFolderFromUrl,
     getFolderName,
     getFolderUrlId,
-    addFolder,
-    removeFolder,
-    updateFolder,
-    clearFolder,
+    addData,
+    removeData,
+    updateData,
+    clearData,
   };
 };
 
