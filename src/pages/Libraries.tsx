@@ -20,7 +20,7 @@ import type { Folder } from "../types/types";
 const Library: Component = () => {
   const modalId = "library_modal";
   const [modalType, setModalType] = createSignal<"new" | "edit">("new");
-  const [isEditMode, setIsEditMode] = createSignal<boolean>(true);
+  const [isEditMode, setIsEditMode] = createSignal<boolean>(false);
   const { modalShow, modalClose } = useModal(modalId);
   let emojiPopup: PopupPickerController | undefined;
   const { error, isValidForm, inputName, inputIcon, submit } =
