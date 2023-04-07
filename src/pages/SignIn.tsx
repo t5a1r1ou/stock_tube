@@ -18,7 +18,7 @@ const SignIn: Component = () => {
   return (
     <>
       <Head title="StockTube | サインイン" />
-      <AccountForm flag="signin" />;
+      <AccountForm flag="signin" />
     </>
   );
 };
