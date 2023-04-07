@@ -1,6 +1,7 @@
 import { Accessor, JSX, Match, Show, Switch } from "solid-js";
 import { A, useLocation } from "@solidjs/router";
 import { User } from "@supabase/supabase-js";
+import { AiFillFolderOpen, AiOutlineSearch } from "solid-icons/ai";
 import { layoutStyles } from "../styles/style.css";
 import type { Component } from "solid-js";
 
@@ -25,6 +26,7 @@ const Layout: Component<Props> = (props) => {
                 role="button"
                 class={layoutStyles.headerLeftButton}
               >
+                <AiFillFolderOpen />
                 ライブラリ
               </A>
             </Match>
@@ -34,6 +36,7 @@ const Layout: Component<Props> = (props) => {
                 role="button"
                 class={layoutStyles.headerLeftButton}
               >
+                <AiOutlineSearch />
                 検索
               </A>
             </Match>
