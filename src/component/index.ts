@@ -1,6 +1,7 @@
 import { AccountForm } from "./AccountForm";
 import { AddVideoForm } from "./AddVideoForm";
 import { CardsWrapper } from "./CardsWrapper";
+import { DeleteConfirm } from "./DeleteConfirm";
 import { EditFolderForm } from "./EditFolderForm";
 import { FloatingButton } from "./FloatingButton";
 import { FolderCard } from "./FolderCard";
@@ -16,6 +17,7 @@ export {
   AccountForm,
   AddVideoForm,
   CardsWrapper,
+  DeleteConfirm,
   EditFolderForm,
   FloatingButton,
   FolderCard,

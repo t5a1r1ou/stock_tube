@@ -1,4 +1,6 @@
 export { default as currentVideoStore } from "./currentVideo";
+export { default as deletingFolder } from "./deletingFolder";
+export { default as deletingVideo } from "./deletingVideo";
 export { default as foldersStore } from "./folders";
 export { default as playerStore } from "./player";
 export { default as savingFolderStore } from "./savingFolder";

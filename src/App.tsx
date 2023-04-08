@@ -4,6 +4,8 @@ import { MetaProvider } from "@solidjs/meta";
 import { supabase } from "./scripts/supabase";
 import {
   currentVideoStore,
+  deletingFolder,
+  deletingVideo,
   foldersStore,
   savingFolderStore,
   savingVideoStore,
@@ -64,6 +66,8 @@ const App: Component = () => {
       savingVideoStore.clearData();
       searchStateStore.clearData();
       currentVideoStore.clearId();
+      deletingFolder.clearData();
+      deletingVideo.clearData();
       userStore.setData(null);
       navigate("signin", { replace: true });
     }

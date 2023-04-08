@@ -1,5 +1,5 @@
 import { Setter, createSignal } from "solid-js";
-import { initGoogleScript, loadGoogleScript } from "../scripts/script";
+import { initGoogleScript, loadGoogleScript } from "../scripts/api";
 import { searchStateStore, videosStore } from "../store";
 import type { GapiWindow, Video } from "../types/types";
 
