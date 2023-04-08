@@ -118,6 +118,11 @@ const triangleFunc = ({
   };
 };
 
+const primaryColor = "#FCC509";
+const secondaryColor = "#999";
+const errorColor = "#d9534f";
+const focusColor = "#0044CC";
+
 export const mixin = {
   visuallyHidden: style({
     border: "0 !important",
@@ -145,7 +150,7 @@ export const layoutStyles = {
     justifyContent: "center",
     width: "100%",
     height: "4rem",
-    backgroundColor: "#cccccc",
+    backgroundColor: primaryColor,
   }),
   headerContainer: style({
     position: "relative",
@@ -153,8 +158,12 @@ export const layoutStyles = {
     maxWidth: "800px",
   }),
   headerTitle: style({
-    fontSize: "1.6rem",
-    textAlign: "center",
+    display: "block",
+    width: "10rem",
+    margin: "0 auto",
+  }),
+  headerLogo: style({
+    width: "100%",
   }),
   headerLeftButton: style({
     display: "flex",
@@ -189,11 +198,11 @@ export const layoutStyles = {
     alignItems: "center",
     width: "100%",
     height: "3rem",
-    borderTop: "1px solid #ccc",
+    borderTop: `1px solid ${secondaryColor}`,
   }),
   footerText: style({
     fontSize: "1.1rem",
-    color: "#ccc",
+    color: secondaryColor,
   }),
 };
 
@@ -207,17 +216,17 @@ export const componentStyles = {
     marginLeft: "0.8rem",
     cursor: "pointer",
     fontSize: "1.2rem",
-    color: "#999",
+    color: secondaryColor,
   }),
   headingSideButtonActive: style({
     display: "inline-block",
     marginLeft: "0.8rem",
     cursor: "pointer",
     fontSize: "1.2rem",
-    color: "#0044CC",
+    color: focusColor,
   }),
   input: style({
-    border: "1px solid #999",
+    border: `1px solid ${secondaryColor}`,
     borderRadius: "5px",
     width: "100%",
     padding: "0.8rem",
@@ -239,20 +248,20 @@ export const componentStyles = {
     },
   }),
   primary: style({
-    border: "1px solid #999",
-    color: "#999",
+    border: `1px solid ${primaryColor}`,
+    color: primaryColor,
     fontWeight: "bold",
   }),
   secondary: style({
     color: "#fff",
-    backgroundColor: "#999",
+    backgroundColor: primaryColor,
   }),
   alert: style({
     color: "#fff",
-    backgroundColor: "#d9534f",
+    backgroundColor: errorColor,
   }),
   error: style({
-    color: "#d9534f",
+    color: errorColor,
   }),
   cardContainer: style({
     marginBottom: "2rem",
@@ -280,7 +289,7 @@ export const componentStyles = {
     display: "block",
     marginTop: "0.4rem",
     fontSize: "0.8rem",
-    color: "#999",
+    color: secondaryColor,
   }),
   floatingButton: {
     container: style({
@@ -290,7 +299,7 @@ export const componentStyles = {
       width: "4rem",
       height: "4rem",
       borderRadius: "50%",
-      backgroundColor: "#999",
+      backgroundColor: primaryColor,
     }),
     iconAdd: style({
       width: "100%",
@@ -340,8 +349,8 @@ export const componentStyles = {
       height: "4.8rem",
       margin: "0.8rem",
       borderRadius: "50%",
-      border: "12px solid #999",
-      borderColor: "#999 transparent #999 transparent",
+      border: `12px solid ${primaryColor}`,
+      borderColor: `${primaryColor} transparent ${primaryColor} transparent`,
       animationName: animations.spinnerAnimation,
       animationDuration: "1.2s",
       animationTimingFunction: "linear",
@@ -403,7 +412,7 @@ const unitStyles = {
   accountForm: {
     anker: style({
       textDecoration: "underline",
-      color: "#0044CC",
+      color: focusColor,
     }),
     form: style({
       width: "100%",
@@ -426,7 +435,7 @@ const unitStyles = {
       width: "100%",
       marginBottom: "0.5rem",
       fontSize: "1.2rem",
-      color: "#999",
+      color: secondaryColor,
       "@media": {
         "screen and (min-width: 768px)": {
           width: "30%",
@@ -589,7 +598,7 @@ const unitStyles = {
       justifyContent: "space-between",
       margin: "0 0.4rem 1.2rem",
       padding: "1.2rem",
-      backgroundColor: "#ddd",
+      backgroundColor: secondaryColor,
       borderRadius: "0.4rem",
       aspectRatio: "1",
       cursor: "pointer",
@@ -656,7 +665,7 @@ const unitStyles = {
       width: "1.6rem",
       height: "1.6rem",
       borderRadius: "50%",
-      backgroundColor: "#d9534f",
+      backgroundColor: errorColor,
       ":after": {
         content: "",
         position: "absolute",
@@ -809,7 +818,7 @@ const unitStyles = {
           direction: "downward",
           width: 0.8,
           height: 0.8,
-          color: "#999",
+          color: secondaryColor,
         }),
       },
     }),
@@ -826,7 +835,7 @@ const unitStyles = {
     selectEmpty: style([
       componentStyles.input,
       {
-        color: "#999",
+        color: secondaryColor,
         "@media": {
           "screen and (min-width: 768px)": {
             width: "100%",

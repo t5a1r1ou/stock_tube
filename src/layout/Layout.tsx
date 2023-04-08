@@ -3,6 +3,7 @@ import { A, useLocation } from "@solidjs/router";
 import { AiFillFolderOpen, AiOutlineSearch } from "solid-icons/ai";
 import { Toaster } from "solid-toast";
 import { layoutStyles } from "../styles/style.css";
+import logo from "../images/logo.png";
 import type { Accessor, Component, JSX } from "solid-js";
 import type { User } from "@supabase/supabase-js";
 
@@ -42,7 +43,9 @@ const Layout: Component<Props> = (props) => {
               </A>
             </Match>
           </Switch>
-          <h1 class={layoutStyles.headerTitle}>StockTube</h1>
+          <h1 class={layoutStyles.headerTitle}>
+            <img src={logo} alt="StockTube" class={layoutStyles.headerLogo} />
+          </h1>
           <Show when={props.user()}>
             <button
               onClick={() => props.signOut()}
