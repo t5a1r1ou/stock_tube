@@ -2,6 +2,7 @@ import { createSignal } from "solid-js";
 import { savingVideoStore, userStore, videosStore } from "../store/";
 import { useCommon } from "./useCommon";
 import type { Folder } from "../types/types";
+import toast from "solid-toast";
 
 export const useSavingVideo = () => {
   const [error, setError] = createSignal<string>("");
@@ -40,6 +41,7 @@ export const useSavingVideo = () => {
     });
     observeSearchStockedVideo();
     savingVideoStore.clearData();
+    toast.success("動画の追加が完了しました。");
   };
 
   return {

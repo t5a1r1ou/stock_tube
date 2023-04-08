@@ -1193,6 +1193,11 @@ solid-refresh@^0.5.0:
     "@babel/helper-module-imports" "^7.18.6"
     "@babel/types" "^7.20.7"
 
+solid-toast@^0.5.0:
+  version "0.5.0"
+  resolved "https://registry.yarnpkg.com/solid-toast/-/solid-toast-0.5.0.tgz#ed31363aad38434a67c1da1c423fd1492460c6ba"
+  integrity sha512-t770JakjyS2P9b8Qa1zMLOD51KYKWXbTAyJePVUoYex5c5FH5S/HtUBUbZAWFcqRCKmAE8KhyIiCvDZA8bOnxQ==
+
 solid-utils@^0.8.1:
   version "0.8.1"
   resolved "https://registry.npmjs.org/solid-utils/-/solid-utils-0.8.1.tgz"

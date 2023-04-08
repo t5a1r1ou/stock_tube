@@ -1,5 +1,6 @@
 import { createSignal, createUniqueId } from "solid-js";
 import { createStore } from "solid-js/store";
+import toast from "solid-toast";
 import { foldersStore, savingFolderStore, userStore } from "../store/";
 import type { Folder, SavingFolder } from "../types/types";
 
@@ -156,6 +157,7 @@ export const useSavingFolder = () => {
         ...savingFolderStore.data,
         id: savingFolderStore.data.id,
       });
+      toast.success("フォルダの更新が完了しました。");
     } else {
       foldersStore.addData({
         name: savingFolderStore.data.name,
@@ -163,6 +165,7 @@ export const useSavingFolder = () => {
         url_id: generateUrlId(),
         user_id: userStore.data()?.id,
       });
+      toast.success("フォルダの作成が完了しました。");
     }
 
     return true;

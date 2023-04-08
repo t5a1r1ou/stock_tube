@@ -1,6 +1,7 @@
 import { Match, Show, Switch } from "solid-js";
 import { A, useLocation } from "@solidjs/router";
 import { AiFillFolderOpen, AiOutlineSearch } from "solid-icons/ai";
+import { Toaster } from "solid-toast";
 import { layoutStyles } from "../styles/style.css";
 import type { Accessor, Component, JSX } from "solid-js";
 import type { User } from "@supabase/supabase-js";
@@ -52,7 +53,10 @@ const Layout: Component<Props> = (props) => {
           </Show>
         </div>
       </header>
-      <main class={layoutStyles.main}>{props.children}</main>
+      <main class={layoutStyles.main}>
+        <Toaster />
+        {props.children}
+      </main>
       <footer class={layoutStyles.footer}>
         <small class={layoutStyles.footerText}>
           <a href="https://github.com/t5a1r1ou" target="_blank">
