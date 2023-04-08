@@ -120,6 +120,7 @@ const triangleFunc = ({
 
 const primaryColor = "#FCC509";
 const secondaryColor = "#999";
+const lightSecondaryColor = "#ddd";
 const errorColor = "#d9534f";
 const focusColor = "#0044CC";
 
@@ -598,7 +599,7 @@ const unitStyles = {
       justifyContent: "space-between",
       margin: "0 0.4rem 1.2rem",
       padding: "1.2rem",
-      backgroundColor: secondaryColor,
+      backgroundColor: lightSecondaryColor,
       borderRadius: "0.4rem",
       aspectRatio: "1",
       cursor: "pointer",
