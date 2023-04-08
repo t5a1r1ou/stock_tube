@@ -28,6 +28,7 @@
     "solid-icons": "^1.0.4",
     "solid-js": "^1.6.11",
     "solid-meta": "^0.28.1",
+    "solid-toast": "^0.5.0",
     "solid-utils": "^0.8.1"
   }
 }

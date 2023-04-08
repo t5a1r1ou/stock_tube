@@ -7,7 +7,12 @@ import {
   savingFolderStore,
   videosStore,
 } from "../store";
-import { useModal, usePicmo, useSavingFolder } from "../hooks/";
+import {
+  useConfirmModal,
+  useModal,
+  usePicmo,
+  useSavingFolder,
+} from "../hooks/";
 import {
   CardsWrapper,
   DeleteConfirm,
@@ -38,6 +43,11 @@ const Library: Component = () => {
   const { error, isValidForm, inputName, inputIcon, submit } =
     useSavingFolder();
   const { createPicmo, registerListener, toggleEmoji } = usePicmo();
+  const { onConfirmFolderModalShow, onConfirmFolderModalDelete } =
+    useConfirmModal({
+      modalShow: confirmModalShow,
+      modalClose: confirmModalClose,
+    });
 
   onMount(() => {
     videosStore.fetchData(() => setLoadingVideo(false));
@@ -89,21 +99,6 @@ const Library: Component = () => {
     editFormModalClose();
   };
 
-  const onConfirmModalShow = (folder: Folder) => {
-    deletingFolder.setData({
-      id: folder.id,
-      name: folder.name,
-    });
-    confirmModalShow();
-  };
-
-  const onConfirmModalDelete = () => {
-    if (deletingFolder.data.id) {
-      foldersStore.removeData(deletingFolder.data.id);
-      confirmModalClose();
-    }
-  };
-
   return (
     <>
       <Head title="StockTube | ライブラリ" />
@@ -144,7 +139,7 @@ const Library: Component = () => {
                   {...folder}
                   isEditMode={isEditMode}
                   editModalShow={editModalShow}
-                  confirmModalShow={onConfirmModalShow}
+                  confirmModalShow={onConfirmFolderModalShow}
                 />
               )}
             </For>
@@ -180,7 +175,7 @@ const Library: Component = () => {
       >
         <DeleteConfirm
           modalClose={confirmModalClose}
-          onDelete={onConfirmModalDelete}
+          onDelete={onConfirmFolderModalDelete}
           title={`${deletingFolder.data.name}フォルダを削除しますか？`}
           desc={"保存している動画も削除されます。"}
         />

@@ -1,5 +1,4 @@
 import { For, Show } from "solid-js";
-import { useNavigate } from "@solidjs/router";
 import { foldersStore, savingVideoStore } from "../store/";
 import { useSavingVideo } from "../hooks/";
 import { addVideoForm } from "../styles/style.css";
@@ -13,7 +12,6 @@ type Props = {
 
 export const AddVideoForm: Component<Props> = (props) => {
   const { submit, error, isValidForm, onInput } = useSavingVideo();
-  const navigate = useNavigate();
 
   const newFolderOption: Pick<Folder, "id" | "name" | "icon"> = {
     id: "newFolder",
@@ -22,12 +20,8 @@ export const AddVideoForm: Component<Props> = (props) => {
   };
 
   const onSubmit = (e: Event) => {
-    const folder_url = foldersStore.data.find(
-      (folder) => savingVideoStore.data.folder_id === folder.id
-    )?.url_id;
     submit(e);
     props.addVideoModalClose();
-    navigate(`/library/${folder_url}`);
   };
 
   return (

@@ -1,6 +1,7 @@
 import { createEffect } from "solid-js";
 import { Routes, Route, useNavigate, useLocation } from "@solidjs/router";
 import { MetaProvider } from "@solidjs/meta";
+import toast from "solid-toast";
 import { supabase } from "./scripts/supabase";
 import {
   currentVideoStore,
@@ -32,12 +33,16 @@ const App: Component = () => {
   const isRootPage = () => location.pathname === "/";
 
   supabase.auth.onAuthStateChange((event, session) => {
-    if (event === "SIGNED_IN" && (isAuthenticationPage() || isRootPage())) {
-      navigate("/library");
+    if (event === "SIGNED_IN") {
       userStore.setData(session!.user);
+      toast.success("サインインに成功しました。");
+      if (isAuthenticationPage() || isRootPage()) {
+        navigate("/library");
+      }
     } else if (event === "SIGNED_OUT") {
       navigate("/signin");
       userStore.setData(null);
+      toast.success("サインアウトしました。");
     }
   });
 
