@@ -2,6 +2,7 @@ import { Match, Show, Switch, createMemo } from "solid-js";
 import { savingFolderStore } from "../store/";
 import { editFolderForm } from "../styles/style.css";
 import type { Accessor, Component } from "solid-js";
+import type { SavingFolder } from "../types/types";
 
 type FolderError = {
   name: string;
@@ -10,11 +11,11 @@ type FolderError = {
 };
 
 type Props = {
-  modalType: Accessor<"new" | "edit">;
+  modalType: Accessor<"new" | "edit" | undefined>;
   error: FolderError;
   isValidForm: Accessor<boolean>;
-  inputName: (value: string) => void;
-  submit: (e: Event, type: "new" | "edit") => boolean;
+  inputName: (folder: SavingFolder) => void;
+  submit: (e: Event) => boolean;
   modalClose: () => void;
   onToggleEmoji: (e: Event) => void;
 };
@@ -23,13 +24,16 @@ export const EditFolderForm: Component<Props> = (props) => {
   const isNew = createMemo(() => props.modalType() === "new");
   const isEdit = createMemo(() => props.modalType() === "edit");
   const onSubmit = (e: Event) => {
-    const success = props.submit(e, props.modalType());
+    const success = props.submit(e);
     if (success) {
       props.modalClose();
     }
   };
   const onInputName = (e: { currentTarget: HTMLInputElement }) =>
-    props.inputName(e.currentTarget.value);
+    props.inputName({
+      ...savingFolderStore.data,
+      name: e.currentTarget.value,
+    });
 
   return (
     <div>
