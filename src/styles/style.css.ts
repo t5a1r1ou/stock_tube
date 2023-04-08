@@ -179,7 +179,7 @@ export const layoutStyles = {
     fontSize: "0.8rem",
   }),
   main: style({
-    width: "80%",
+    width: "90%",
     maxWidth: "800px",
     margin: "2rem auto 0",
   }),

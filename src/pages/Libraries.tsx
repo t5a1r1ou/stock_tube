@@ -2,7 +2,7 @@ import { For, Match, Show, Switch, createSignal, onMount } from "solid-js";
 import { AiFillEdit } from "solid-icons/ai";
 import { Head } from "../layout/Head";
 import {
-  deletingFolder,
+  deletingFolderStore,
   foldersStore,
   savingFolderStore,
   videosStore,
@@ -50,8 +50,13 @@ const Library: Component = () => {
     });
 
   onMount(() => {
-    videosStore.fetchData(() => setLoadingVideo(false));
-    foldersStore.fetchData(() => setLoadingFolder(false));
+    if (videosStore.data.length > 0 && foldersStore.data.length > 0) {
+      setLoadingFolder(false);
+      setLoadingVideo(false);
+    } else {
+      videosStore.fetchData(() => setLoadingVideo(false));
+      foldersStore.fetchData(() => setLoadingFolder(false));
+    }
     emojiPopup = createPicmo();
     registerListener(emojiPopup, inputIcon);
   });
@@ -176,7 +181,7 @@ const Library: Component = () => {
         <DeleteConfirm
           modalClose={confirmModalClose}
           onDelete={onConfirmFolderModalDelete}
-          title={`${deletingFolder.data.name}フォルダを削除しますか？`}
+          title={`${deletingFolderStore.data.name}フォルダを削除しますか？`}
           desc={"保存している動画も削除されます。"}
         />
       </Modal>

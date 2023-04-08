@@ -9,17 +9,16 @@ const videos = () => {
   const [data, setData] = createStore<Video[]>([]);
 
   const fetchData = async (callback?: () => void) => {
-    const { data: videos, error } = await useQueryVideos().finally(() => {
-      if (callback) {
-        callback();
-      }
-    });
+    const { data: videos, error } = await useQueryVideos();
 
     if (error) {
       throw new Error();
     }
 
     setData(videos as Video[]);
+    if (callback) {
+      callback();
+    }
   };
 
   const getFromFolder = (id: Folder["id"]) =>

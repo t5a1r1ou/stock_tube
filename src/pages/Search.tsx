@@ -1,7 +1,7 @@
 import { For, Show, createSignal, onMount } from "solid-js";
 import { Head } from "../layout/Head";
 import {
-  deletingVideo,
+  deletingVideoStore,
   foldersStore,
   savingVideoStore,
   searchStateStore,
@@ -127,7 +127,7 @@ const Search: Component = () => {
             modalClose={confirmModalClose}
             onDelete={onConfirmVideoModalDelete}
             title={`「${truncateWithEllipsis12(
-              deletingVideo.data.title
+              deletingVideoStore.data.title
             )}」を削除しますか？`}
             desc={"元に戻す場合は再度検索して追加する必要があります。"}
           />

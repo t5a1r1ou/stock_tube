@@ -1,6 +1,6 @@
 import {
-  deletingFolder,
-  deletingVideo,
+  deletingFolderStore,
+  deletingVideoStore,
   foldersStore,
   videosStore,
 } from "../store";
@@ -16,7 +16,7 @@ type Args = {
 export const useConfirmModal = (args: Args) => {
   const { observeSearchStockedVideo } = useCommon();
   const onConfirmVideoModalShow = (video: Video) => {
-    deletingVideo.setData({
+    deletingVideoStore.setData({
       youtube_id: video.youtube_id,
       title: video.title,
     });
@@ -24,8 +24,8 @@ export const useConfirmModal = (args: Args) => {
   };
 
   const onConfirmVideoModalDelete = () => {
-    if (deletingVideo.data.youtube_id) {
-      videosStore.removeData(deletingVideo.data.youtube_id);
+    if (deletingVideoStore.data.youtube_id) {
+      videosStore.removeData(deletingVideoStore.data.youtube_id);
       observeSearchStockedVideo();
       args.modalClose();
       toast.success("動画の削除が完了しました。");
@@ -33,7 +33,7 @@ export const useConfirmModal = (args: Args) => {
   };
 
   const onConfirmFolderModalShow = (folder: Folder) => {
-    deletingFolder.setData({
+    deletingFolderStore.setData({
       id: folder.id,
       name: folder.name,
     });
@@ -41,8 +41,8 @@ export const useConfirmModal = (args: Args) => {
   };
 
   const onConfirmFolderModalDelete = () => {
-    if (deletingFolder.data.id) {
-      foldersStore.removeData(deletingFolder.data.id);
+    if (deletingFolderStore.data.id) {
+      foldersStore.removeData(deletingFolderStore.data.id);
       args.modalClose();
       toast.success("フォルダの削除が完了しました。");
     }
