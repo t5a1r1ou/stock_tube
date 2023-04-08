@@ -158,7 +158,8 @@ export const useSavingFolder = () => {
       });
     } else {
       foldersStore.addData({
-        ...savingFolderStore.data,
+        name: savingFolderStore.data.name,
+        icon: savingFolderStore.data.icon,
         url_id: generateUrlId(),
         user_id: userStore.data()?.id,
       });

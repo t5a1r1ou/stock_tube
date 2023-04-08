@@ -4,21 +4,29 @@ import { foldersStore, savingVideoStore } from "../store/";
 import { useSavingVideo } from "../hooks/";
 import { addVideoForm } from "../styles/style.css";
 import type { Component } from "solid-js";
+import type { Folder } from "../types/types";
 
 type Props = {
-  modalClose: () => void;
+  addVideoModalClose: () => void;
+  addFolderModalShow: () => void;
 };
 
 export const AddVideoForm: Component<Props> = (props) => {
   const { submit, error, isValidForm, onInput } = useSavingVideo();
   const navigate = useNavigate();
 
+  const newFolderOption: Pick<Folder, "id" | "name" | "icon"> = {
+    id: "newFolder",
+    name: "新規フォルダ作成",
+    icon: "",
+  };
+
   const onSubmit = (e: Event) => {
     const folder_url = foldersStore.data.find(
       (folder) => savingVideoStore.data.folder_id === folder.id
     )?.url_id;
     submit(e);
-    props.modalClose();
+    props.addVideoModalClose();
     navigate(`/library/${folder_url}`);
   };
 
@@ -45,11 +53,13 @@ export const AddVideoForm: Component<Props> = (props) => {
               class={
                 isValidForm() ? addVideoForm.select : addVideoForm.selectEmpty
               }
-              onChange={(e) => onInput(e.currentTarget.value)}
+              onChange={(e) =>
+                onInput(e.currentTarget.value, props.addFolderModalShow)
+              }
               value={savingVideoStore.data.folder_id}
             >
               <option value="">フォルダを選択</option>
-              <For each={foldersStore.data}>
+              <For each={[...foldersStore.data, newFolderOption]}>
                 {(folder) => (
                   <option value={folder.id}>
                     {folder.name}

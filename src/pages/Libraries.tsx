@@ -1,5 +1,4 @@
 import { For, Match, Show, Switch, createSignal, onMount } from "solid-js";
-import { PopupPickerController, createPopup } from "@picmo/popup-picker";
 import { AiFillEdit } from "solid-icons/ai";
 import { Head } from "../layout/Head";
 import {
@@ -8,8 +7,7 @@ import {
   savingFolderStore,
   videosStore,
 } from "../store";
-import { useModal, useSavingFolder } from "../hooks/";
-import ja from "../lib/picmo/lang-ja";
+import { useModal, usePicmo, useSavingFolder } from "../hooks/";
 import {
   CardsWrapper,
   DeleteConfirm,
@@ -20,6 +18,7 @@ import {
 } from "../component";
 import { componentStyles, mixin } from "../styles/style.css";
 import type { Component } from "solid-js";
+import type { PopupPickerController } from "@picmo/popup-picker";
 import type { Folder } from "../types/types";
 
 const Library: Component = () => {
@@ -38,42 +37,16 @@ const Library: Component = () => {
   let emojiPopup: PopupPickerController | undefined;
   const { error, isValidForm, inputName, inputIcon, submit } =
     useSavingFolder();
+  const { createPicmo, registerListener, toggleEmoji } = usePicmo();
 
   onMount(() => {
     videosStore.fetchData(() => setLoadingVideo(false));
     foldersStore.fetchData(() => setLoadingFolder(false));
-    emojiPopup = createPopup(
-      {
-        animate: false,
-        emojiSize: "1.2rem",
-        showVariants: false,
-        showPreview: false,
-        i18n: ja,
-        locale: "ja",
-        autoFocus: "none",
-      },
-      {
-        position: {
-          top: "3rem",
-        },
-        hideOnClickOutside: false,
-        hideOnEmojiSelect: true,
-        showCloseButton: true,
-        hideOnEscape: true,
-      }
-    );
-    emojiPopup.addEventListener("emoji:select", (selection) => {
-      inputIcon(selection.emoji);
-      emojiPopup?.close();
-    });
+    emojiPopup = createPicmo();
+    registerListener(emojiPopup, inputIcon);
   });
 
-  const onToggleEmoji = (e: Event) => {
-    if (emojiPopup) {
-      e.preventDefault();
-      emojiPopup.toggle();
-    }
-  };
+  const onToggleEmoji = (e: Event) => toggleEmoji(e, emojiPopup);
 
   const buttonClass = () => {
     return isEditMode()
@@ -191,7 +164,7 @@ const Library: Component = () => {
         fullWidth={false}
       >
         <EditFolderForm
-          modalType={modalType}
+          modalType={modalType()}
           error={error}
           isValidForm={isValidForm}
           inputName={inputName}
