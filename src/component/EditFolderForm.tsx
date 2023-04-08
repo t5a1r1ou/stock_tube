@@ -11,7 +11,7 @@ type FolderError = {
 };
 
 type Props = {
-  modalType: Accessor<"new" | "edit" | undefined>;
+  modalType: "new" | "edit" | undefined;
   error: FolderError;
   isValidForm: Accessor<boolean>;
   inputName: (folder: SavingFolder) => void;
@@ -21,8 +21,8 @@ type Props = {
 };
 
 export const EditFolderForm: Component<Props> = (props) => {
-  const isNew = createMemo(() => props.modalType() === "new");
-  const isEdit = createMemo(() => props.modalType() === "edit");
+  const isNew = createMemo(() => props.modalType === "new");
+  const isEdit = createMemo(() => props.modalType === "edit");
   const onSubmit = (e: Event) => {
     const success = props.submit(e);
     if (success) {

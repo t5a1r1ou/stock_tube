@@ -16,7 +16,11 @@ export const useSavingVideo = () => {
     return true;
   };
 
-  const onInput = (value: Folder["id"]) => {
+  const onInput = (value: Folder["id"], addFolderModalShow: () => void) => {
+    if (value === "newFolder") {
+      addFolderModalShow();
+      return;
+    }
     savingVideoStore.setFolder(value);
     setIsValidForm(watchValidation());
   };

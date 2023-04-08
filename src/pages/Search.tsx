@@ -1,11 +1,23 @@
 import { For, Show, createSignal, onMount } from "solid-js";
 import { Head } from "../layout/Head";
-import { deletingVideo, savingVideoStore, searchStateStore } from "../store";
-import { useConfirmModal, useModal, useSearch } from "../hooks/";
+import {
+  deletingVideo,
+  foldersStore,
+  savingVideoStore,
+  searchStateStore,
+} from "../store";
+import {
+  useConfirmModal,
+  useModal,
+  usePicmo,
+  useSavingFolder,
+  useSearch,
+} from "../hooks/";
 import {
   AddVideoForm,
   CardsWrapper,
   DeleteConfirm,
+  EditFolderForm,
   Modal,
   Pagenation,
   SearchForm,
@@ -15,11 +27,14 @@ import {
 import { mixin } from "../styles/style.css";
 import { truncateWithEllipsis12 } from "../scripts/util";
 import type { Component } from "solid-js";
+import type { PopupPickerController } from "@picmo/popup-picker";
 import type { Video } from "../types/types";
 
 const Search: Component = () => {
-  const addVideoModalId = "search_modal";
+  const addVideoModalId = "add_video_modal";
   const confirmModalId = "confirm_modal";
+  const addFolderModalId = "add_folder_modal";
+  let emojiPopup: PopupPickerController | undefined;
   const [loadingSearch, setLoadingSearch] = createSignal<boolean>(false);
 
   const {
@@ -28,10 +43,17 @@ const Search: Component = () => {
     onClickMore,
   } = useSearch(setLoadingSearch);
 
+  const { error, isValidForm, inputName, inputIcon, submit } =
+    useSavingFolder();
+
   const { modalShow: addVideoModalShow, modalClose: addVideoModalClose } =
     useModal(addVideoModalId);
   const { modalShow: confirmModalShow, modalClose: confirmModalClose } =
     useModal(confirmModalId);
+  const { modalShow: addFolderModalShow, modalClose: addFolderModalClose } =
+    useModal(addFolderModalId);
+
+  const { createPicmo, registerListener, toggleEmoji } = usePicmo();
 
   const { onConfirmVideoModalShow, onConfirmVideoModalDelete } =
     useConfirmModal({
@@ -44,12 +66,19 @@ const Search: Component = () => {
     addVideoModalShow();
   };
 
-  const searchModalClose = () => {
+  const onAddVideoModalClose = () => {
     addVideoModalClose();
     savingVideoStore.clearData();
   };
 
-  onMount(() => initSearchApi());
+  onMount(() => {
+    foldersStore.fetchData();
+    initSearchApi();
+    emojiPopup = createPicmo();
+    registerListener(emojiPopup, inputIcon);
+  });
+
+  const onToggleEmoji = (e: Event) => toggleEmoji(e, emojiPopup);
 
   return (
     <>
@@ -81,10 +110,13 @@ const Search: Component = () => {
         />
         <Modal
           id={addVideoModalId}
-          modalClose={searchModalClose}
+          modalClose={onAddVideoModalClose}
           fullWidth={false}
         >
-          <AddVideoForm modalClose={searchModalClose} />
+          <AddVideoForm
+            addVideoModalClose={onAddVideoModalClose}
+            addFolderModalShow={addFolderModalShow}
+          />
         </Modal>
         <Modal
           id={confirmModalId}
@@ -98,6 +130,21 @@ const Search: Component = () => {
               deletingVideo.data.title
             )}」を削除しますか？`}
             desc={"元に戻す場合は再度検索して追加する必要があります。"}
+          />
+        </Modal>
+        <Modal
+          id={addFolderModalId}
+          modalClose={addFolderModalClose}
+          fullWidth={false}
+        >
+          <EditFolderForm
+            modalType={"new"}
+            error={error}
+            isValidForm={isValidForm}
+            inputName={inputName}
+            submit={submit}
+            modalClose={addFolderModalClose}
+            onToggleEmoji={onToggleEmoji}
           />
         </Modal>
       </Show>
