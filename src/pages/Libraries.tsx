@@ -1,6 +1,5 @@
 import { For, Match, Show, Switch, createSignal, onMount } from "solid-js";
 import { PopupPickerController, createPopup } from "@picmo/popup-picker";
-import { AiFillFolderAdd } from "solid-icons/ai";
 import { AiFillEdit } from "solid-icons/ai";
 import { Head } from "../layout/Head";
 import { foldersStore, savingFolderStore, videosStore } from "../store";
