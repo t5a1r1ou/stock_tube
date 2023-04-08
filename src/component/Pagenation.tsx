@@ -1,5 +1,6 @@
-import { Component, Show } from "solid-js";
+import { Show } from "solid-js";
 import { pagenation } from "../styles/style.css";
+import type { Component } from "solid-js";
 
 type Props = {
   nextPageToken: string;

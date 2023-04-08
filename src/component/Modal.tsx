@@ -1,6 +1,6 @@
-import { Component, JSX } from "solid-js";
 import { Portal } from "solid-js/web";
 import { modal } from "../styles/style.css";
+import type { Component, JSX } from "solid-js";
 
 type Props = {
   children: JSX.Element;

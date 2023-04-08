@@ -69,6 +69,55 @@ const animations = {
   }),
 };
 
+type TriangleProps = {
+  direction: "upward" | "rightward" | "downward" | "leftward";
+  width: number;
+  height: number;
+  color?: string;
+};
+
+const triangleFunc = ({
+  direction,
+  width,
+  height,
+  color = "currentColor",
+}: TriangleProps) => {
+  let params;
+  switch (direction) {
+    case "upward":
+      params = {
+        borderColor: `transparent transparent ${color} transparent`,
+        borderWidth: `0 ${width / 2}rem ${height}rem ${width / 2}rem`,
+      };
+      break;
+    case "rightward":
+      params = {
+        borderColor: `transparent transparent transparent ${color}`,
+        borderWidth: `${height / 2}rem 0 ${height / 2}rem ${width}rem`,
+      };
+      break;
+    case "downward":
+      params = {
+        borderColor: `${color} transparent transparent transparent`,
+        borderWidth: `${height}rem ${width / 2}rem 0 ${width / 2}rem`,
+      };
+      break;
+    case "leftward":
+      params = {
+        borderColor: `transparent ${color} transparent transparent`,
+        borderWidth: `${height / 2}rem ${width}rem ${height / 2}rem 0`,
+      };
+    default:
+      break;
+  }
+  return {
+    height: 0,
+    width: 0,
+    borderStyle: "solid",
+    ...params,
+  };
+};
+
 export const mixin = {
   visuallyHidden: style({
     border: "0 !important",
@@ -547,7 +596,7 @@ const unitStyles = {
       display: "flex",
       justifyContent: "space-between",
       flexWrap: "wrap",
-      alignItems: "flex-start",
+      alignItems: "flex-end",
       width: "100%",
       "@media": {
         "screen and (min-width: 768px)": {
@@ -572,14 +621,6 @@ const unitStyles = {
       marginBottom: "0.4rem",
       fontSize: "1.2rem",
       fontWeight: "bold",
-    }),
-    editIcon: style({
-      display: "none",
-      "@media": {
-        "screen and (min-width: 768px)": {
-          display: "block",
-        },
-      },
     }),
     buttonContainer: style({
       margin: "0 0.4rem 0.4rem",
@@ -617,6 +658,94 @@ const unitStyles = {
         height: "0.1rem",
         backgroundColor: "#fff",
       },
+    }),
+    menuButtonContainer: style({
+      position: "absolute",
+      left: "1.2rem",
+      bottom: "1.2rem",
+      width: "2.4rem",
+      height: "2.4rem",
+      "@media": {
+        "screen and (min-width: 768px)": {
+          top: 0,
+          bottom: 0,
+          left: "auto",
+          right: "1.2rem",
+          margin: "auto 0",
+        },
+      },
+    }),
+    menuButton: style({
+      display: "flex",
+      justifyContent: "center",
+      alignItems: "center",
+      borderRadius: "50%",
+      width: "100%",
+      height: "100%",
+      backgroundColor: "#fff",
+      ":focus": {
+        border: "0.2rem solid #0044CC",
+      },
+    }),
+    menuButtonIcon: style({
+      transform: "scale(1.5)",
+    }),
+    menu: style({
+      position: "absolute",
+      top: "0",
+      left: "calc(100% + 0.4rem)",
+      width: "300%",
+      padding: "0.8rem 0",
+      borderRadius: "0.4rem",
+      backgroundColor: "#555",
+      zIndex: 1,
+      "@media": {
+        "screen and (min-width: 768px)": {
+          left: "auto",
+          right: "calc(100% + 0.4rem)",
+        },
+      },
+      selectors: {
+        "button[aria-expanded=true] + &": {
+          display: "block",
+        },
+        "button[aria-expanded=false] + &": {
+          display: "none",
+        },
+      },
+    }),
+    menuItem: style({
+      padding: "0.8rem 1.2rem",
+      color: "#fff",
+      ":focus": {
+        backgroundColor: "#ccc",
+      },
+      "@media": {
+        "screen and (min-width: 768px)": {
+          ":hover": {
+            backgroundColor: "#ccc",
+          },
+        },
+      },
+    }),
+    menuItemDelete: style([
+      componentStyles.error,
+      {
+        padding: "0.8rem 1.2rem",
+        ":focus": {
+          backgroundColor: "#ccc",
+        },
+        "@media": {
+          "screen and (min-width: 768px)": {
+            ":hover": {
+              backgroundColor: "#ccc",
+            },
+          },
+        },
+      },
+    ]),
+    menuIcon: style({
+      marginRight: "0.4rem",
     }),
   },
   addVideoForm: {
@@ -665,11 +794,12 @@ const unitStyles = {
         bottom: 0,
         right: "0.6rem",
         margin: "auto 0",
-        width: 0,
-        height: 0,
-        borderStyle: "solid",
-        borderWidth: "0.8rem 0.4rem 0 0.4rem",
-        borderColor: "#999 transparent transparent transparent",
+        ...triangleFunc({
+          direction: "downward",
+          width: 0.8,
+          height: 0.8,
+          color: "#999",
+        }),
       },
     }),
     select: style([

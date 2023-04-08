@@ -1,11 +1,4 @@
-import {
-  Component,
-  For,
-  Show,
-  onMount,
-  createMemo,
-  createSignal,
-} from "solid-js";
+import { For, Show, onMount, createMemo, createSignal } from "solid-js";
 import { A, useParams } from "@solidjs/router";
 import {
   currentVideoStore,
@@ -22,8 +15,9 @@ import {
   YoutubePlayer,
 } from "../component";
 import { componentStyles } from "../styles/style.css";
-import type { Video } from "../types/types";
 import { Head } from "../layout/Head";
+import type { Component } from "solid-js";
+import type { Video } from "../types/types";
 
 const Videos: Component = () => {
   const [loadingVideo, setLoadingVideo] = createSignal<boolean>(true);

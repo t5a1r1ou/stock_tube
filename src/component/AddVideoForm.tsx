@@ -1,8 +1,9 @@
-import { Component, For, Show } from "solid-js";
+import { For, Show } from "solid-js";
 import { useNavigate } from "@solidjs/router";
 import { foldersStore, savingVideoStore } from "../store/";
 import { useSavingVideo } from "../hooks/";
 import { addVideoForm } from "../styles/style.css";
+import type { Component } from "solid-js";
 
 type Props = {
   modalClose: () => void;
@@ -47,7 +48,7 @@ export const AddVideoForm: Component<Props> = (props) => {
               onChange={(e) => onInput(e.currentTarget.value)}
               value={savingVideoStore.data.folder_id}
             >
-              <option value="">フォルダを選択してください</option>
+              <option value="">フォルダを選択</option>
               <For each={foldersStore.data}>
                 {(folder) => (
                   <option value={folder.id}>

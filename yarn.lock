@@ -1169,7 +1169,7 @@ semver@^6.3.0:
 
 solid-icons@^1.0.4:
   version "1.0.4"
-  resolved "https://registry.npmjs.org/solid-icons/-/solid-icons-1.0.4.tgz"
+  resolved "https://registry.yarnpkg.com/solid-icons/-/solid-icons-1.0.4.tgz#13eb122fe927110e2463c96d226492fb837a9802"
   integrity sha512-gJTp4in3+OYCs9WvDkSLt4Los2unR3Uoder8wjh15GsfP20xiNOLfPTJllXmn+fI8+k3x7bRYtLGIgWd9fUQug==
 
 solid-js@^1.6.11:
