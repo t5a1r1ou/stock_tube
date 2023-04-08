@@ -20,7 +20,9 @@ const Library: Component = () => {
   const modalId = "library_modal";
   const [loadingVideo, setLoadingVideo] = createSignal<boolean>(true);
   const [loadingFolder, setLoadingFolder] = createSignal<boolean>(true);
-  const [modalType, setModalType] = createSignal<"new" | "edit">("new");
+  const [modalType, setModalType] = createSignal<"new" | "edit" | undefined>(
+    undefined
+  );
   const [isEditMode, setIsEditMode] = createSignal<boolean>(false);
   const { modalShow, modalClose } = useModal(modalId);
   let emojiPopup: PopupPickerController | undefined;
@@ -75,7 +77,7 @@ const Library: Component = () => {
   };
 
   const newModalShow = () => {
-    if (modalType() === "edit") {
+    if (!modalType() || modalType() === "edit") {
       setModalType("new");
       savingFolderStore.clearData();
     }
@@ -83,14 +85,18 @@ const Library: Component = () => {
   };
 
   const editModalShow = (folder: Folder) => {
-    if (modalType() === "new") {
+    if (!modalType() || modalType() === "new") {
       setModalType("edit");
     }
     if (
       savingFolderStore.data.id === "" ||
       folder.id !== savingFolderStore.data.id
     ) {
-      savingFolderStore.setData(folder);
+      savingFolderStore.setData({
+        ...folder,
+        // savingFolderStoreにidの値が格納されている場合は編集モードになる
+        id: folder.id,
+      });
     }
     modalShow();
   };

@@ -7,6 +7,7 @@ const savingFolder = () => {
     name: "",
     icon: "",
     url_id: "",
+    id: "",
   });
 
   const clearData = () =>
@@ -14,6 +15,7 @@ const savingFolder = () => {
       name: "",
       icon: "",
       url_id: "",
+      id: "",
     });
 
   const setName = (name: Folder["name"]) => {

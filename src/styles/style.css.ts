@@ -661,8 +661,8 @@ const unitStyles = {
     }),
     menuButtonContainer: style({
       position: "absolute",
-      left: "1.2rem",
-      bottom: "1.2rem",
+      left: "0.8rem",
+      bottom: "0.8rem",
       width: "2.4rem",
       height: "2.4rem",
       "@media": {

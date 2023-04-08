@@ -1,7 +1,7 @@
 import { createSignal, createUniqueId } from "solid-js";
 import { createStore } from "solid-js/store";
 import { foldersStore, savingFolderStore, userStore } from "../store/";
-import type { Folder } from "../types/types";
+import type { Folder, SavingFolder } from "../types/types";
 
 type FolderError = {
   name: string;
@@ -27,11 +27,32 @@ export const useSavingFolder = () => {
     }
   };
 
-  const validateDuplicatedName = (name: Folder["name"]) => {
-    if (foldersStore.data.some((folder) => folder.name === name)) {
-      return HAS_ERROR;
+  const validateDuplicatedName = (newFolder: SavingFolder) => {
+    const validateEditMode = () => {
+      if (
+        foldersStore.data.some(
+          (folder) =>
+            folder.id !== newFolder.id && folder.name === newFolder.name
+        )
+      ) {
+        return HAS_ERROR;
+      } else {
+        return NO_ERROR;
+      }
+    };
+
+    const validateNewMode = () => {
+      if (foldersStore.data.some((folder) => folder.name === newFolder.name)) {
+        return HAS_ERROR;
+      } else {
+        return NO_ERROR;
+      }
+    };
+    // 編集モードの場合
+    if (newFolder.id) {
+      return validateEditMode();
     } else {
-      return NO_ERROR;
+      return validateNewMode();
     }
   };
 
@@ -43,14 +64,14 @@ export const useSavingFolder = () => {
     }
   };
 
-  const validateName = (value: Folder["name"]) => {
-    if (validateEmpty(value)) {
+  const validateName = (folder: SavingFolder) => {
+    if (validateEmpty(folder.name)) {
       setError({
         ...error,
         name: "新規フォルダを入力してください",
       });
       return HAS_ERROR;
-    } else if (validateDuplicatedName(value)) {
+    } else if (validateDuplicatedName(folder)) {
       setError({
         ...error,
         name: "すでに同じ名前のフォルダが登録されています",
@@ -85,7 +106,7 @@ export const useSavingFolder = () => {
     if (
       validateEmpty(savingFolderStore.data.name) ||
       validateEmpty(savingFolderStore.data.icon) ||
-      validateDuplicatedName(savingFolderStore.data.name)
+      validateDuplicatedName(savingFolderStore.data)
     ) {
       return false;
     } else {
@@ -94,7 +115,7 @@ export const useSavingFolder = () => {
   };
 
   const submitValidation = () => {
-    const invalidName = validateName(savingFolderStore.data.name);
+    const invalidName = validateName(savingFolderStore.data);
     const invalidIcon = validateIcon(savingFolderStore.data.icon);
     if (invalidName || invalidIcon) {
       return true;
@@ -103,10 +124,10 @@ export const useSavingFolder = () => {
     }
   };
 
-  const inputName = (value: Folder["name"]) => {
-    savingFolderStore.setName(value);
+  const inputName = (folder: SavingFolder) => {
+    savingFolderStore.setName(folder.name);
     setIsValidForm(watchValidation());
-    validateName(value);
+    validateName(folder);
   };
 
   const inputIcon = (value: Folder["icon"]) => {
@@ -123,25 +144,26 @@ export const useSavingFolder = () => {
     return urlId;
   };
 
-  const submit = (e: Event, type: "new" | "edit") => {
+  const submit = (e: Event) => {
     e.preventDefault();
 
     if (submitValidation()) {
       return false;
     }
 
-    if (type === "new") {
+    if (savingFolderStore.data.id) {
+      foldersStore.updateData({
+        ...savingFolderStore.data,
+        id: savingFolderStore.data.id,
+      });
+    } else {
       foldersStore.addData({
         ...savingFolderStore.data,
         url_id: generateUrlId(),
         user_id: userStore.data()?.id,
       });
-    } else if (type === "edit" && savingFolderStore.data.id) {
-      foldersStore.updateData({
-        ...savingFolderStore.data,
-        id: savingFolderStore.data.id,
-      });
     }
+
     return true;
   };
 
