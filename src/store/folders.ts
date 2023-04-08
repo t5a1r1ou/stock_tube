@@ -9,17 +9,16 @@ const folders = () => {
   const [data, setData] = createStore<Folder[]>([]);
 
   const fetchData = async (callback?: () => void) => {
-    const { data: folders, error } = await useQueryFolders().finally(() => {
-      if (callback) {
-        callback();
-      }
-    });
+    const { data: folders, error } = await useQueryFolders();
 
     if (error) {
       throw new Error();
     }
 
     setData(folders as Folder[]);
+    if (callback) {
+      callback();
+    }
   };
 
   const getId = (id: Folder["id"]) => data.find((folder) => folder.id === id);

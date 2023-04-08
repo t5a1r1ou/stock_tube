@@ -2,7 +2,7 @@ import { For, Show, onMount, createMemo, createSignal } from "solid-js";
 import { A, useParams } from "@solidjs/router";
 import {
   currentVideoStore,
-  deletingVideo,
+  deletingVideoStore,
   foldersStore,
   playerStore,
   videosStore,
@@ -79,8 +79,13 @@ const Videos: Component = () => {
   };
 
   onMount(() => {
-    videosStore.fetchData(() => setLoadingVideo(false));
-    foldersStore.fetchData(() => setLoadingFolder(false));
+    if (videosStore.data.length > 0 && foldersStore.data.length > 0) {
+      setLoadingFolder(false);
+      setLoadingVideo(false);
+    } else {
+      videosStore.fetchData(() => setLoadingVideo(false));
+      foldersStore.fetchData(() => setLoadingFolder(false));
+    }
     initApi({ onStateChange, onError });
   });
 
@@ -124,7 +129,7 @@ const Videos: Component = () => {
           modalClose={confirmModalClose}
           onDelete={onConfirmVideoModalDelete}
           title={`「${truncateWithEllipsis12(
-            deletingVideo.data.title
+            deletingVideoStore.data.title
           )}」を削除しますか？`}
           desc={"元に戻す場合は再度検索して追加する必要があります。"}
         />

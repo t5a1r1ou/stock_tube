@@ -5,8 +5,8 @@ import toast from "solid-toast";
 import { supabase } from "./scripts/supabase";
 import {
   currentVideoStore,
-  deletingFolder,
-  deletingVideo,
+  deletingFolderStore,
+  deletingVideoStore,
   foldersStore,
   savingFolderStore,
   savingVideoStore,
@@ -37,7 +37,14 @@ const App: Component = () => {
       userStore.setData(session!.user);
       toast.success("サインインに成功しました。");
       if (isAuthenticationPage() || isRootPage()) {
-        navigate("/library");
+        foldersStore.fetchData();
+        videosStore.fetchData(() => {
+          if (videosStore.data.length > 0) {
+            navigate("/library");
+          } else {
+            navigate("/search");
+          }
+        });
       }
     } else if (event === "SIGNED_OUT") {
       navigate("/signin");
@@ -71,8 +78,8 @@ const App: Component = () => {
       savingVideoStore.clearData();
       searchStateStore.clearData();
       currentVideoStore.clearId();
-      deletingFolder.clearData();
-      deletingVideo.clearData();
+      deletingFolderStore.clearData();
+      deletingVideoStore.clearData();
       userStore.setData(null);
       navigate("signin", { replace: true });
     }
@@ -82,12 +89,12 @@ const App: Component = () => {
     <MetaProvider>
       <Layout user={userStore.data} signOut={signOut}>
         <Routes>
+          <Route path="/confirm" component={Confirm}></Route>
           <Route path="/library" component={Libraries}></Route>
           <Route path="/library/:url_id" component={Videos}></Route>
           <Route path="/search" component={Search}></Route>
           <Route path="/signin" component={SignIn}></Route>
           <Route path="/signup" component={SignUp}></Route>
-          <Route path="/confirm" component={Confirm}></Route>
           <Route path="*" component={NotFound}></Route>
         </Routes>
       </Layout>
