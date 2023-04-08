@@ -1,5 +1,5 @@
-import { Component } from "solid-js";
 import { youtubePlayer } from "../styles/style.css";
+import type { Component } from "solid-js";
 
 type Props = {
   id: string;

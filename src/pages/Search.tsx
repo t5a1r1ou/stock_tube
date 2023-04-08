@@ -1,4 +1,4 @@
-import { Component, For, Show, createEffect, createSignal } from "solid-js";
+import { For, Show, createEffect, createSignal } from "solid-js";
 import { Head } from "../layout/Head";
 import { savingVideoStore, searchStateStore } from "../store";
 import { useModal, useSearch } from "../hooks/";
@@ -12,6 +12,7 @@ import {
   Spinner,
 } from "../component";
 import { mixin } from "../styles/style.css";
+import type { Component } from "solid-js";
 import type { Video } from "../types/types";
 
 const Search: Component = () => {

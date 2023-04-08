@@ -1,5 +1,5 @@
-import { Component } from "solid-js";
 import { componentStyles, mixin } from "../styles/style.css";
+import type { Component } from "solid-js";
 
 type Props = {
   onClick: () => void;

@@ -1,6 +1,7 @@
-import { Component, Show } from "solid-js";
+import { Show } from "solid-js";
 import { input } from "../styles/utility.css";
 import { searchForm } from "../styles/style.css";
+import type { Component } from "solid-js";
 
 type Props = {
   submitQuery: (e: Event) => void;

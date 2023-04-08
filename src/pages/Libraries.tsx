@@ -1,14 +1,6 @@
-import {
-  Component,
-  For,
-  Match,
-  Show,
-  Switch,
-  createSignal,
-  onMount,
-} from "solid-js";
+import { For, Match, Show, Switch, createSignal, onMount } from "solid-js";
 import { PopupPickerController, createPopup } from "@picmo/popup-picker";
-import { AiFillFolderAdd } from "solid-icons/ai";
+import { AiFillEdit } from "solid-icons/ai";
 import { Head } from "../layout/Head";
 import { foldersStore, savingFolderStore, videosStore } from "../store";
 import { useModal, useSavingFolder } from "../hooks/";
@@ -20,7 +12,8 @@ import {
   Modal,
   Spinner,
 } from "../component";
-import { componentStyles } from "../styles/style.css";
+import { componentStyles, mixin } from "../styles/style.css";
+import type { Component } from "solid-js";
 import type { Folder } from "../types/types";
 
 const Library: Component = () => {
@@ -120,25 +113,17 @@ const Library: Component = () => {
               onClick={onToggleMode}
             >
               編集終了
-              <AiFillFolderAdd color="#0044CC"></AiFillFolderAdd>
+              <AiFillEdit color="#0044CC" />
             </span>
           </Match>
           <Match when={!isEditMode()}>
             <span
               class={componentStyles.headingSideButton}
               role="button"
-              onClick={newModalShow}
-            >
-              追加
-              <AiFillFolderAdd color="#999"></AiFillFolderAdd>
-            </span>
-            <span
-              class={componentStyles.headingSideButton}
-              role="button"
               onClick={onToggleMode}
             >
               編集
-              <AiFillFolderAdd color="#999"></AiFillFolderAdd>
+              <AiFillEdit color="#999" />
             </span>
           </Match>
         </Switch>
@@ -161,6 +146,13 @@ const Library: Component = () => {
             </For>
           </CardsWrapper>
         </Show>
+        <button
+          class={componentStyles.floatingButton.container}
+          onClick={newModalShow}
+        >
+          <div class={componentStyles.floatingButton.iconAdd}></div>
+          <span class={mixin.visuallyHidden}>フォルダを追加</span>
+        </button>
       </Show>
       <Modal id={modalId} modalClose={libraryModalClose} fullWidth={false}>
         <EditFolderForm

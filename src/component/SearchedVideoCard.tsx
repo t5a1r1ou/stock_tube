@@ -1,6 +1,7 @@
-import { Component, Show } from "solid-js";
+import { Show } from "solid-js";
 import { videosStore } from "../store/";
 import { videoCard } from "../styles/style.css";
+import type { Component } from "solid-js";
 import type { Video } from "../types/types";
 
 type Props = {

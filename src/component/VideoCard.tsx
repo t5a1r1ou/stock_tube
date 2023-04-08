@@ -1,7 +1,7 @@
-import { Component } from "solid-js";
 import { videoCard } from "../styles/style.css";
-import type { Video } from "../types/types";
 import youtubeIcon from "../images/youtube_icon.png";
+import type { Component } from "solid-js";
+import type { Video } from "../types/types";
 
 type Props = {
   video: Video;

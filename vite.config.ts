@@ -6,7 +6,10 @@ export default defineConfig(({ command, mode }) => {
   const isDevMode = mode === "development" ? true : false;
 
   return {
-    plugins: [solidPlugin(), vanillaExtractPlugin()],
+    plugins: [
+      solidPlugin({ typescript: { onlyRemoveTypeImports: true } }),
+      vanillaExtractPlugin(),
+    ],
     server: {
       host: true,
       port: 8080,
