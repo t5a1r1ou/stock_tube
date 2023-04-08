@@ -6,7 +6,8 @@ import type { Video } from "../types/types";
 
 type Props = {
   video: Video;
-  modalShow: (video: Video) => void;
+  addVideoModalShow: (video: Video) => void;
+  confirmModalShow: (video: Video) => void;
 };
 
 export const SearchedVideoCard: Component<Props> = (props) => {
@@ -15,7 +16,7 @@ export const SearchedVideoCard: Component<Props> = (props) => {
       .map((video) => video.youtube_id)
       .includes(props.video.youtube_id);
 
-  const onModalShow = () => props.modalShow(props.video);
+  const onModalShow = () => props.addVideoModalShow(props.video);
 
   return (
     <div class={videoCard.container}>
@@ -32,7 +33,17 @@ export const SearchedVideoCard: Component<Props> = (props) => {
           公開日: {props.video.published_at.split("T").at(0)}
         </time>
       </div>
-      <Show when={!isStocked()} fallback={<p>追加済み</p>}>
+      <Show
+        when={!isStocked()}
+        fallback={
+          <button
+            class={videoCard.alertButton}
+            onClick={() => props.confirmModalShow(props.video)}
+          >
+            削除する
+          </button>
+        }
+      >
         <button class={videoCard.button} onClick={onModalShow}>
           追加する
         </button>

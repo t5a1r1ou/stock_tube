@@ -5,9 +5,8 @@ import type { Video } from "../types/types";
 
 type Props = {
   video: Video;
-  onDelete: (id: Video["youtube_id"]) => void;
-  modalShow: (id: Video["youtube_id"]) => void;
-  iframeId: string;
+  deleteModalShow: (video: Video) => void;
+  playModalShow: (id: Video["youtube_id"]) => void;
 };
 
 export const VideoCard: Component<Props> = (props) => {
@@ -16,7 +15,7 @@ export const VideoCard: Component<Props> = (props) => {
       <div class={videoCard.contentWrapper}>
         <div
           class={videoCard.imgContainer}
-          onClick={() => props.modalShow(props.video.youtube_id)}
+          onClick={() => props.playModalShow(props.video.youtube_id)}
         >
           <img
             src={props.video.thumbnail}
@@ -31,8 +30,8 @@ export const VideoCard: Component<Props> = (props) => {
         </time>
       </div>
       <button
-        class={videoCard.button}
-        onClick={() => props.onDelete(props.video.youtube_id)}
+        class={videoCard.alertButton}
+        onClick={() => props.deleteModalShow(props.video)}
       >
         削除する
       </button>

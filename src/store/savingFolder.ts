@@ -1,6 +1,6 @@
 import { createRoot } from "solid-js";
 import { createStore } from "solid-js/store";
-import { Folder, SavingFolder } from "../types/types";
+import { SavingFolder } from "../types/types";
 
 const savingFolder = () => {
   const [data, setData] = createStore<SavingFolder>({
@@ -18,21 +18,21 @@ const savingFolder = () => {
       id: "",
     });
 
-  const setName = (name: Folder["name"]) => {
+  const setName = (name: SavingFolder["name"]) => {
     setData({
       ...savingFolder,
       name,
     });
   };
 
-  const setIcon = (icon: Folder["icon"]) => {
+  const setIcon = (icon: SavingFolder["icon"]) => {
     setData({
       ...data,
       icon,
     });
   };
 
-  const setUrlId = (url_id: Folder["url_id"]) => {
+  const setUrlId = (url_id: SavingFolder["url_id"]) => {
     setData({
       ...data,
       url_id,

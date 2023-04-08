@@ -1,5 +1,6 @@
 import { useAccountForm } from "./useAccountForm";
 import { useCommon } from "./useCommon";
+import { useConfirmModal } from "./useConfirmModal";
 import { useModal } from "./useModal";
 import { useSavingFolder } from "./useSavingFolder";
 import { useSavingVideo } from "./useSavingVideo";
@@ -9,6 +10,7 @@ import { useYoutubePlayer } from "./useYoutubePlayer";
 export {
   useAccountForm,
   useCommon,
+  useConfirmModal,
   useModal,
   useSavingFolder,
   useSavingVideo,

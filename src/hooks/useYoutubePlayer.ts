@@ -1,4 +1,4 @@
-import { loadYoutubeScript } from "../scripts/script";
+import { loadYoutubeScript } from "../scripts/api";
 import { playerStore } from "../store/";
 import { YoutubeWindow } from "../types/types";
 

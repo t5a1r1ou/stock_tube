@@ -2,11 +2,17 @@ import { For, Match, Show, Switch, createSignal, onMount } from "solid-js";
 import { PopupPickerController, createPopup } from "@picmo/popup-picker";
 import { AiFillEdit } from "solid-icons/ai";
 import { Head } from "../layout/Head";
-import { foldersStore, savingFolderStore, videosStore } from "../store";
+import {
+  deletingFolder,
+  foldersStore,
+  savingFolderStore,
+  videosStore,
+} from "../store";
 import { useModal, useSavingFolder } from "../hooks/";
 import ja from "../lib/picmo/lang-ja";
 import {
   CardsWrapper,
+  DeleteConfirm,
   EditFolderForm,
   FolderCard,
   Modal,
@@ -17,14 +23,18 @@ import type { Component } from "solid-js";
 import type { Folder } from "../types/types";
 
 const Library: Component = () => {
-  const modalId = "library_modal";
+  const editFolderModalId = "editFolder_modal";
+  const confirmModalId = "confirm_modal";
   const [loadingVideo, setLoadingVideo] = createSignal<boolean>(true);
   const [loadingFolder, setLoadingFolder] = createSignal<boolean>(true);
   const [modalType, setModalType] = createSignal<"new" | "edit" | undefined>(
     undefined
   );
   const [isEditMode, setIsEditMode] = createSignal<boolean>(false);
-  const { modalShow, modalClose } = useModal(modalId);
+  const { modalShow: editFormModalShow, modalClose: editFormModalClose } =
+    useModal(editFolderModalId);
+  const { modalShow: confirmModalShow, modalClose: confirmModalClose } =
+    useModal(confirmModalId);
   let emojiPopup: PopupPickerController | undefined;
   const { error, isValidForm, inputName, inputIcon, submit } =
     useSavingFolder();
@@ -81,7 +91,7 @@ const Library: Component = () => {
       setModalType("new");
       savingFolderStore.clearData();
     }
-    modalShow();
+    editFormModalShow();
   };
 
   const editModalShow = (folder: Folder) => {
@@ -98,12 +108,27 @@ const Library: Component = () => {
         id: folder.id,
       });
     }
-    modalShow();
+    editFormModalShow();
   };
 
-  const libraryModalClose = () => {
+  const libraryEditFormModalClose = () => {
     emojiPopup?.close();
-    modalClose();
+    editFormModalClose();
+  };
+
+  const onConfirmModalShow = (folder: Folder) => {
+    deletingFolder.setData({
+      id: folder.id,
+      name: folder.name,
+    });
+    confirmModalShow();
+  };
+
+  const onConfirmModalDelete = () => {
+    if (deletingFolder.data.id) {
+      foldersStore.removeData(deletingFolder.data.id);
+      confirmModalClose();
+    }
   };
 
   return (
@@ -145,8 +170,8 @@ const Library: Component = () => {
                 <FolderCard
                   {...folder}
                   isEditMode={isEditMode}
-                  modalShow={editModalShow}
-                  onDelete={foldersStore.removeData}
+                  editModalShow={editModalShow}
+                  confirmModalShow={onConfirmModalShow}
                 />
               )}
             </For>
@@ -160,15 +185,31 @@ const Library: Component = () => {
           <span class={mixin.visuallyHidden}>フォルダを追加</span>
         </button>
       </Show>
-      <Modal id={modalId} modalClose={libraryModalClose} fullWidth={false}>
+      <Modal
+        id={editFolderModalId}
+        modalClose={libraryEditFormModalClose}
+        fullWidth={false}
+      >
         <EditFolderForm
           modalType={modalType}
           error={error}
           isValidForm={isValidForm}
           inputName={inputName}
           submit={submit}
-          modalClose={libraryModalClose}
+          modalClose={libraryEditFormModalClose}
           onToggleEmoji={onToggleEmoji}
+        />
+      </Modal>
+      <Modal
+        id={confirmModalId}
+        modalClose={confirmModalClose}
+        fullWidth={false}
+      >
+        <DeleteConfirm
+          modalClose={confirmModalClose}
+          onDelete={onConfirmModalDelete}
+          title={`${deletingFolder.data.name}フォルダを削除しますか？`}
+          desc={"保存している動画も削除されます。"}
         />
       </Modal>
     </>

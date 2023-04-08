@@ -1,10 +1,11 @@
-import { For, Show, createEffect, createSignal } from "solid-js";
+import { For, Show, createSignal, onMount } from "solid-js";
 import { Head } from "../layout/Head";
-import { savingVideoStore, searchStateStore } from "../store";
-import { useModal, useSearch } from "../hooks/";
+import { deletingVideo, savingVideoStore, searchStateStore } from "../store";
+import { useConfirmModal, useModal, useSearch } from "../hooks/";
 import {
   AddVideoForm,
   CardsWrapper,
+  DeleteConfirm,
   Modal,
   Pagenation,
   SearchForm,
@@ -12,28 +13,43 @@ import {
   Spinner,
 } from "../component";
 import { mixin } from "../styles/style.css";
+import { truncateWithEllipsis12 } from "../scripts/util";
 import type { Component } from "solid-js";
 import type { Video } from "../types/types";
 
 const Search: Component = () => {
-  const modalId = "search_modal";
+  const addVideoModalId = "search_modal";
+  const confirmModalId = "confirm_modal";
   const [loadingSearch, setLoadingSearch] = createSignal<boolean>(false);
 
-  const { initApi, submitQuery, onClickMore } = useSearch(setLoadingSearch);
+  const {
+    initApi: initSearchApi,
+    submitQuery,
+    onClickMore,
+  } = useSearch(setLoadingSearch);
 
-  const { modalShow, modalClose } = useModal(modalId);
+  const { modalShow: addVideoModalShow, modalClose: addVideoModalClose } =
+    useModal(addVideoModalId);
+  const { modalShow: confirmModalShow, modalClose: confirmModalClose } =
+    useModal(confirmModalId);
 
-  const searchModalShow = (video: Video) => {
-    modalShow();
+  const { onConfirmVideoModalShow, onConfirmVideoModalDelete } =
+    useConfirmModal({
+      modalShow: confirmModalShow,
+      modalClose: confirmModalClose,
+    });
+
+  const onAddVideoModalShow = (video: Video) => {
     savingVideoStore.setInfo(video);
+    addVideoModalShow();
   };
 
   const searchModalClose = () => {
-    modalClose();
+    addVideoModalClose();
     savingVideoStore.clearData();
   };
 
-  createEffect(() => initApi(), []);
+  onMount(() => initSearchApi());
 
   return (
     <>
@@ -51,7 +67,11 @@ const Search: Component = () => {
         <CardsWrapper>
           <For each={searchStateStore.data.resultVideos}>
             {(video) => (
-              <SearchedVideoCard video={video} modalShow={searchModalShow} />
+              <SearchedVideoCard
+                video={video}
+                addVideoModalShow={onAddVideoModalShow}
+                confirmModalShow={onConfirmVideoModalShow}
+              />
             )}
           </For>
         </CardsWrapper>
@@ -59,8 +79,26 @@ const Search: Component = () => {
           nextPageToken={searchStateStore.data.nextPageToken}
           onClickMore={onClickMore}
         />
-        <Modal id={modalId} modalClose={searchModalClose} fullWidth={false}>
+        <Modal
+          id={addVideoModalId}
+          modalClose={searchModalClose}
+          fullWidth={false}
+        >
           <AddVideoForm modalClose={searchModalClose} />
+        </Modal>
+        <Modal
+          id={confirmModalId}
+          modalClose={confirmModalClose}
+          fullWidth={false}
+        >
+          <DeleteConfirm
+            modalClose={confirmModalClose}
+            onDelete={onConfirmVideoModalDelete}
+            title={`「${truncateWithEllipsis12(
+              deletingVideo.data.title
+            )}」を削除しますか？`}
+            desc={"元に戻す場合は再度検索して追加する必要があります。"}
+          />
         </Modal>
       </Show>
     </>

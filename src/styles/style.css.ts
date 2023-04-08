@@ -247,6 +247,10 @@ export const componentStyles = {
     color: "#fff",
     backgroundColor: "#999",
   }),
+  alert: style({
+    color: "#fff",
+    backgroundColor: "#d9534f",
+  }),
   error: style({
     color: "#d9534f",
   }),
@@ -347,7 +351,7 @@ export const componentStyles = {
   modalContainer: style({
     width: "80%",
     maxWidth: "800px",
-    padding: "1rem",
+    padding: "1.6rem",
     backgroundColor: "#fff",
   }),
   backTo: style({
@@ -535,6 +539,13 @@ const unitStyles = {
     button: style([
       componentStyles.button,
       componentStyles.secondary,
+      {
+        marginTop: "0.8rem",
+      },
+    ]),
+    alertButton: style([
+      componentStyles.button,
+      componentStyles.alert,
       {
         marginTop: "0.8rem",
       },
@@ -877,6 +888,28 @@ const unitStyles = {
       height: "100%",
     },
   },
+  deleteConfirm: {
+    heading: style({
+      marginBottom: "1.6rem",
+      fontSize: "1.6rem",
+    }),
+    desc: style({
+      marginBottom: "2rem",
+      fontSize: "1.2rem",
+    }),
+    buttonContainer: style({
+      display: "flex",
+      justifyContent: "flex-end",
+    }),
+    button: style([componentStyles.button, componentStyles.primary]),
+    buttonAlert: style([
+      componentStyles.button,
+      componentStyles.alert,
+      {
+        marginLeft: "0.4rem",
+      },
+    ]),
+  },
 };
 
 export const {
@@ -890,4 +923,5 @@ export const {
   addVideoForm,
   editFolderForm,
   youtubePlayer,
+  deleteConfirm,
 } = unitStyles;

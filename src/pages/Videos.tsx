@@ -2,13 +2,15 @@ import { For, Show, onMount, createMemo, createSignal } from "solid-js";
 import { A, useParams } from "@solidjs/router";
 import {
   currentVideoStore,
+  deletingVideo,
   foldersStore,
   playerStore,
   videosStore,
 } from "../store";
-import { useCommon, useModal, useYoutubePlayer } from "../hooks/";
+import { useConfirmModal, useModal, useYoutubePlayer } from "../hooks/";
 import {
   CardsWrapper,
+  DeleteConfirm,
   Modal,
   Spinner,
   VideoCard,
@@ -16,6 +18,7 @@ import {
 } from "../component";
 import { componentStyles } from "../styles/style.css";
 import { Head } from "../layout/Head";
+import { truncateWithEllipsis12 } from "../scripts/util";
 import type { Component } from "solid-js";
 import type { Video } from "../types/types";
 
@@ -25,15 +28,18 @@ const Videos: Component = () => {
   const { url_id } = useParams();
   const urlVideos = createMemo(() => videosStore.getFromUrl(url_id));
   const folder = () => foldersStore.getFolderFromUrl(url_id);
-  const modalId = "play_modal";
-  const iframeId = "play_iframe";
-  const { observeSearchStockedVideo } = useCommon();
-  const { modalShow, modalClose } = useModal(modalId);
-
-  const onDelete = (id: Video["youtube_id"]) => {
-    videosStore.removeData(id);
-    observeSearchStockedVideo();
-  };
+  const playModalId = "play_modal";
+  const iframeId = "video_play_iframe";
+  const confirmModalId = "confirm_modal";
+  const { modalShow: playModalShow, modalClose: playModalClose } =
+    useModal(playModalId);
+  const { modalShow: confirmModalShow, modalClose: confirmModalClose } =
+    useModal(confirmModalId);
+  const { onConfirmVideoModalShow, onConfirmVideoModalDelete } =
+    useConfirmModal({
+      modalShow: confirmModalShow,
+      modalClose: confirmModalClose,
+    });
 
   const { initApi } = useYoutubePlayer(iframeId);
 
@@ -43,12 +49,12 @@ const Videos: Component = () => {
       playerStore.data().loadVideoById({ videoId: currentVideoStore.id() });
     }
     playerStore.data().playVideo();
-    modalShow();
+    playModalShow();
   };
 
   const playerModalClose = () => {
     playerStore.data().pauseVideo();
-    modalClose();
+    playModalClose();
   };
 
   const onStateChange = (event: YT.OnStateChangeEvent) => {
@@ -57,7 +63,7 @@ const Videos: Component = () => {
         (video) => video.youtube_id === currentVideoStore.id()
       );
       if (index === urlVideos().length - 1) {
-        modalClose();
+        playModalClose();
       } else {
         const nextVideoId = urlVideos()[index + 1].youtube_id;
         currentVideoStore.setId(nextVideoId);
@@ -98,17 +104,30 @@ const Videos: Component = () => {
               {(video) => (
                 <VideoCard
                   video={video}
-                  onDelete={onDelete}
-                  modalShow={playerModalShow}
-                  iframeId={iframeId}
+                  playModalShow={playerModalShow}
+                  deleteModalShow={onConfirmVideoModalShow}
                 />
               )}
             </For>
           </CardsWrapper>
         </Show>
       </Show>
-      <Modal id={modalId} modalClose={playerModalClose} fullWidth={true}>
+      <Modal id={playModalId} modalClose={playerModalClose} fullWidth={true}>
         <YoutubePlayer id={iframeId} />
+      </Modal>
+      <Modal
+        id={confirmModalId}
+        modalClose={confirmModalClose}
+        fullWidth={false}
+      >
+        <DeleteConfirm
+          modalClose={confirmModalClose}
+          onDelete={onConfirmVideoModalDelete}
+          title={`「${truncateWithEllipsis12(
+            deletingVideo.data.title
+          )}」を削除しますか？`}
+          desc={"元に戻す場合は再度検索して追加する必要があります。"}
+        />
       </Modal>
     </>
   );

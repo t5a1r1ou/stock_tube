@@ -11,13 +11,16 @@ import type { Accessor, Component } from "solid-js";
 import type { Folder } from "../types/types";
 
 type Props = Folder & {
-  modalShow: (folder: Folder) => void;
+  editModalShow: (folder: Folder) => void;
+  confirmModalShow: (folder: Folder) => void;
   isEditMode: Accessor<boolean>;
-  onDelete: (id: Folder["id"]) => void;
 };
 
 export const FolderCard: Component<Props> = (props) => {
-  const [fnc, folder] = splitProps(props, ["onDelete", "modalShow"]);
+  const [fnc, folder] = splitProps(props, [
+    "editModalShow",
+    "confirmModalShow",
+  ]);
   const [isMenuOpened, setIsMenuOpened] = createSignal<boolean>(false);
   const videoCounts = () => videosStore.getFromFolder(folder.id).length;
   const folderCounts = () => foldersStore.data.length;
@@ -26,15 +29,13 @@ export const FolderCard: Component<Props> = (props) => {
 
   const onClickEdit = (e: Event) => {
     e.preventDefault();
-    fnc.modalShow(folder);
+    fnc.editModalShow(folder);
   };
 
   const onClickDelete = (e: Event) => {
     e.preventDefault();
     e.stopPropagation();
-    if (window.confirm(`${folder.name}フォルダを削除してよろしいですか？`)) {
-      fnc.onDelete(folder.id);
-    }
+    fnc.confirmModalShow(folder);
   };
 
   const onClickEditMenuItem = (e: Event) => {
