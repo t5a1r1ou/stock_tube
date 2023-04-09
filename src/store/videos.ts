@@ -2,14 +2,16 @@ import { createStore } from "solid-js/store";
 import { Folder, Video } from "../types/types";
 import folders from "./folders";
 import { supabase } from "../scripts/supabase";
-import { useQueryVideos } from "../queries/useQueryVideos";
 import { createRoot } from "solid-js";
 
 const videos = () => {
   const [data, setData] = createStore<Video[]>([]);
 
   const fetchData = async (callback?: () => void) => {
-    const { data: videos, error } = await useQueryVideos();
+    const { data: videos, error } = await supabase
+      .from("videos")
+      .select("*")
+      .order("created_at", { ascending: true });
 
     if (error) {
       throw new Error();

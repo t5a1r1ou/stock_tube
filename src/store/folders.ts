@@ -2,14 +2,16 @@ import { createRoot } from "solid-js";
 import { createStore } from "solid-js/store";
 import { Folder } from "../types/types";
 import { supabase } from "../scripts/supabase";
-import { useQueryFolders } from "../queries/useQueryFolders";
 import { foldersStore } from ".";
 
 const folders = () => {
   const [data, setData] = createStore<Folder[]>([]);
 
   const fetchData = async (callback?: () => void) => {
-    const { data: folders, error } = await useQueryFolders();
+    const { data: folders, error } = await supabase
+      .from("folders")
+      .select("*")
+      .order("created_at", { ascending: true });
 
     if (error) {
       throw new Error();
