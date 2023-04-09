@@ -127,7 +127,7 @@ const Library: Component = () => {
               onClick={onToggleMode}
             >
               編集
-              <AiFillEdit color="#999" />
+              <AiFillEdit color="#666" />
             </span>
           </Match>
         </Switch>

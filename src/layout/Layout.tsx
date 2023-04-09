@@ -44,7 +44,13 @@ const Layout: Component<Props> = (props) => {
             </Match>
           </Switch>
           <h1 class={layoutStyles.headerTitle}>
-            <img src={logo} alt="StockTube" class={layoutStyles.headerLogo} />
+            <img
+              src={logo}
+              alt="StockTube"
+              class={layoutStyles.headerLogo}
+              width="500"
+              height="200"
+            />
           </h1>
           <Show when={props.user()}>
             <button
