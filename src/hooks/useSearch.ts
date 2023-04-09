@@ -31,7 +31,10 @@ export const useSearch = (setLoading: Setter<boolean>) => {
       });
       return;
     }
-    setLoading(true);
+    // もっと見る押下時にはスピナーを表示させない
+    if (searchStateStore.data.resultVideos.length === 0) {
+      setLoading(true);
+    }
     initGoogleScript(gapi(), () => {
       gapi()
         .client.youtube.search.list({
