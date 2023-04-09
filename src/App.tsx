@@ -15,15 +15,7 @@ import {
   videosStore,
 } from "./store/";
 import Layout from "./layout/Layout";
-import {
-  Confirm,
-  Libraries,
-  NotFound,
-  Search,
-  SignIn,
-  SignUp,
-  Videos,
-} from "./pages";
+import { Confirm, Libraries, Search, SignIn, SignUp, Videos } from "./pages";
 import type { Component } from "solid-js";
 
 const App: Component = () => {
@@ -95,7 +87,7 @@ const App: Component = () => {
           <Route path="/search" component={Search}></Route>
           <Route path="/signin" component={SignIn}></Route>
           <Route path="/signup" component={SignUp}></Route>
-          <Route path="*" component={NotFound}></Route>
+          <Route path="*" component={SignIn}></Route>
         </Routes>
       </Layout>
     </MetaProvider>
