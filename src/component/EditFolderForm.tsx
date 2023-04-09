@@ -49,7 +49,11 @@ export const EditFolderForm: Component<Props> = (props) => {
             フォルダ名
           </label>
           <input
-            class={editFolderForm.input}
+            class={
+              props.error.name
+                ? editFolderForm.errorInput
+                : editFolderForm.input
+            }
             type="text"
             name="name"
             id="name"
@@ -66,7 +70,11 @@ export const EditFolderForm: Component<Props> = (props) => {
             アイコン
           </label>
           <input
-            class={editFolderForm.input}
+            class={
+              props.error.icon
+                ? editFolderForm.errorInput
+                : editFolderForm.input
+            }
             type="text"
             name="icon"
             id="icon"

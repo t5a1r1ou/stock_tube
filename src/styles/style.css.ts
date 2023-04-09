@@ -121,6 +121,7 @@ const triangleFunc = ({
 const primaryColor = "#FCC509";
 const secondaryColor = "#999";
 const lightSecondaryColor = "#ddd";
+const darkSecondaryColor = "#666";
 const errorColor = "#d9534f";
 const focusColor = "#0044CC";
 
@@ -161,10 +162,12 @@ export const layoutStyles = {
   headerTitle: style({
     display: "block",
     width: "10rem",
+    aspectRatio: "5 / 2",
     margin: "0 auto",
   }),
   headerLogo: style({
     width: "100%",
+    height: "100%",
   }),
   headerLeftButton: style({
     display: "flex",
@@ -175,7 +178,7 @@ export const layoutStyles = {
     left: "1.4rem",
     top: 0,
     bottom: 0,
-    fontSize: "0.8rem",
+    fontSize: "1rem",
   }),
   headerRightButton: style({
     display: "flex",
@@ -186,7 +189,7 @@ export const layoutStyles = {
     right: "1.4rem",
     top: 0,
     bottom: 0,
-    fontSize: "0.8rem",
+    fontSize: "1rem",
   }),
   main: style({
     width: "90%",
@@ -199,11 +202,11 @@ export const layoutStyles = {
     alignItems: "center",
     width: "100%",
     height: "3rem",
-    borderTop: `1px solid ${secondaryColor}`,
+    borderTop: `1px solid ${darkSecondaryColor}`,
   }),
   footerText: style({
     fontSize: "1.1rem",
-    color: secondaryColor,
+    color: darkSecondaryColor,
   }),
 };
 
@@ -217,7 +220,7 @@ export const componentStyles = {
     marginLeft: "0.8rem",
     cursor: "pointer",
     fontSize: "1.2rem",
-    color: secondaryColor,
+    color: darkSecondaryColor,
   }),
   headingSideButtonActive: style({
     display: "inline-block",
@@ -227,7 +230,18 @@ export const componentStyles = {
     color: focusColor,
   }),
   input: style({
-    border: `1px solid ${secondaryColor}`,
+    border: `1px solid ${darkSecondaryColor}`,
+    borderRadius: "5px",
+    width: "100%",
+    padding: "0.8rem",
+    "@media": {
+      "screen and (min-width: 768px)": {
+        width: "70%",
+      },
+    },
+  }),
+  errorInput: style({
+    border: `2px solid ${errorColor}`,
     borderRadius: "5px",
     width: "100%",
     padding: "0.8rem",
@@ -243,6 +257,7 @@ export const componentStyles = {
     alignItems: "center",
     borderRadius: "5px",
     padding: "0.8rem 1.2rem",
+    fontWeight: "bold",
     ":disabled": {
       opacity: 0.6,
       cursor: "not-allowed",
@@ -290,7 +305,7 @@ export const componentStyles = {
     display: "block",
     marginTop: "0.4rem",
     fontSize: "0.8rem",
-    color: secondaryColor,
+    color: darkSecondaryColor,
   }),
   floatingButton: {
     container: style({
@@ -383,6 +398,8 @@ const unitStyles = {
         },
       },
     }),
+    input: style([componentStyles.input]),
+    errorInput: style([componentStyles.errorInput]),
     errorText: style([
       componentStyles.error,
       {
@@ -436,7 +453,7 @@ const unitStyles = {
       width: "100%",
       marginBottom: "0.5rem",
       fontSize: "1.2rem",
-      color: secondaryColor,
+      color: darkSecondaryColor,
       "@media": {
         "screen and (min-width: 768px)": {
           width: "30%",
@@ -446,6 +463,7 @@ const unitStyles = {
       },
     }),
     input: style([componentStyles.input]),
+    errorInput: style([componentStyles.errorInput]),
     error: style([
       componentStyles.error,
       {
@@ -454,7 +472,7 @@ const unitStyles = {
     ]),
     submitButton: style([
       componentStyles.button,
-      componentStyles.primary,
+      componentStyles.secondary,
       {
         width: "100%",
         height: "2.5rem",
@@ -738,13 +756,13 @@ const unitStyles = {
     menuItem: style({
       padding: "0.8rem 1.2rem",
       color: "#fff",
-      ":focus": {
-        backgroundColor: "#ccc",
+      ":focus-visible": {
+        backgroundColor: "#777",
       },
       "@media": {
         "screen and (min-width: 768px)": {
           ":hover": {
-            backgroundColor: "#ccc",
+            backgroundColor: "#777",
           },
         },
       },
@@ -754,12 +772,12 @@ const unitStyles = {
       {
         padding: "0.8rem 1.2rem",
         ":focus": {
-          backgroundColor: "#ccc",
+          backgroundColor: "#777",
         },
         "@media": {
           "screen and (min-width: 768px)": {
             ":hover": {
-              backgroundColor: "#ccc",
+              backgroundColor: "#777",
             },
           },
         },
@@ -867,6 +885,16 @@ const unitStyles = {
     }),
     input: style([
       componentStyles.input,
+      {
+        "@media": {
+          "screen and (min-width: 768px)": {
+            width: "100%",
+          },
+        },
+      },
+    ]),
+    errorInput: style([
+      componentStyles.errorInput,
       {
         "@media": {
           "screen and (min-width: 768px)": {

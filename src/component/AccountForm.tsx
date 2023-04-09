@@ -64,7 +64,11 @@ export const AccountForm: Component<AuthType> = (props) => {
             <input
               id="email"
               type="email"
-              class={accountForm.input}
+              class={
+                errors.email || errors.server
+                  ? accountForm.errorInput
+                  : accountForm.input
+              }
               value={credentials.email}
               onInput={onInputEmail}
               onChange={onInputEmail}
@@ -82,7 +86,11 @@ export const AccountForm: Component<AuthType> = (props) => {
             <input
               id="password"
               type="password"
-              class={accountForm.input}
+              class={
+                errors.password || errors.server
+                  ? accountForm.errorInput
+                  : accountForm.input
+              }
               value={credentials.password}
               onInput={onInputPassword}
               onChange={onInputPassword}
@@ -101,7 +109,11 @@ export const AccountForm: Component<AuthType> = (props) => {
               <input
                 id="passwordConfirm"
                 type="password"
-                class={accountForm.input}
+                class={
+                  errors.passwordConfirm
+                    ? accountForm.errorInput
+                    : accountForm.input
+                }
                 value={credentials.passwordConfirm}
                 onInput={onInputPasswordConfirm}
                 onChange={onInputPasswordConfirm}

@@ -1,5 +1,4 @@
 import { Show } from "solid-js";
-import { input } from "../styles/utility.css";
 import { searchForm } from "../styles/style.css";
 import type { Component } from "solid-js";
 
@@ -19,7 +18,7 @@ export const SearchForm: Component<Props> = (props) => {
         <input
           type="search"
           name="search"
-          class={input}
+          class={props.error ? searchForm.errorInput : searchForm.input}
           value={props.inputValue}
           onInput={(e) => props.setInputValue(e.currentTarget.value)}
           onChange={(e) => props.setInputValue(e.currentTarget.value)}
