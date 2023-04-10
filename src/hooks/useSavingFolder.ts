@@ -13,6 +13,8 @@ type FolderError = {
 export const useSavingFolder = () => {
   const HAS_ERROR = true;
   const NO_ERROR = false;
+  const VALID = true;
+  const INVALID = false;
   const [error, setError] = createStore<FolderError>({
     name: "",
     icon: "",
@@ -20,59 +22,44 @@ export const useSavingFolder = () => {
   });
   const [isValidForm, setIsValidForm] = createSignal<boolean>(false);
 
-  const validateEmpty = (value: Folder["name"] | Folder["icon"]) => {
-    if (value === "") {
-      return HAS_ERROR;
-    } else {
-      return NO_ERROR;
-    }
-  };
-
-  const validateDuplicatedName = (newFolder: SavingFolder) => {
-    const validateEditMode = () => {
+  const validates = {
+    empty: (value: Folder["name"] | Folder["icon"]) => {
+      if (value === "") {
+        return HAS_ERROR;
+      } else {
+        return NO_ERROR;
+      }
+    },
+    duplicatedName: (newFolder: SavingFolder) => {
       if (
-        foldersStore.data.some(
-          (folder) =>
-            folder.id !== newFolder.id && folder.name === newFolder.name
+        foldersStore.data.some((folder) =>
+          newFolder.id
+            ? folder.id !== newFolder.id && folder.name === newFolder.name
+            : folder.name === newFolder.name
         )
       ) {
         return HAS_ERROR;
       } else {
         return NO_ERROR;
       }
-    };
-
-    const validateNewMode = () => {
-      if (foldersStore.data.some((folder) => folder.name === newFolder.name)) {
+    },
+    duplicatedUrlId: (url_id: Folder["url_id"]) => {
+      if (foldersStore.data.some((folder) => folder.url_id === url_id)) {
         return HAS_ERROR;
       } else {
         return NO_ERROR;
       }
-    };
-    // 編集モードの場合
-    if (newFolder.id) {
-      return validateEditMode();
-    } else {
-      return validateNewMode();
-    }
-  };
-
-  const validateDuplicatedUrlId = (url_id: Folder["url_id"]) => {
-    if (foldersStore.data.some((folder) => folder.url_id === url_id)) {
-      return HAS_ERROR;
-    } else {
-      return NO_ERROR;
-    }
+    },
   };
 
   const validateName = (folder: SavingFolder) => {
-    if (validateEmpty(folder.name)) {
+    if (validates.empty(folder.name)) {
       setError({
         ...error,
         name: "新規フォルダを入力してください",
       });
       return HAS_ERROR;
-    } else if (validateDuplicatedName(folder)) {
+    } else if (validates.duplicatedName(folder)) {
       setError({
         ...error,
         name: "すでに同じ名前のフォルダが登録されています",
@@ -88,7 +75,7 @@ export const useSavingFolder = () => {
   };
 
   const validateIcon = (value: Folder["icon"]) => {
-    if (validateEmpty(value)) {
+    if (validates.empty(value)) {
       setError({
         ...error,
         icon: "アイコンを選択してください",
@@ -105,23 +92,13 @@ export const useSavingFolder = () => {
 
   const watchValidation = () => {
     if (
-      validateEmpty(savingFolderStore.data.name) ||
-      validateEmpty(savingFolderStore.data.icon) ||
-      validateDuplicatedName(savingFolderStore.data)
+      validates.empty(savingFolderStore.data.name) === HAS_ERROR ||
+      validates.empty(savingFolderStore.data.icon) === HAS_ERROR ||
+      validates.duplicatedName(savingFolderStore.data) === HAS_ERROR
     ) {
-      return false;
+      return INVALID;
     } else {
-      return true;
-    }
-  };
-
-  const submitValidation = () => {
-    const invalidName = validateName(savingFolderStore.data);
-    const invalidIcon = validateIcon(savingFolderStore.data.icon);
-    if (invalidName || invalidIcon) {
-      return true;
-    } else {
-      return false;
+      return VALID;
     }
   };
 
@@ -137,20 +114,30 @@ export const useSavingFolder = () => {
     validateIcon(value);
   };
 
-  const generateUrlId = () => {
-    let urlId = encodeURI(createUniqueId());
-    while (validateDuplicatedUrlId(urlId)) {
-      urlId = encodeURI(createUniqueId());
-    }
-    return urlId;
-  };
-
-  const submit = (e: Event) => {
+  const submit: (e: Event) => boolean = (e) => {
     e.preventDefault();
 
-    if (submitValidation()) {
+    const submitValidation = () => {
+      const invalidName = validateName(savingFolderStore.data);
+      const invalidIcon = validateIcon(savingFolderStore.data.icon);
+      if (invalidName || invalidIcon) {
+        return INVALID;
+      } else {
+        return VALID;
+      }
+    };
+
+    if (submitValidation() === INVALID) {
       return false;
     }
+
+    const generateUrlId = () => {
+      let urlId = encodeURI(createUniqueId());
+      while (validates.duplicatedUrlId(urlId)) {
+        urlId = encodeURI(createUniqueId());
+      }
+      return urlId;
+    };
 
     if (savingFolderStore.data.id) {
       foldersStore.updateData({
