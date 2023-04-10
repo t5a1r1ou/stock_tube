@@ -1,7 +1,7 @@
 import { useNavigate } from "@solidjs/router";
 import { createEffect } from "solid-js";
 import { Head } from "../layout/Head";
-import { AccountForm } from "../component";
+import { AccountForm } from "../components";
 import { supabase } from "../scripts/supabase";
 import type { Component } from "solid-js";
 

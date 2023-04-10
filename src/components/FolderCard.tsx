@@ -3,7 +3,7 @@ import { A } from "@solidjs/router";
 import { FiEdit } from "solid-icons/fi";
 import { AiFillDelete } from "solid-icons/ai";
 import { BsThreeDots } from "../lib/solid-icons/BsThreeDots";
-import { foldersStore, videosStore } from "../store/";
+import { foldersStore, videosStore } from "../store";
 import { componentStyles, folderCard } from "../styles/style.css";
 // @ts-ignore
 import clickOutside from "../directives/clickOutside";

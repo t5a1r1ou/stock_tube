@@ -23,7 +23,7 @@ import {
   SearchForm,
   SearchedVideoCard,
   Spinner,
-} from "../component";
+} from "../components";
 import { componentStyles } from "../styles/style.css";
 import { truncateWithEllipsis12 } from "../scripts/util";
 import type { Component } from "solid-js";

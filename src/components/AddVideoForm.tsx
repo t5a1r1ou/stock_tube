@@ -1,6 +1,6 @@
 import { For, Show } from "solid-js";
-import { foldersStore, savingVideoStore } from "../store/";
-import { useSavingVideo } from "../hooks/";
+import { foldersStore, savingVideoStore } from "../store";
+import { useSavingVideo } from "../hooks";
 import { addVideoForm } from "../styles/style.css";
 import type { Component } from "solid-js";
 import type { Folder } from "../types/types";

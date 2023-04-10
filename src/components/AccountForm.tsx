@@ -1,7 +1,7 @@
 import { Show } from "solid-js";
 import { A } from "@solidjs/router";
 import { Dynamic } from "solid-js/web";
-import { useAccountForm } from "../hooks/";
+import { useAccountForm } from "../hooks";
 import { componentStyles, accountForm } from "../styles/style.css";
 import type { Component } from "solid-js";
 import type { AuthType } from "../types/types";
