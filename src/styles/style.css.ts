@@ -28,7 +28,7 @@ globalStyle(".picmo__picker", {
 
 export const layoutStyles = {
   wrapper: style({
-    minHeight: "100vh",
+    minHeight: ["100dvh", "100vh"],
     display: "grid",
     gridTemplateRows: "auto 1fr auto",
   }),
