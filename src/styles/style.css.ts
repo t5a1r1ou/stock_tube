@@ -1,148 +1,7 @@
-import { style, globalStyle, keyframes } from "@vanilla-extract/css";
-
-globalStyle("body", {
-  fontFamily:
-    "'Helvetica Neue', Arial, 'Hiragino Kaku Gothic ProN','Hiragino Sans', Meiryo, sans-serif",
-});
-
-globalStyle(".picmo__popupContainer", {
-  width: "80%",
-  left: 0,
-  right: 0,
-  margin: "0 auto",
-  "@media": {
-    "screen and (min-width: 768px)": {
-      width: "33%",
-      minWidth: 340,
-      maxWidth: 450,
-    },
-  },
-});
-
-globalStyle(".picmo__picker", {
-  width: "100% !important",
-});
-
-const animations = {
-  shakeAnimation: keyframes({
-    "0%": {
-      transform: "translateX(0)",
-    },
-    "10%": {
-      transform: "translateX(-2px) rotate(-1deg)",
-    },
-    "20%": {
-      transform: "translateX(2px) rotate(1deg)",
-    },
-    "30%": {
-      transform: "translateX(-2px) rotate(-1deg)",
-    },
-    "40%": {
-      transform: "translateX(2px) rotate(1deg)",
-    },
-    "50%": {
-      transform: "translateX(-2px) rotate(-1deg)",
-    },
-    "60%": {
-      transform: "translateX(2px) rotate(1deg)",
-    },
-    "70%": {
-      transform: "translateX(-2px) rotate(-1deg)",
-    },
-    "80%": {
-      transform: "translateX(2px) rotate(1deg)",
-    },
-    "90%": {
-      transform: "translateX(-2px) rotate(-1deg)",
-    },
-    "100%": {
-      transform: "translateX(2px) rotate(1deg)",
-    },
-  }),
-  spinnerAnimation: keyframes({
-    "0%": {
-      transform: "rotate(0deg)",
-    },
-    "100%": {
-      transform: "rotate(360deg)",
-    },
-  }),
-};
-
-type TriangleProps = {
-  direction: "upward" | "rightward" | "downward" | "leftward";
-  width: number;
-  height: number;
-  color?: string;
-};
-
-const triangleFunc = ({
-  direction,
-  width,
-  height,
-  color = "currentColor",
-}: TriangleProps) => {
-  let params;
-  switch (direction) {
-    case "upward":
-      params = {
-        borderColor: `transparent transparent ${color} transparent`,
-        borderWidth: `0 ${width / 2}rem ${height}rem ${width / 2}rem`,
-      };
-      break;
-    case "rightward":
-      params = {
-        borderColor: `transparent transparent transparent ${color}`,
-        borderWidth: `${height / 2}rem 0 ${height / 2}rem ${width}rem`,
-      };
-      break;
-    case "downward":
-      params = {
-        borderColor: `${color} transparent transparent transparent`,
-        borderWidth: `${height}rem ${width / 2}rem 0 ${width / 2}rem`,
-      };
-      break;
-    case "leftward":
-      params = {
-        borderColor: `transparent ${color} transparent transparent`,
-        borderWidth: `${height / 2}rem ${width}rem ${height / 2}rem 0`,
-      };
-    default:
-      break;
-  }
-  return {
-    height: 0,
-    width: 0,
-    borderStyle: "solid",
-    ...params,
-  };
-};
-
-const colors = {
-  primary: "#FCC509",
-  secondary: "#999",
-  lightSecondary: "#ddd",
-  darkSecondary: "#666",
-  error: "#d9534f",
-  focus: "#0044CC",
-  white: "#fff",
-  black: "#000",
-};
-
-export const mixin = {
-  visuallyHidden: style({
-    border: "0 !important",
-    clip: "rect(0 0 0 0) !important",
-    clipPath: "inset(50%) !important",
-    height: "1px !important",
-    margin: "-1px !important",
-    overflow: "hidden !important",
-    padding: "0 !important",
-    position: "absolute !important" as "absolute",
-    whiteSpace: "nowrap !important" as "nowrap",
-    width: "1px !important",
-  }),
-};
+import { style } from "@vanilla-extract/css";
+import animations from "./animations.css";
+import functions from "./functions.css";
+import { colors } from "./variables.css";
 
 export const layoutStyles = {
   wrapper: style({
@@ -386,6 +245,18 @@ export const componentStyles = {
   backTo: style({
     display: "block",
     marginBottom: "1rem",
+  }),
+  visuallyHidden: style({
+    border: "0 !important",
+    clip: "rect(0 0 0 0) !important",
+    clipPath: "inset(50%) !important",
+    height: "1px !important",
+    margin: "-1px !important",
+    overflow: "hidden !important",
+    padding: "0 !important",
+    position: "absolute !important" as "absolute",
+    whiteSpace: "nowrap !important" as "nowrap",
+    width: "1px !important",
   }),
 };
 
@@ -837,7 +708,7 @@ const unitStyles = {
         bottom: 0,
         right: "0.6rem",
         margin: "auto 0",
-        ...triangleFunc({
+        ...functions.triangle({
           direction: "downward",
           width: 0.8,
           height: 0.8,
