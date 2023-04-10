@@ -24,7 +24,7 @@ import {
   SearchedVideoCard,
   Spinner,
 } from "../component";
-import { mixin } from "../styles/style.css";
+import { componentStyles } from "../styles/style.css";
 import { truncateWithEllipsis12 } from "../scripts/util";
 import type { Component } from "solid-js";
 import type { PopupPickerController } from "@picmo/popup-picker";
@@ -83,7 +83,7 @@ const Search: Component = () => {
   return (
     <>
       <Head title="StockTube | 検索" />
-      <h2 class={mixin.visuallyHidden}>検索</h2>
+      <h2 class={componentStyles.visuallyHidden}>検索</h2>
       <SearchForm
         submitQuery={submitQuery}
         inputValue={searchStateStore.data.inputValue}

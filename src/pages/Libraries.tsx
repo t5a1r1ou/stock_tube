@@ -21,7 +21,7 @@ import {
   Modal,
   Spinner,
 } from "../component";
-import { componentStyles, mixin } from "../styles/style.css";
+import { componentStyles } from "../styles/style.css";
 import type { Component } from "solid-js";
 import type { PopupPickerController } from "@picmo/popup-picker";
 import type { Folder } from "../types/types";
@@ -155,7 +155,7 @@ const Library: Component = () => {
           onClick={newModalShow}
         >
           <div class={componentStyles.floatingButton.iconAdd}></div>
-          <span class={mixin.visuallyHidden}>フォルダを追加</span>
+          <span class={componentStyles.visuallyHidden}>フォルダを追加</span>
         </button>
       </Show>
       <Modal

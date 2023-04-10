@@ -4,7 +4,7 @@ import { FiEdit } from "solid-icons/fi";
 import { AiFillDelete } from "solid-icons/ai";
 import { BsThreeDots } from "../lib/solid-icons/BsThreeDots";
 import { foldersStore, videosStore } from "../store/";
-import { folderCard, mixin } from "../styles/style.css";
+import { componentStyles, folderCard } from "../styles/style.css";
 // @ts-ignore
 import clickOutside from "../directives/clickOutside";
 import type { Accessor, Component } from "solid-js";
@@ -80,7 +80,7 @@ export const FolderCard: Component<Props> = (props) => {
             <p class={folderCard.icon}>{folder.icon}</p>
             <Show when={folderCounts() !== LAST_ONE}>
               <button class={folderCard.deleteButton} onClick={onClickDelete}>
-                <span class={mixin.visuallyHidden}>削除</span>
+                <span class={componentStyles.visuallyHidden}>削除</span>
               </button>
             </Show>
           </div>

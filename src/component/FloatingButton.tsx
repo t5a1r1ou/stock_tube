@@ -1,4 +1,4 @@
-import { componentStyles, mixin } from "../styles/style.css";
+import { componentStyles } from "../styles/style.css";
 import type { Component } from "solid-js";
 
 type Props = {
@@ -12,7 +12,7 @@ export const FloatingButton: Component<Props> = (props) => {
       class={componentStyles.floatingButton.container}
       onClick={props.onClick}
     >
-      <p class={mixin.visuallyHidden}>{props.text}</p>
+      <p class={componentStyles.visuallyHidden}>{props.text}</p>
       <div class={componentStyles.floatingButton.iconAdd}></div>
     </button>
   );
