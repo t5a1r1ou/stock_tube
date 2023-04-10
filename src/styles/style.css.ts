@@ -1,7 +1,30 @@
-import { style } from "@vanilla-extract/css";
+import { globalStyle, style } from "@vanilla-extract/css";
 import animations from "./animations.css";
 import functions from "./functions.css";
 import { colors } from "./variables.css";
+
+globalStyle("body", {
+  fontFamily:
+    "'Helvetica Neue', Arial, 'Hiragino Kaku Gothic ProN','Hiragino Sans', Meiryo, sans-serif",
+});
+
+globalStyle(".picmo__popupContainer", {
+  width: "80%",
+  left: 0,
+  right: 0,
+  margin: "0 auto",
+  "@media": {
+    "screen and (min-width: 768px)": {
+      width: "33%",
+      minWidth: 340,
+      maxWidth: 450,
+    },
+  },
+});
+
+globalStyle(".picmo__picker", {
+  width: "100% !important",
+});
 
 export const layoutStyles = {
   wrapper: style({
