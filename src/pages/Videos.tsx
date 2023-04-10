@@ -15,7 +15,7 @@ import {
   Spinner,
   VideoCard,
   YoutubePlayer,
-} from "../component";
+} from "../components";
 import { componentStyles } from "../styles/style.css";
 import { Head } from "../layout/Head";
 import { truncateWithEllipsis12 } from "../scripts/util";

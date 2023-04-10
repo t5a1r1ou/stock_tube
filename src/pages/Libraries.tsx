@@ -20,7 +20,7 @@ import {
   FolderCard,
   Modal,
   Spinner,
-} from "../component";
+} from "../components";
 import { componentStyles } from "../styles/style.css";
 import type { Component } from "solid-js";
 import type { PopupPickerController } from "@picmo/popup-picker";
