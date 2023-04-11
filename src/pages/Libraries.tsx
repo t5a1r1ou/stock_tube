@@ -155,7 +155,7 @@ const Library: Component = () => {
           onClick={newModalShow}
         >
           <div class={componentStyles.floatingButton.iconAdd}></div>
-          <span class={componentStyles.visuallyHidden}>フォルダを追加</span>
+          <span class={componentStyles.hiddenText}>フォルダを追加</span>
         </button>
       </Show>
       <Modal

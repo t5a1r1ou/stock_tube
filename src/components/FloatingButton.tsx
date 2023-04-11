@@ -12,7 +12,7 @@ export const FloatingButton: Component<Props> = (props) => {
       class={componentStyles.floatingButton.container}
       onClick={props.onClick}
     >
-      <p class={componentStyles.visuallyHidden}>{props.text}</p>
+      <p class={componentStyles.hiddenText}>{props.text}</p>
       <div class={componentStyles.floatingButton.iconAdd}></div>
     </button>
   );

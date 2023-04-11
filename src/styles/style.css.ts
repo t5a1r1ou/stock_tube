@@ -1,6 +1,7 @@
 import { globalStyle, style } from "@vanilla-extract/css";
 import animations from "./animations.css";
 import functions from "./functions.css";
+import mixins from "./mixins.css";
 import { colors } from "./variables.css";
 
 globalStyle("body", {
@@ -42,7 +43,7 @@ export const layoutStyles = {
   }),
   headerContainer: style({
     position: "relative",
-    width: "100%",
+    width: "90%",
     maxWidth: "800px",
   }),
   headerTitle: style({
@@ -55,41 +56,45 @@ export const layoutStyles = {
     width: "100%",
     height: "100%",
   }),
-  headerLeftButton: style({
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    position: "absolute",
-    margin: "auto 0",
-    left: "1.4rem",
-    top: 0,
-    bottom: 0,
-    fontSize: "1rem",
-  }),
-  headerRightButton: style({
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    position: "absolute",
-    margin: "auto 0",
-    right: "1.4rem",
-    top: 0,
-    bottom: 0,
-    fontSize: "1rem",
-  }),
+  headerLeftButton: style([
+    mixins.displayFlexCenter,
+    {
+      position: "absolute",
+      margin: "auto 0",
+      left: 0,
+      top: 0,
+      bottom: 0,
+      width: "2.8rem",
+      height: "2.8rem",
+      fontSize: "1.6rem",
+      borderRadius: "50%",
+      backgroundColor: colors.lightPrimary,
+    },
+  ]),
+  headerRightButton: style([
+    mixins.displayFlexCenter,
+    {
+      position: "absolute",
+      margin: "auto 0",
+      right: 0,
+      top: 0,
+      bottom: 0,
+      fontSize: "1rem",
+    },
+  ]),
   main: style({
     width: "90%",
     maxWidth: "800px",
     margin: "2rem auto 0",
   }),
-  footer: style({
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    width: "100%",
-    height: "3rem",
-    borderTop: `1px solid ${colors.darkSecondary}`,
-  }),
+  footer: style([
+    mixins.displayFlexCenter,
+    {
+      width: "100%",
+      height: "3rem",
+      borderTop: `1px solid ${colors.darkSecondary}`,
+    },
+  ]),
   footerText: style({
     fontSize: "1.1rem",
     color: colors.darkSecondary,
@@ -137,18 +142,18 @@ export const componentStyles = {
       },
     },
   }),
-  button: style({
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    borderRadius: "5px",
-    padding: "0.8rem 1.2rem",
-    fontWeight: "bold",
-    ":disabled": {
-      opacity: 0.6,
-      cursor: "not-allowed",
+  button: style([
+    mixins.displayFlexCenter,
+    {
+      borderRadius: "5px",
+      padding: "0.8rem 1.2rem",
+      fontWeight: "bold",
+      ":disabled": {
+        opacity: 0.6,
+        cursor: "not-allowed",
+      },
     },
-  }),
+  ]),
   primary: style({
     border: `1px solid ${colors.primary}`,
     color: colors.primary,
@@ -269,18 +274,7 @@ export const componentStyles = {
     display: "block",
     marginBottom: "1rem",
   }),
-  visuallyHidden: style({
-    border: "0 !important",
-    clip: "rect(0 0 0 0) !important",
-    clipPath: "inset(50%) !important",
-    height: "1px !important",
-    margin: "-1px !important",
-    overflow: "hidden !important",
-    padding: "0 !important",
-    position: "absolute !important" as "absolute",
-    whiteSpace: "nowrap !important" as "nowrap",
-    width: "1px !important",
-  }),
+  hiddenText: style([mixins.visuallyHidden]),
 };
 
 const unitStyles = {
