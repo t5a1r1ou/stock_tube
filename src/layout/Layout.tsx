@@ -2,7 +2,7 @@ import { Match, Show, Switch } from "solid-js";
 import { A, useLocation } from "@solidjs/router";
 import { AiFillFolderOpen, AiOutlineSearch } from "solid-icons/ai";
 import { Toaster } from "solid-toast";
-import { layoutStyles } from "../styles/style.css";
+import { componentStyles, layoutStyles } from "../styles/style.css";
 import logo from "../images/logo.png";
 import type { Accessor, Component, JSX } from "solid-js";
 import type { User } from "@supabase/supabase-js";
@@ -29,7 +29,7 @@ const Layout: Component<Props> = (props) => {
                 class={layoutStyles.headerLeftButton}
               >
                 <AiFillFolderOpen />
-                ライブラリ
+                <span class={componentStyles.hiddenText}>ライブラリ</span>
               </A>
             </Match>
             <Match when={isVideoPage()}>
@@ -39,7 +39,7 @@ const Layout: Component<Props> = (props) => {
                 class={layoutStyles.headerLeftButton}
               >
                 <AiOutlineSearch />
-                検索
+                <span class={componentStyles.hiddenText}>検索</span>
               </A>
             </Match>
           </Switch>

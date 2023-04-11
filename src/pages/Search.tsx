@@ -83,7 +83,7 @@ const Search: Component = () => {
   return (
     <>
       <Head title="StockTube | 検索" />
-      <h2 class={componentStyles.visuallyHidden}>検索</h2>
+      <h2 class={componentStyles.heading}>キーワード検索</h2>
       <SearchForm
         submitQuery={submitQuery}
         inputValue={searchStateStore.data.inputValue}

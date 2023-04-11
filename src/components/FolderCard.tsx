@@ -80,7 +80,7 @@ export const FolderCard: Component<Props> = (props) => {
             <p class={folderCard.icon}>{folder.icon}</p>
             <Show when={folderCounts() !== LAST_ONE}>
               <button class={folderCard.deleteButton} onClick={onClickDelete}>
-                <span class={componentStyles.visuallyHidden}>削除</span>
+                <span class={componentStyles.hiddenText}>削除</span>
               </button>
             </Show>
           </div>
