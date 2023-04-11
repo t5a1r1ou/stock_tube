@@ -29,7 +29,7 @@ globalStyle(".picmo__picker", {
 
 export const layoutStyles = {
   wrapper: style({
-    minHeight: ["100dvh", "100vh"],
+    minHeight: ["100vh", "100dvh"],
     display: "grid",
     gridTemplateRows: "auto 1fr auto",
   }),
@@ -91,7 +91,7 @@ export const layoutStyles = {
     mixins.displayFlexCenter,
     {
       width: "100%",
-      height: "3rem",
+      height: ["3rem", "calc(3rem + env(safe-area-inset-bottom))"],
       borderTop: `1px solid ${colors.darkSecondary}`,
     },
   ]),
