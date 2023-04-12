@@ -9,6 +9,7 @@ import { Modal } from "./Modal";
 import { Pagenation } from "./Pagenation";
 import { SearchedVideoCard } from "./SearchedVideoCard";
 import { SearchForm } from "./SearchForm";
+import { SegmentControl } from "./SegmentControl";
 import { Spinner } from "./Spinner";
 import { VideoCard } from "./VideoCard";
 import { YoutubePlayer } from "./YoutubePlayer";
@@ -25,6 +26,7 @@ export {
   Pagenation,
   SearchedVideoCard,
   SearchForm,
+  SegmentControl,
   Spinner,
   VideoCard,
   YoutubePlayer,

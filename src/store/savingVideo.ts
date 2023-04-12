@@ -7,6 +7,7 @@ const savingVideo = () => {
     youtube_id: "",
     title: "",
     thumbnail: "",
+    duration: "",
     folder_id: "",
     published_at: "",
   });
@@ -16,6 +17,7 @@ const savingVideo = () => {
       youtube_id: "",
       title: "",
       thumbnail: "",
+      duration: "",
       folder_id: "",
       published_at: "",
     });
@@ -27,6 +29,7 @@ const savingVideo = () => {
       youtube_id: video.youtube_id,
       title: video.title,
       thumbnail: video.thumbnail,
+      duration: video.duration,
       published_at: video.published_at,
     });
   };
