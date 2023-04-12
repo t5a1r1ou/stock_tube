@@ -20,7 +20,7 @@ export type YoutubeWindow = Window &
 
 export type SearchState = {
   resultVideos: Video[];
-  total: Number;
+  total: number;
   nextPageToken: string;
   currentWord: string;
   inputValue: string;
@@ -33,6 +33,7 @@ export type Video = {
   created_at?: string;
   thumbnail: string;
   title: string;
+  duration: string;
   published_at: string;
   folder_id?: string;
   user_id?: string;

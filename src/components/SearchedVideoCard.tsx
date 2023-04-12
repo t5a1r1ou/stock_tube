@@ -1,6 +1,7 @@
 import { Show } from "solid-js";
 import { videosStore } from "../store";
 import { videoCard } from "../styles/style.css";
+import { convertTimeString } from "../scripts/util";
 import type { Component } from "solid-js";
 import type { Video } from "../types/types";
 
@@ -32,6 +33,10 @@ export const SearchedVideoCard: Component<Props> = (props) => {
         <time datetime={props.video.published_at} class={videoCard.publishedAt}>
           公開日: {props.video.published_at.split("T").at(0)}
         </time>
+        <p class={videoCard.publishedAt}>
+          再生時間：
+          {convertTimeString(props.video.duration)}
+        </p>
       </div>
       <Show
         when={!isStocked()}

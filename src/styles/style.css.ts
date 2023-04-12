@@ -275,6 +275,48 @@ export const componentStyles = {
     marginBottom: "1rem",
   }),
   hiddenText: style([mixins.visuallyHidden]),
+  segmentControl: {
+    wrapper: style({
+      display: "flex",
+      width: "100%",
+      margin: "0 auto 0.8rem",
+      "@media": {
+        "screen and (min-width: 768px)": {
+          width: "70%",
+        },
+      },
+    }),
+    button: style({
+      flex: 1,
+      textAlign: "center",
+      padding: "0.8em",
+      color: colors.primary,
+      fontSize: "0.8rem",
+      fontWeight: "bold",
+      borderStyle: "solid",
+      borderWidth: "1px",
+      borderColor: colors.secondary,
+      ":first-of-type": {
+        borderRight: "none",
+        borderTopLeftRadius: "0.4rem",
+        borderBottomLeftRadius: "0.4rem",
+      },
+      ":last-of-type": {
+        borderLeft: "none",
+        borderTopRightRadius: "0.4rem",
+        borderBottomRightRadius: "0.4rem",
+      },
+      selectors: {
+        "&[data-checked=true]": {
+          backgroundColor: colors.primary,
+          color: colors.black,
+        },
+        "&[data-checked=false]": {
+          color: colors.secondary,
+        },
+      },
+    }),
+  },
 };
 
 const unitStyles = {
@@ -284,6 +326,7 @@ const unitStyles = {
       flexDirection: "column",
       justifyContent: "center",
       alignItems: "center",
+      marginBottom: "2rem",
       "@media": {
         "screen and (min-width: 768px)": {
           flexDirection: "row",
@@ -316,7 +359,7 @@ const unitStyles = {
       },
     ]),
     result: style({
-      margin: "2rem 0 0.4rem",
+      marginBottom: "0.4rem",
     }),
   },
   accountForm: {

@@ -22,6 +22,7 @@ import {
   Pagenation,
   SearchForm,
   SearchedVideoCard,
+  SegmentControl,
   Spinner,
 } from "../components";
 import { componentStyles } from "../styles/style.css";
@@ -36,12 +37,11 @@ const Search: Component = () => {
   const addFolderModalId = "add_folder_modal";
   let emojiPopup: PopupPickerController | undefined;
   const [loadingSearch, setLoadingSearch] = createSignal<boolean>(false);
+  const [searchType, setSearchType] = createSignal<"keyword" | "url">(
+    "keyword"
+  );
 
-  const {
-    initApi: initSearchApi,
-    submitQuery,
-    onClickMore,
-  } = useSearch(setLoadingSearch);
+  const { initApi: initSearchApi, searchVideo } = useSearch(setLoadingSearch);
 
   const { error, isValidForm, inputName, inputIcon, submit } =
     useSavingFolder();
@@ -71,6 +71,31 @@ const Search: Component = () => {
     savingVideoStore.clearData();
   };
 
+  const onToggleEmoji = (e: Event) => toggleEmoji(e, emojiPopup);
+
+  const submitQuery = (e: Event) => {
+    e.preventDefault();
+    searchVideo(searchStateStore.data.inputValue, undefined, searchType());
+    // URL検索の場合、即時追加モーダルを表示
+    if (searchType() === "url") {
+      addVideoModalShow();
+    }
+  };
+
+  const onClickMore = (e: Event) => {
+    e.preventDefault();
+    searchVideo(
+      searchStateStore.data.currentWord,
+      searchStateStore.data.nextPageToken,
+      searchType()
+    );
+  };
+
+  const onChangeSearchType = (e: { currentTarget: HTMLInputElement }) => {
+    const value = e.currentTarget.value as "keyword" | "url";
+    setSearchType(value);
+  };
+
   onMount(() => {
     foldersStore.fetchData();
     initSearchApi();
@@ -78,19 +103,34 @@ const Search: Component = () => {
     registerListener(emojiPopup, inputIcon);
   });
 
-  const onToggleEmoji = (e: Event) => toggleEmoji(e, emojiPopup);
-
   return (
     <>
       <Head title="StockTube | 検索" />
-      <h2 class={componentStyles.heading}>キーワード検索</h2>
+      <SegmentControl
+        id="searchType"
+        data={[
+          {
+            value: "keyword",
+            text: "キーワード検索",
+          },
+          {
+            value: "url",
+            text: "URL検索",
+          },
+        ]}
+        state={searchType()}
+        onChange={onChangeSearchType}
+      />
+      <h2 class={componentStyles.heading}>
+        {searchType() === "keyword" ? "キーワード検索" : "URL検索"}
+      </h2>
       <SearchForm
         submitQuery={submitQuery}
-        inputValue={searchStateStore.data.inputValue}
-        setInputValue={searchStateStore.setInputValue}
-        error={searchStateStore.data.error}
-        currentWord={searchStateStore.data.currentWord}
-        total={searchStateStore.data.total}
+        placeholder={
+          searchType() === "keyword"
+            ? "検索ワードを入力してください"
+            : "URLを入力してください"
+        }
       />
       <Show when={!loadingSearch()} fallback={<Spinner />}>
         <CardsWrapper>
