@@ -192,7 +192,7 @@ export const componentStyles = {
     marginTop: "0.8rem",
     fontSize: "1.2rem",
   }),
-  videoPublishedAt: style({
+  details: style({
     display: "block",
     marginTop: "0.4rem",
     fontSize: "0.8rem",
@@ -493,7 +493,7 @@ const unitStyles = {
       width: "25%",
     }),
     title: style([componentStyles.videoTitle]),
-    publishedAt: style([componentStyles.videoPublishedAt]),
+    details: style([componentStyles.details]),
     buttonContainer: style({
       width: "100%",
       display: "flex",
@@ -752,7 +752,7 @@ const unitStyles = {
         },
       },
     ]),
-    publishedAt: style([componentStyles.videoPublishedAt]),
+    details: style([componentStyles.details]),
     formContainer: style({
       display: "flex",
       justifyContent: "center",

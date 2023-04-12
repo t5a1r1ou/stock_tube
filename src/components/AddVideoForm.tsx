@@ -1,4 +1,5 @@
 import { For, Show } from "solid-js";
+import { convertTimeString } from "../scripts/util";
 import { foldersStore, savingVideoStore } from "../store";
 import { useSavingVideo } from "../hooks";
 import { addVideoForm } from "../styles/style.css";
@@ -36,8 +37,11 @@ export const AddVideoForm: Component<Props> = (props) => {
       <div class={addVideoForm.box}>
         <div>
           <h3 class={addVideoForm.title}>{savingVideoStore.data.title}</h3>
-          <p class={addVideoForm.publishedAt}>
+          <p class={addVideoForm.details}>
             公開日: {savingVideoStore.data.published_at.split("T").at(0)}
+          </p>
+          <p class={addVideoForm.details}>
+            再生時間: {convertTimeString(savingVideoStore.data.duration)}
           </p>
         </div>
         <form class={addVideoForm.formContainer} onSubmit={onSubmit}>

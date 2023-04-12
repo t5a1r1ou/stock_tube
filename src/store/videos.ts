@@ -41,13 +41,13 @@ const videos = () => {
       .from("videos")
       .insert(video)
       .select()
-      .single();
+      .single<Video>();
 
     if (error) {
       console.log(error);
       throw new Error();
     } else if (newVideo) {
-      setData([...data, newVideo] as Video[]);
+      setData([...data, newVideo]);
     }
   };
 

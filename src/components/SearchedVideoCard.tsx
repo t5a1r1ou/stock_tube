@@ -30,10 +30,10 @@ export const SearchedVideoCard: Component<Props> = (props) => {
           />
         </div>
         <h3 class={videoCard.title}>{props.video.title}</h3>
-        <time datetime={props.video.published_at} class={videoCard.publishedAt}>
+        <time datetime={props.video.published_at} class={videoCard.details}>
           公開日: {props.video.published_at.split("T").at(0)}
         </time>
-        <p class={videoCard.publishedAt}>
+        <p class={videoCard.details}>
           再生時間：
           {convertTimeString(props.video.duration)}
         </p>
