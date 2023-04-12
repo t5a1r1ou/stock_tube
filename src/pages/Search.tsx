@@ -99,9 +99,7 @@ const Search: Component = () => {
 
   const deleteConfirmTitle = () => {
     if (!deletingVideoStore.data.folder_id) {
-      return `「${truncateWithEllipsis12(
-        deletingVideoStore.data.title
-      )}」を削除しますか？`;
+      return "";
     }
     const folder = foldersStore.getFolder(deletingVideoStore.data.folder_id);
     return `${folder!.name}${
