@@ -79,7 +79,7 @@ export const layoutStyles = {
       right: 0,
       top: 0,
       bottom: 0,
-      fontSize: "1rem",
+      fontSize: "0.8rem",
     },
   ]),
   main: style({

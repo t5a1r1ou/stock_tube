@@ -28,6 +28,9 @@ const folders = () => {
   const getFolderFromUrl = (url_id: Folder["url_id"]) =>
     data.find((folder) => folder.url_id === url_id);
 
+  const getFolder = (id: Folder["id"]) =>
+    data.find((folder) => folder.id === id);
+
   const getFolderName = (id: Folder["id"]) =>
     data.find((folder) => folder.id === id)?.name;
 
@@ -91,6 +94,7 @@ const folders = () => {
     fetchData,
     getId,
     getFolderFromUrl,
+    getFolder,
     getFolderName,
     getFolderUrlId,
     addData,
