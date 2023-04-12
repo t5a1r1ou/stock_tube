@@ -78,6 +78,20 @@ const Videos: Component = () => {
     playerStore.data().playVideo();
   };
 
+  const deleteConfirmTitle = () => {
+    if (!deletingVideoStore.data.folder_id) {
+      return `「${truncateWithEllipsis12(
+        deletingVideoStore.data.title
+      )}」を削除しますか？`;
+    }
+    const folder = foldersStore.getFolder(deletingVideoStore.data.folder_id);
+    return `${folder!.name}${
+      folder!.icon
+    }フォルダから「${truncateWithEllipsis12(
+      deletingVideoStore.data.title
+    )}」を削除しますか？`;
+  };
+
   onMount(() => {
     if (videosStore.data.length > 0 && foldersStore.data.length > 0) {
       setLoadingFolder(false);
@@ -128,9 +142,7 @@ const Videos: Component = () => {
         <DeleteConfirm
           modalClose={confirmModalClose}
           onDelete={onConfirmVideoModalDelete}
-          title={`「${truncateWithEllipsis12(
-            deletingVideoStore.data.title
-          )}」を削除しますか？`}
+          title={deleteConfirmTitle()}
           desc={"元に戻す場合は再度検索して追加する必要があります。"}
         />
       </Modal>

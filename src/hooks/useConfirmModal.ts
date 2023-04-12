@@ -4,7 +4,6 @@ import {
   foldersStore,
   videosStore,
 } from "../store";
-import { useCommon } from "./useCommon";
 import type { Folder, Video } from "../types/types";
 import toast from "solid-toast";
 
@@ -14,11 +13,11 @@ type Args = {
 };
 
 export const useConfirmModal = (args: Args) => {
-  const { observeSearchStockedVideo } = useCommon();
   const onConfirmVideoModalShow = (video: Video) => {
     deletingVideoStore.setData({
       youtube_id: video.youtube_id,
       title: video.title,
+      folder_id: video.folder_id,
     });
     args.modalShow();
   };
@@ -26,7 +25,6 @@ export const useConfirmModal = (args: Args) => {
   const onConfirmVideoModalDelete = () => {
     if (deletingVideoStore.data.youtube_id) {
       videosStore.removeData(deletingVideoStore.data.youtube_id);
-      observeSearchStockedVideo();
       args.modalClose();
       toast.success("動画の削除が完了しました。");
     }

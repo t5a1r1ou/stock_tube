@@ -1,7 +1,7 @@
 import { Setter, createSignal } from "solid-js";
 import { initGoogleScript, loadGoogleScript } from "../scripts/api";
 import { getYoutubeIdFromUrl } from "../scripts/util";
-import { savingVideoStore, searchStateStore, videosStore } from "../store";
+import { savingVideoStore, searchStateStore } from "../store";
 import type { GapiWindow, SearchState, Video } from "../types/types";
 
 type fetchYoutubeSearchApiResult = Pick<
@@ -62,7 +62,6 @@ export const useSearch = (setLoading: Setter<boolean>) => {
         part: ["snippet", "contentDetails"],
         id: youtubeId,
       });
-      const stockedIds = videosStore.data.map((video) => video.youtube_id);
       const {
         id: youtube_id,
         snippet: { thumbnails, title, publishedAt: published_at },
@@ -73,7 +72,6 @@ export const useSearch = (setLoading: Setter<boolean>) => {
         title,
         published_at,
         thumbnail: thumbnails.high.url,
-        isStocked: stockedIds.includes(youtube_id),
         duration,
       };
     } catch (error) {
