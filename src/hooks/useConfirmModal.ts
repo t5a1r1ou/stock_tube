@@ -17,7 +17,11 @@ export const useConfirmModal = (args: Args) => {
     deletingVideoStore.setData({
       youtube_id: video.youtube_id,
       title: video.title,
-      folder_id: video.folder_id,
+      folder_id:
+        video.folder_id ||
+        videosStore.data.find(
+          (stockedVideo) => stockedVideo.youtube_id === video.youtube_id
+        )!.folder_id,
     });
     args.modalShow();
   };
