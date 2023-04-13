@@ -12,6 +12,8 @@ const searchState = () => {
     error: "",
   });
 
+  const getData = () => data;
+
   const setApiData = (
     apiData: Pick<SearchState, "resultVideos" | "total" | "nextPageToken">
   ) => setData({ ...searchState, ...apiData });
@@ -43,6 +45,7 @@ const searchState = () => {
 
   return {
     data,
+    getData,
     setData,
     setApiData,
     setResultVideo,

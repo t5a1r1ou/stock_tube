@@ -1,7 +1,7 @@
 import { Setter, createSignal } from "solid-js";
 import { initGoogleScript, loadGoogleScript } from "../scripts/api";
 import { getYoutubeIdFromUrl } from "../scripts/util";
-import { savingVideoStore, searchStateStore } from "../store";
+import { searchStateStore } from "../store";
 import type { GapiWindow, SearchState, Video } from "../types/types";
 
 type fetchYoutubeSearchApiResult = Pick<
@@ -105,9 +105,6 @@ export const useSearch = (setLoading: Setter<boolean>) => {
           });
           searchStateStore.setCurrentWord("");
           searchStateStore.setError("");
-
-          // URL検索の場合、即時追加モーダルを表示できるようにsavingVideoに値を格納
-          savingVideoStore.setInfo(video);
         })
         .catch(() => {
           searchStateStore.setError("URLが正しいかご確認ください");

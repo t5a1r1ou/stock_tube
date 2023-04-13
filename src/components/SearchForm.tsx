@@ -1,4 +1,4 @@
-import { Show } from "solid-js";
+import { Show, createMemo } from "solid-js";
 import { searchForm } from "../styles/style.css";
 import type { Component } from "solid-js";
 import { searchStateStore } from "../store";
@@ -9,7 +9,7 @@ type Props = {
 };
 
 export const SearchForm: Component<Props> = (props) => {
-  const { inputValue, error, currentWord, total } = searchStateStore.data;
+  const data = createMemo(() => searchStateStore.getData());
 
   return (
     <>
@@ -17,8 +17,8 @@ export const SearchForm: Component<Props> = (props) => {
         <input
           type="search"
           name="search"
-          class={error ? searchForm.errorInput : searchForm.input}
-          value={inputValue}
+          class={data().error ? searchForm.errorInput : searchForm.input}
+          value={data().inputValue}
           onInput={(e) => searchStateStore.setInputValue(e.currentTarget.value)}
           onChange={(e) =>
             searchStateStore.setInputValue(e.currentTarget.value)
@@ -29,13 +29,15 @@ export const SearchForm: Component<Props> = (props) => {
           検索
         </button>
       </form>
-      <Show when={error !== ""}>
-        <p class={searchForm.errorText}>{error}</p>
+      <Show when={data().error !== ""}>
+        <p class={searchForm.errorText}>{data().error}</p>
       </Show>
-      <Show when={currentWord !== ""}>
+      <Show when={data().currentWord !== ""}>
         <p class={searchForm.result}>
-          「{currentWord}」の検索結果:{" "}
-          {total === 1000000 ? "100万件以上" : `${total.toLocaleString()}件`}
+          「{data().currentWord}」の検索結果:{" "}
+          {data().total === 1000000
+            ? "100万件以上"
+            : `${data().total.toLocaleString()}件`}
         </p>
       </Show>
     </>
