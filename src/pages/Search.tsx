@@ -77,10 +77,6 @@ const Search: Component = () => {
   const submitQuery = (e: Event) => {
     e.preventDefault();
     searchVideo(searchStateStore.data.inputValue, undefined, searchType());
-    // URL検索の場合、即時追加モーダルを表示
-    if (searchType() === "url") {
-      addVideoModalShow();
-    }
   };
 
   const onClickMore = (e: Event) => {
