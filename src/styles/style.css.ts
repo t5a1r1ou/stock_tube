@@ -101,6 +101,25 @@ export const layoutStyles = {
   }),
 };
 
+const colorStyles = {
+  primary: style({
+    border: `1px solid ${colors.primary}`,
+    color: colors.primary,
+    fontWeight: "bold",
+  }),
+  secondary: style({
+    color: colors.black,
+    backgroundColor: colors.primary,
+  }),
+  alert: style({
+    color: colors.white,
+    backgroundColor: colors.error,
+  }),
+  error: style({
+    color: colors.error,
+  }),
+};
+
 export const componentStyles = {
   heading: style({
     marginBottom: "1.2rem",
@@ -154,22 +173,6 @@ export const componentStyles = {
       },
     },
   ]),
-  primary: style({
-    border: `1px solid ${colors.primary}`,
-    color: colors.primary,
-    fontWeight: "bold",
-  }),
-  secondary: style({
-    color: colors.black,
-    backgroundColor: colors.primary,
-  }),
-  alert: style({
-    color: colors.white,
-    backgroundColor: colors.error,
-  }),
-  error: style({
-    color: colors.error,
-  }),
   cardContainer: style({
     marginBottom: "2rem",
     width: "100%",
@@ -312,9 +315,88 @@ export const componentStyles = {
           color: colors.black,
         },
         "&[data-checked=false]": {
-          color: colors.secondary,
+          color: colors.darkSecondary,
         },
       },
+    }),
+  },
+  menu: {
+    container: style({
+      display: "flex",
+    }),
+    button: style({
+      display: "flex",
+      justifyContent: "center",
+      alignItems: "center",
+      borderRadius: "50%",
+      width: "100%",
+      height: "100%",
+      backgroundColor: "currentColor",
+      ":focus": {
+        border: "0.2rem solid #0044CC",
+      },
+    }),
+    buttonIcon: style({
+      transform: "scale(1.5)",
+    }),
+    body: style({
+      position: "absolute",
+      top: "0",
+      left: "calc(100% + 0.4rem)",
+      width: "300%",
+      padding: "0.8rem 0",
+      borderRadius: "0.4rem",
+      backgroundColor: "#555",
+      zIndex: 1,
+      "@media": {
+        "screen and (min-width: 768px)": {
+          left: "auto",
+          right: "calc(100% + 0.4rem)",
+        },
+      },
+      selectors: {
+        "button[aria-expanded=true] + &": {
+          display: "block",
+        },
+        "button[aria-expanded=false] + &": {
+          display: "none",
+        },
+      },
+    }),
+    bodyButton: style({
+      width: "100%",
+      padding: "0.8rem 1.2rem",
+      color: colors.white,
+      ":focus": {
+        backgroundColor: "#777",
+      },
+      "@media": {
+        "screen and (min-width: 768px)": {
+          ":hover": {
+            backgroundColor: "#777",
+          },
+        },
+      },
+    }),
+    bodyButtonDelete: style([
+      colorStyles.error,
+      {
+        width: "100%",
+        padding: "0.8rem 1.2rem",
+        ":focus": {
+          backgroundColor: "#777",
+        },
+        "@media": {
+          "screen and (min-width: 768px)": {
+            ":hover": {
+              backgroundColor: "#777",
+            },
+          },
+        },
+      },
+    ]),
+    menuIcon: style({
+      marginRight: "0.4rem",
     }),
   },
 };
@@ -336,7 +418,7 @@ const unitStyles = {
     input: style([componentStyles.input]),
     errorInput: style([componentStyles.errorInput]),
     errorText: style([
-      componentStyles.error,
+      colorStyles.error,
       {
         marginTop: "0.8rem",
         textAlign: "center",
@@ -344,7 +426,7 @@ const unitStyles = {
     ]),
     submitButton: style([
       componentStyles.button,
-      componentStyles.secondary,
+      colorStyles.secondary,
       {
         width: "30%",
         marginTop: "1.6rem",
@@ -400,14 +482,14 @@ const unitStyles = {
     input: style([componentStyles.input]),
     errorInput: style([componentStyles.errorInput]),
     error: style([
-      componentStyles.error,
+      colorStyles.error,
       {
         marginTop: "0.5rem",
       },
     ]),
     submitButton: style([
       componentStyles.button,
-      componentStyles.secondary,
+      colorStyles.secondary,
       {
         width: "100%",
         height: "2.5rem",
@@ -421,7 +503,7 @@ const unitStyles = {
       gap: "0.4rem",
       margin: "0 auto 1.6rem",
     }),
-    button: style([componentStyles.button, componentStyles.primary]),
+    button: style([componentStyles.button, colorStyles.primary]),
   },
   cardsWrapper: {
     wrapper: style({
@@ -493,22 +575,38 @@ const unitStyles = {
       width: "25%",
     }),
     title: style([componentStyles.videoTitle]),
+    detailsContainer: style({
+      textAlign: "right",
+    }),
     details: style([componentStyles.details]),
     buttonContainer: style({
       width: "100%",
       display: "flex",
       justifyContent: "center",
     }),
+    box: style({
+      display: "flex",
+      flexDirection: "row-reverse",
+      justifyContent: "space-between",
+      alignItems: "center",
+      marginTop: "0.8rem",
+    }),
+    menuButtonContainer: style({
+      position: "relative",
+      width: "2.4rem",
+      height: "2.4rem",
+      color: colors.lightSecondary,
+    }),
     button: style([
       componentStyles.button,
-      componentStyles.secondary,
+      colorStyles.secondary,
       {
         marginTop: "0.8rem",
       },
     ]),
     alertButton: style([
       componentStyles.button,
-      componentStyles.alert,
+      colorStyles.alert,
       {
         marginTop: "0.8rem",
       },
@@ -606,7 +704,7 @@ const unitStyles = {
     }),
     editButton: style([
       componentStyles.button,
-      componentStyles.primary,
+      colorStyles.primary,
       {
         width: "100%",
         marginBottom: "0.4rem",
@@ -639,6 +737,7 @@ const unitStyles = {
       bottom: "0.8rem",
       width: "2.4rem",
       height: "2.4rem",
+      color: colors.white,
       "@media": {
         "screen and (min-width: 768px)": {
           top: 0,
@@ -648,78 +747,6 @@ const unitStyles = {
           margin: "auto 0",
         },
       },
-    }),
-    menuButton: style({
-      display: "flex",
-      justifyContent: "center",
-      alignItems: "center",
-      borderRadius: "50%",
-      width: "100%",
-      height: "100%",
-      backgroundColor: colors.white,
-      ":focus": {
-        border: "0.2rem solid #0044CC",
-      },
-    }),
-    menuButtonIcon: style({
-      transform: "scale(1.5)",
-    }),
-    menu: style({
-      position: "absolute",
-      top: "0",
-      left: "calc(100% + 0.4rem)",
-      width: "300%",
-      padding: "0.8rem 0",
-      borderRadius: "0.4rem",
-      backgroundColor: "#555",
-      zIndex: 1,
-      "@media": {
-        "screen and (min-width: 768px)": {
-          left: "auto",
-          right: "calc(100% + 0.4rem)",
-        },
-      },
-      selectors: {
-        "button[aria-expanded=true] + &": {
-          display: "block",
-        },
-        "button[aria-expanded=false] + &": {
-          display: "none",
-        },
-      },
-    }),
-    menuItem: style({
-      padding: "0.8rem 1.2rem",
-      color: colors.white,
-      ":focus-visible": {
-        backgroundColor: "#777",
-      },
-      "@media": {
-        "screen and (min-width: 768px)": {
-          ":hover": {
-            backgroundColor: "#777",
-          },
-        },
-      },
-    }),
-    menuItemDelete: style([
-      componentStyles.error,
-      {
-        padding: "0.8rem 1.2rem",
-        ":focus": {
-          backgroundColor: "#777",
-        },
-        "@media": {
-          "screen and (min-width: 768px)": {
-            ":hover": {
-              backgroundColor: "#777",
-            },
-          },
-        },
-      },
-    ]),
-    menuIcon: style({
-      marginRight: "0.4rem",
     }),
   },
   addVideoForm: {
@@ -798,14 +825,14 @@ const unitStyles = {
       },
     ]),
     error: style([
-      componentStyles.error,
+      colorStyles.error,
       {
         marginTop: "0.4rem",
       },
     ]),
     submitButton: style([
       componentStyles.button,
-      componentStyles.secondary,
+      colorStyles.secondary,
       { marginTop: "0.8rem" },
     ]),
   },
@@ -839,14 +866,14 @@ const unitStyles = {
       },
     ]),
     error: style([
-      componentStyles.error,
+      colorStyles.error,
       {
         marginTop: "0.4rem",
       },
     ]),
     submitButton: style([
       componentStyles.button,
-      componentStyles.secondary,
+      colorStyles.secondary,
       {
         margin: "1.2rem auto 0",
       },
@@ -874,10 +901,10 @@ const unitStyles = {
       display: "flex",
       justifyContent: "flex-end",
     }),
-    button: style([componentStyles.button, componentStyles.primary]),
+    button: style([componentStyles.button, colorStyles.primary]),
     buttonAlert: style([
       componentStyles.button,
-      componentStyles.alert,
+      colorStyles.alert,
       {
         marginLeft: "0.4rem",
       },

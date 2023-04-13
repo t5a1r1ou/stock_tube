@@ -1,12 +1,10 @@
-import { Match, Show, Switch, createSignal, splitProps } from "solid-js";
+import { Match, Show, Switch, splitProps } from "solid-js";
 import { A } from "@solidjs/router";
 import { FiEdit } from "solid-icons/fi";
 import { AiFillDelete } from "solid-icons/ai";
-import { BsThreeDots } from "../lib/solid-icons/BsThreeDots";
 import { foldersStore, videosStore } from "../store";
+import { Menu } from "../components";
 import { componentStyles, folderCard } from "../styles/style.css";
-// @ts-ignore
-import clickOutside from "../directives/clickOutside";
 import type { Accessor, Component } from "solid-js";
 import type { Folder } from "../types/types";
 
@@ -21,14 +19,13 @@ export const FolderCard: Component<Props> = (props) => {
     "editModalShow",
     "confirmModalShow",
   ]);
-  const [isMenuOpened, setIsMenuOpened] = createSignal<boolean>(false);
   const videoCounts = () => videosStore.getFromFolder(folder.id).length;
   const folderCounts = () => foldersStore.data.length;
   const LAST_ONE = 1;
-  let firstMenuItem: HTMLLIElement | undefined;
 
   const onClickEdit = (e: Event) => {
     e.preventDefault();
+    e.stopPropagation();
     fnc.editModalShow(folder);
   };
 
@@ -36,32 +33,6 @@ export const FolderCard: Component<Props> = (props) => {
     e.preventDefault();
     e.stopPropagation();
     fnc.confirmModalShow(folder);
-  };
-
-  const onClickEditMenuItem = (e: Event) => {
-    setIsMenuOpened(false);
-    onClickEdit(e);
-  };
-
-  const onClickDeleteMenuItem = (e: Event) => {
-    setIsMenuOpened(false);
-    onClickDelete(e);
-  };
-
-  const onClickMenu = (e: Event) => {
-    e.preventDefault();
-    e.stopPropagation();
-    const target = e.currentTarget;
-    if (isMenuOpened()) {
-      setIsMenuOpened(false);
-      (target as HTMLElement).focus();
-    } else if (!isMenuOpened()) {
-      setIsMenuOpened(true);
-      (target as HTMLElement).blur();
-      if (firstMenuItem) {
-        firstMenuItem.focus();
-      }
-    }
   };
 
   return (
@@ -96,45 +67,29 @@ export const FolderCard: Component<Props> = (props) => {
               </div>
             </div>
             <p class={folderCard.icon}>{folder.icon}</p>
-            <div
-              class={folderCard.menuButtonContainer}
-              use:clickOutside={() => setIsMenuOpened(false)}
+            <Menu
+              id={folder.id}
+              containerClass={folderCard.menuButtonContainer}
             >
-              <button
-                class={folderCard.menuButton}
-                onClick={onClickMenu}
-                id={folder.id}
-                aria-haspopup={true}
-                aria-controls={`${folder.id}_menu`}
-                aria-expanded={isMenuOpened()}
-              >
-                <BsThreeDots className={folderCard.menuButtonIcon} />
-              </button>
-              <ul
-                id={`${folder.id}_menu`}
-                class={folderCard.menu}
-                role="menu"
-                aria-labelledby={folder.id}
-              >
-                <li
-                  role="menuitem"
-                  ref={firstMenuItem}
-                  class={folderCard.menuItem}
-                  onClick={onClickEditMenuItem}
+              <li role="menuitem">
+                <button
+                  onClick={onClickEdit}
+                  class={componentStyles.menu.bodyButton}
                 >
-                  <FiEdit class={folderCard.menuIcon} />
+                  <FiEdit class={componentStyles.menu.menuIcon} />
                   <span>編集</span>
-                </li>
-                <li
-                  role="menuitem"
-                  class={folderCard.menuItemDelete}
-                  onClick={onClickDeleteMenuItem}
+                </button>
+              </li>
+              <li role="menuitem">
+                <button
+                  onClick={onClickDelete}
+                  class={componentStyles.menu.bodyButtonDelete}
                 >
-                  <AiFillDelete class={folderCard.menuIcon} />
+                  <AiFillDelete class={componentStyles.menu.menuIcon} />
                   <span>削除</span>
-                </li>
-              </ul>
-            </div>
+                </button>
+              </li>
+            </Menu>
           </A>
         </div>
       </Match>

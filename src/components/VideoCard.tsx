@@ -1,8 +1,11 @@
+import { AiFillDelete } from "solid-icons/ai";
+import { FiEdit } from "solid-icons/fi";
 import { convertTimeString } from "../scripts/util";
-import { videoCard } from "../styles/style.css";
+import { componentStyles, videoCard } from "../styles/style.css";
 import youtubeIcon from "../images/youtube_icon.png";
 import type { Component } from "solid-js";
 import type { Video } from "../types/types";
+import { Menu } from "./Menu";
 
 type Props = {
   video: Video;
@@ -26,19 +29,40 @@ export const VideoCard: Component<Props> = (props) => {
           <img src={youtubeIcon} alt="" class={videoCard.youtubeIcon} />
         </div>
         <h3 class={videoCard.title}>{props.video.title}</h3>
-        <time datetime={props.video.published_at} class={videoCard.details}>
-          公開日: {props.video.published_at.split("T").at(0)}
-        </time>
-        <p class={videoCard.details}>
-          再生時間: {convertTimeString(props.video.duration)}
-        </p>
+        <div class={videoCard.box}>
+          <div class={videoCard.detailsContainer}>
+            <time datetime={props.video.published_at} class={videoCard.details}>
+              公開日: {props.video.published_at.split("T").at(0)}
+            </time>
+            <p class={videoCard.details}>
+              再生時間: {convertTimeString(props.video.duration)}
+            </p>
+          </div>
+          <Menu
+            id={props.video.youtube_id}
+            containerClass={videoCard.menuButtonContainer}
+          >
+            <li role="menuitem">
+              <button
+                onClick={() => console.log("onClickEdit")}
+                class={componentStyles.menu.bodyButton}
+              >
+                <FiEdit class={componentStyles.menu.menuIcon} />
+                <span>編集</span>
+              </button>
+            </li>
+            <li role="menuitem">
+              <button
+                onClick={() => props.deleteModalShow(props.video)}
+                class={componentStyles.menu.bodyButtonDelete}
+              >
+                <AiFillDelete class={componentStyles.menu.menuIcon} />
+                <span>削除</span>
+              </button>
+            </li>
+          </Menu>
+        </div>
       </div>
-      <button
-        class={videoCard.alertButton}
-        onClick={() => props.deleteModalShow(props.video)}
-      >
-        削除する
-      </button>
     </div>
   );
 };
