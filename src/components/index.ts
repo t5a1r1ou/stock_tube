@@ -5,6 +5,7 @@ import { DeleteConfirm } from "./DeleteConfirm";
 import { EditFolderForm } from "./EditFolderForm";
 import { FloatingButton } from "./FloatingButton";
 import { FolderCard } from "./FolderCard";
+import { Menu } from "./Menu";
 import { Modal } from "./Modal";
 import { Pagenation } from "./Pagenation";
 import { SearchedVideoCard } from "./SearchedVideoCard";
@@ -22,6 +23,7 @@ export {
   EditFolderForm,
   FloatingButton,
   FolderCard,
+  Menu,
   Modal,
   Pagenation,
   SearchedVideoCard,
