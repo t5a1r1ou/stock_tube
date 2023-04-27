@@ -1,5 +1,4 @@
-import { AiFillDelete } from "solid-icons/ai";
-import { FiEdit } from "solid-icons/fi";
+import { AiFillDelete, AiFillFolderOpen } from "solid-icons/ai";
 import { convertTimeString } from "../scripts/util";
 import { componentStyles, videoCard } from "../styles/style.css";
 import youtubeIcon from "../images/youtube_icon.png";
@@ -47,8 +46,10 @@ export const VideoCard: Component<Props> = (props) => {
                 onClick={() => console.log("onClickEdit")}
                 class={componentStyles.menu.bodyButton}
               >
-                <FiEdit class={componentStyles.menu.menuIcon} />
-                <span>編集</span>
+                <AiFillFolderOpen class={componentStyles.menu.menuIcon} />
+                <span class={componentStyles.menu.buttonText}>
+                  フォルダ移動
+                </span>
               </button>
             </li>
             <li role="menuitem">
@@ -57,7 +58,7 @@ export const VideoCard: Component<Props> = (props) => {
                 class={componentStyles.menu.bodyButtonDelete}
               >
                 <AiFillDelete class={componentStyles.menu.menuIcon} />
-                <span>削除</span>
+                <span class={componentStyles.menu.buttonText}>削除</span>
               </button>
             </li>
           </Menu>

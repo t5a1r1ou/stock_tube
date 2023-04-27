@@ -77,7 +77,7 @@ export const FolderCard: Component<Props> = (props) => {
                   class={componentStyles.menu.bodyButton}
                 >
                   <FiEdit class={componentStyles.menu.menuIcon} />
-                  <span>編集</span>
+                  <span class={componentStyles.menu.buttonText}>編集</span>
                 </button>
               </li>
               <li role="menuitem">
@@ -86,7 +86,7 @@ export const FolderCard: Component<Props> = (props) => {
                   class={componentStyles.menu.bodyButtonDelete}
                 >
                   <AiFillDelete class={componentStyles.menu.menuIcon} />
-                  <span>削除</span>
+                  <span class={componentStyles.menu.buttonText}>削除</span>
                 </button>
               </li>
             </Menu>
