@@ -343,7 +343,8 @@ export const componentStyles = {
       position: "absolute",
       top: "0",
       left: "calc(100% + 0.4rem)",
-      width: "300%",
+      display: "flex",
+      flexDirection: "column",
       padding: "0.8rem 0",
       borderRadius: "0.4rem",
       backgroundColor: "#555",
@@ -364,8 +365,10 @@ export const componentStyles = {
       },
     }),
     bodyButton: style({
+      display: "flex",
+      alignItems: "center",
       width: "100%",
-      padding: "0.8rem 1.2rem",
+      padding: "0.8rem 1.6rem",
       color: colors.white,
       ":focus": {
         backgroundColor: "#777",
@@ -382,7 +385,7 @@ export const componentStyles = {
       colorStyles.error,
       {
         width: "100%",
-        padding: "0.8rem 1.2rem",
+        padding: "0.8rem 1.6rem",
         ":focus": {
           backgroundColor: "#777",
         },
@@ -395,6 +398,9 @@ export const componentStyles = {
         },
       },
     ]),
+    buttonText: style({
+      width: "max-content",
+    }),
     menuIcon: style({
       marginRight: "0.4rem",
     }),
