@@ -40,6 +40,7 @@ export const VideoCard: Component<Props> = (props) => {
           <Menu
             id={props.video.youtube_id}
             containerClass={videoCard.menuButtonContainer}
+            positionClass={"rightPc"}
           >
             <li role="menuitem">
               <button

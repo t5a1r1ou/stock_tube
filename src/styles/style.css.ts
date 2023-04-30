@@ -343,24 +343,35 @@ export const componentStyles = {
       position: "absolute",
       top: "0",
       left: "calc(100% + 0.4rem)",
+      right: "auto",
       display: "flex",
       flexDirection: "column",
       padding: "0.8rem 0",
       borderRadius: "0.4rem",
       backgroundColor: "#555",
       zIndex: 1,
-      "@media": {
-        "screen and (min-width: 768px)": {
-          left: "auto",
-          right: "calc(100% + 0.4rem)",
-        },
-      },
       selectors: {
         "button[aria-expanded=true] + &": {
           display: "block",
         },
         "button[aria-expanded=false] + &": {
           display: "none",
+        },
+        ".rightPc &": {
+          "@media": {
+            "screen and (min-width: 768px)": {
+              left: "calc(100% + 0.4rem)",
+              right: "auto",
+            },
+          },
+        },
+        ".leftPc &": {
+          "@media": {
+            "screen and (min-width: 768px)": {
+              left: "auto",
+              right: "calc(100% + 0.4rem)",
+            },
+          },
         },
       },
     }),

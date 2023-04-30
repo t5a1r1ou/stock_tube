@@ -8,6 +8,7 @@ import type { Component, JSX } from "solid-js";
 type Props = {
   id: string;
   containerClass?: string;
+  positionClass: string;
   children: JSX.Element;
 };
 
@@ -38,7 +39,7 @@ export const Menu: Component<Props> = (props) => {
     }
   };
   return (
-    <div class={containerClass}>
+    <div class={`${containerClass} ${props.positionClass}`}>
       <button
         class={componentStyles.menu.button}
         onClick={onClickMenu}
