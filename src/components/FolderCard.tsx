@@ -70,6 +70,7 @@ export const FolderCard: Component<Props> = (props) => {
             <Menu
               id={folder.id}
               containerClass={folderCard.menuButtonContainer}
+              positionClass={"leftPc"}
             >
               <li role="menuitem">
                 <button
