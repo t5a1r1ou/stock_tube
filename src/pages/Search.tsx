@@ -15,10 +15,10 @@ import {
   useSearch,
 } from "../hooks/";
 import {
-  AddVideoForm,
   CardsWrapper,
   DeleteConfirm,
   EditFolderForm,
+  EditVideoForm,
   Modal,
   Pagenation,
   SearchForm,
@@ -163,9 +163,10 @@ const Search: Component = () => {
           modalClose={onAddVideoModalClose}
           fullWidth={false}
         >
-          <AddVideoForm
-            addVideoModalClose={onAddVideoModalClose}
-            addFolderModalShow={addFolderModalShow}
+          <EditVideoForm
+            type={"new"}
+            editVideoModalClose={onAddVideoModalClose}
+            editFolderModalShow={addFolderModalShow}
           />
         </Modal>
         <Modal

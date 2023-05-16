@@ -51,6 +51,34 @@ const videos = () => {
     }
   };
 
+  const editData = async ({
+    youtube_id,
+    folder_id,
+  }: {
+    youtube_id: Video["youtube_id"];
+    folder_id: Video["folder_id"];
+  }) => {
+    const { data: updatedVideo, error } = await supabase
+      .from("videos")
+      .update({ folder_id })
+      .eq("youtube_id", youtube_id)
+      .select()
+      .single<Video>();
+
+    if (error) {
+      throw new Error();
+    } else {
+      const newData = data.map((video) => {
+        if (video.youtube_id === updatedVideo.youtube_id) {
+          return updatedVideo;
+        } else {
+          return video;
+        }
+      });
+      setData(newData);
+    }
+  };
+
   const removeData = async (youtubeId: Video["youtube_id"]) => {
     const { error } = await supabase
       .from("videos")
@@ -73,6 +101,7 @@ const videos = () => {
     getFromFolder,
     getFromUrl,
     addData,
+    editData,
     removeData,
     clearData,
   };

@@ -766,7 +766,7 @@ const unitStyles = {
       },
     }),
   },
-  addVideoForm: {
+  editVideoForm: {
     container: style({
       "@media": {
         "screen and (min-width: 768px)": {
@@ -937,8 +937,8 @@ export const {
   modal,
   videoCard,
   folderCard,
-  addVideoForm,
   editFolderForm,
+  editVideoForm,
   youtubePlayer,
   deleteConfirm,
 } = unitStyles;

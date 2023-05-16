@@ -8,6 +8,7 @@ import { Menu } from "./Menu";
 
 type Props = {
   video: Video;
+  moveModalShow: (video: Video) => void;
   deleteModalShow: (video: Video) => void;
   playModalShow: (id: Video["youtube_id"]) => void;
 };
@@ -44,7 +45,7 @@ export const VideoCard: Component<Props> = (props) => {
           >
             <li role="menuitem">
               <button
-                onClick={() => console.log("onClickEdit")}
+                onClick={() => props.moveModalShow(props.video)}
                 class={componentStyles.menu.bodyButton}
               >
                 <AiFillFolderOpen class={componentStyles.menu.menuIcon} />

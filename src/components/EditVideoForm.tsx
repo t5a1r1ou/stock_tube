@@ -2,16 +2,17 @@ import { For, Show } from "solid-js";
 import { convertTimeString } from "../scripts/util";
 import { foldersStore, savingVideoStore } from "../store";
 import { useSavingVideo } from "../hooks";
-import { addVideoForm } from "../styles/style.css";
+import { editVideoForm } from "../styles/style.css";
 import type { Component } from "solid-js";
 import type { Folder } from "../types/types";
 
 type Props = {
-  addVideoModalClose: () => void;
-  addFolderModalShow: () => void;
+  type: "new" | "edit";
+  editVideoModalClose: () => void;
+  editFolderModalShow: () => void;
 };
 
-export const AddVideoForm: Component<Props> = (props) => {
+export const EditVideoForm: Component<Props> = (props) => {
   const { submit, error, isValidForm, onInput } = useSavingVideo();
 
   const newFolderOption: Pick<Folder, "id" | "name" | "icon"> = {
@@ -21,38 +22,38 @@ export const AddVideoForm: Component<Props> = (props) => {
   };
 
   const onSubmit = (e: Event) => {
-    submit(e);
-    props.addVideoModalClose();
+    submit(e, props.type);
+    props.editVideoModalClose();
   };
 
   return (
-    <div class={addVideoForm.container}>
-      <div class={addVideoForm.videoWrapper}>
+    <div class={editVideoForm.container}>
+      <div class={editVideoForm.videoWrapper}>
         <img
-          class={addVideoForm.img}
+          class={editVideoForm.img}
           src={savingVideoStore.data.thumbnail}
           alt={`サムネイル: ${savingVideoStore.data.title}`}
         />
       </div>
-      <div class={addVideoForm.box}>
+      <div class={editVideoForm.box}>
         <div>
-          <h3 class={addVideoForm.title}>{savingVideoStore.data.title}</h3>
-          <p class={addVideoForm.details}>
+          <h3 class={editVideoForm.title}>{savingVideoStore.data.title}</h3>
+          <p class={editVideoForm.details}>
             公開日: {savingVideoStore.data.published_at.split("T").at(0)}
           </p>
-          <p class={addVideoForm.details}>
+          <p class={editVideoForm.details}>
             再生時間: {convertTimeString(savingVideoStore.data.duration)}
           </p>
         </div>
-        <form class={addVideoForm.formContainer} onSubmit={onSubmit}>
-          <div class={addVideoForm.selectContainer}>
+        <form class={editVideoForm.formContainer} onSubmit={onSubmit}>
+          <div class={editVideoForm.selectContainer}>
             <select
               name="folder"
               class={
-                isValidForm() ? addVideoForm.select : addVideoForm.selectEmpty
+                isValidForm() ? editVideoForm.select : editVideoForm.selectEmpty
               }
               onChange={(e) =>
-                onInput(e.currentTarget.value, props.addFolderModalShow)
+                onInput(e.currentTarget.value, props.editFolderModalShow)
               }
               value={savingVideoStore.data.folder_id}
             >
@@ -68,9 +69,9 @@ export const AddVideoForm: Component<Props> = (props) => {
             </select>
           </div>
           <Show when={error() !== ""}>
-            <p class={addVideoForm.error}>{error()}</p>
+            <p class={editVideoForm.error}>{error()}</p>
           </Show>
-          <button class={addVideoForm.submitButton} disabled={!isValidForm()}>
+          <button class={editVideoForm.submitButton} disabled={!isValidForm()}>
             保存する
           </button>
         </form>
