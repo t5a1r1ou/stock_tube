@@ -1,5 +1,6 @@
 import { createRoot } from "solid-js";
 import { createStore } from "solid-js/store";
+
 import { Video } from "../types/types";
 
 const deletingVideo = () => {

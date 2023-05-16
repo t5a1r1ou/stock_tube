@@ -6,7 +6,7 @@ type Props = {
 };
 
 export const BsThreeDots: Component<Props> = (
-  props = { color: "currentColor", className: "" }
+  props = { color: "currentColor", className: "" },
 ) => {
   return (
     <svg

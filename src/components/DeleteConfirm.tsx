@@ -1,6 +1,8 @@
-import { Show } from "solid-js";
-import { deleteConfirm } from "../styles/style.css";
 import type { Component } from "solid-js";
+
+import { Show } from "solid-js";
+
+import { deleteConfirm } from "../styles/style.css";
 
 type Props = {
   modalClose: () => void;

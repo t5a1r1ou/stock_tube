@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "format": "prettier --write src/{*.{ts,tsx},**/*.{ts,tsx},**/**/*.{ts,tsx}}"
   },
   "devDependencies": {
     "@solidjs/router": "^0.7.0",
@@ -14,6 +15,8 @@
     "@types/micromodal": "^0.3.3",
     "@vanilla-extract/css": "^1.9.5",
     "@vanilla-extract/vite-plugin": "^3.8.0",
+    "prettier": "^2.8.8",
+    "@ianvs/prettier-plugin-sort-imports": "^4.0.0-alpha.4",
     "typescript": "^4.9.3",
     "vite": "^4.1.0",
     "vite-plugin-solid": "^2.6.1"

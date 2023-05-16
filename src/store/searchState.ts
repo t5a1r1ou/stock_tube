@@ -1,5 +1,6 @@
 import { createRoot } from "solid-js";
 import { createStore } from "solid-js/store";
+
 import { SearchState } from "../types/types";
 
 const searchState = () => {
@@ -15,7 +16,7 @@ const searchState = () => {
   const getData = () => data;
 
   const setApiData = (
-    apiData: Pick<SearchState, "resultVideos" | "total" | "nextPageToken">
+    apiData: Pick<SearchState, "resultVideos" | "total" | "nextPageToken">,
   ) => setData({ ...searchState, ...apiData });
 
   const setResultVideo = (resultVideos: SearchState["resultVideos"]) =>

@@ -1,4 +1,5 @@
 import { globalStyle, style } from "@vanilla-extract/css";
+
 import animations from "./animations.css";
 import functions from "./functions.css";
 import mixins from "./mixins.css";

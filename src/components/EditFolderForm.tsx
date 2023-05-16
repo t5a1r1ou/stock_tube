@@ -1,8 +1,11 @@
-import { Match, Show, Switch, createMemo } from "solid-js";
+import type { Accessor, Component } from "solid-js";
+
+import type { SavingFolder } from "../types/types";
+
+import { createMemo, Match, Show, Switch } from "solid-js";
+
 import { savingFolderStore } from "../store";
 import { editFolderForm } from "../styles/style.css";
-import type { Accessor, Component } from "solid-js";
-import type { SavingFolder } from "../types/types";
 
 type FolderError = {
   name: string;

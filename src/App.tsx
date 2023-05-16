@@ -1,7 +1,12 @@
-import { createEffect } from "solid-js";
-import { Routes, Route, useNavigate, useLocation } from "@solidjs/router";
+import type { Component } from "solid-js";
+
 import { MetaProvider } from "@solidjs/meta";
+import { Route, Routes, useLocation, useNavigate } from "@solidjs/router";
+import { createEffect } from "solid-js";
 import toast from "solid-toast";
+
+import Layout from "./layout/Layout";
+import { Confirm, Libraries, Search, SignIn, SignUp, Videos } from "./pages";
 import { supabase } from "./scripts/supabase";
 import {
   currentVideoStore,
@@ -14,9 +19,6 @@ import {
   userStore,
   videosStore,
 } from "./store/";
-import Layout from "./layout/Layout";
-import { Confirm, Libraries, Search, SignIn, SignUp, Videos } from "./pages";
-import type { Component } from "solid-js";
 
 const App: Component = () => {
   const navigate = useNavigate();

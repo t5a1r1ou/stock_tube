@@ -1,5 +1,6 @@
-import { Title } from "@solidjs/meta";
 import type { Component } from "solid-js";
+
+import { Title } from "@solidjs/meta";
 
 type Props = {
   title: string;

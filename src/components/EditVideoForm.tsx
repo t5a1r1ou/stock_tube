@@ -1,10 +1,13 @@
+import type { Component } from "solid-js";
+
+import type { Folder } from "../types/types";
+
 import { For, Show } from "solid-js";
+
+import { useSavingVideo } from "../hooks";
 import { convertTimeString } from "../scripts/util";
 import { foldersStore, savingVideoStore } from "../store";
-import { useSavingVideo } from "../hooks";
 import { editVideoForm } from "../styles/style.css";
-import type { Component } from "solid-js";
-import type { Folder } from "../types/types";
 
 type Props = {
   type: "new" | "edit";

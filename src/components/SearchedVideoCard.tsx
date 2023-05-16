@@ -1,9 +1,12 @@
+import type { Component } from "solid-js";
+
+import type { Video } from "../types/types";
+
 import { Show } from "solid-js";
+
+import { convertTimeString } from "../scripts/util";
 import { videosStore } from "../store";
 import { videoCard } from "../styles/style.css";
-import { convertTimeString } from "../scripts/util";
-import type { Component } from "solid-js";
-import type { Video } from "../types/types";
 
 type Props = {
   video: Video;

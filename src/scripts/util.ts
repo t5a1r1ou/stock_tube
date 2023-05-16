@@ -22,13 +22,13 @@ export const convertTimeString = (timeString: string) => {
         return time.match(/\d+/)[0]; // 数字があればその値を、なければ0を返す
       });
       return timeArray.join(":");
-    }
+    },
   );
   return result;
 };
 
 export const getYoutubeIdFromUrl: (url: string) => string | undefined = (
-  url
+  url,
 ) => {
   const regex = /\?v=([^&]+)/;
   const match = url.match(regex);

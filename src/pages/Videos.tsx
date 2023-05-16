@@ -1,20 +1,11 @@
-import { For, Show, onMount, createMemo, createSignal } from "solid-js";
+import type { Component } from "solid-js";
+
+import type { Video } from "../types/types";
+
+import { PopupPickerController } from "@picmo/popup-picker";
 import { A, useParams } from "@solidjs/router";
-import {
-  currentVideoStore,
-  deletingVideoStore,
-  foldersStore,
-  playerStore,
-  savingVideoStore,
-  videosStore,
-} from "../store";
-import {
-  useConfirmModal,
-  useModal,
-  usePicmo,
-  useSavingFolder,
-  useYoutubePlayer,
-} from "../hooks/";
+import { createMemo, createSignal, For, onMount, Show } from "solid-js";
+
 import {
   CardsWrapper,
   DeleteConfirm,
@@ -25,12 +16,24 @@ import {
   VideoCard,
   YoutubePlayer,
 } from "../components";
-import { componentStyles } from "../styles/style.css";
+import {
+  useConfirmModal,
+  useModal,
+  usePicmo,
+  useSavingFolder,
+  useYoutubePlayer,
+} from "../hooks/";
 import { Head } from "../layout/Head";
 import { truncateWithEllipsis12 } from "../scripts/util";
-import type { Component } from "solid-js";
-import type { Video } from "../types/types";
-import { PopupPickerController } from "@picmo/popup-picker";
+import {
+  currentVideoStore,
+  deletingVideoStore,
+  foldersStore,
+  playerStore,
+  savingVideoStore,
+  videosStore,
+} from "../store";
+import { componentStyles } from "../styles/style.css";
 
 const Videos: Component = () => {
   const [loadingVideo, setLoadingVideo] = createSignal<boolean>(true);
@@ -93,7 +96,7 @@ const Videos: Component = () => {
   const onStateChange = (event: YT.OnStateChangeEvent) => {
     if (event.data === YT.PlayerState.ENDED) {
       const index = urlVideos().findIndex(
-        (video) => video.youtube_id === currentVideoStore.id()
+        (video) => video.youtube_id === currentVideoStore.id(),
       );
       if (index === urlVideos().length - 1) {
         playModalClose();
@@ -119,7 +122,7 @@ const Videos: Component = () => {
     return `${folder!.name}${
       folder!.icon
     }フォルダから「${truncateWithEllipsis12(
-      deletingVideoStore.data.title
+      deletingVideoStore.data.title,
     )}」を削除しますか？`;
   };
 

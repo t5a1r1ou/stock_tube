@@ -1,7 +1,9 @@
-import { createSignal } from "solid-js";
-import { savingVideoStore, userStore, videosStore } from "../store/";
 import type { Folder } from "../types/types";
+
+import { createSignal } from "solid-js";
 import toast from "solid-toast";
+
+import { savingVideoStore, userStore, videosStore } from "../store/";
 
 export const useSavingVideo = () => {
   const [error, setError] = createSignal<string>("");

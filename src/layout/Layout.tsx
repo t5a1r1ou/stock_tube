@@ -1,11 +1,13 @@
-import { Match, Show, Switch } from "solid-js";
+import type { User } from "@supabase/supabase-js";
+import type { Accessor, Component, JSX } from "solid-js";
+
 import { A, useLocation, useNavigate } from "@solidjs/router";
 import { AiFillFolderOpen, AiOutlineSearch } from "solid-icons/ai";
+import { Match, Show, Switch } from "solid-js";
 import { Toaster } from "solid-toast";
-import { componentStyles, layoutStyles } from "../styles/style.css";
+
 import logo from "../images/logo.png";
-import type { Accessor, Component, JSX } from "solid-js";
-import type { User } from "@supabase/supabase-js";
+import { componentStyles, layoutStyles } from "../styles/style.css";
 
 type Props = {
   children: JSX.Element;

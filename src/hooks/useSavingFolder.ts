@@ -1,8 +1,10 @@
+import type { Folder, SavingFolder } from "../types/types";
+
 import { createSignal, createUniqueId } from "solid-js";
 import { createStore } from "solid-js/store";
 import toast from "solid-toast";
+
 import { foldersStore, savingFolderStore, userStore } from "../store/";
-import type { Folder, SavingFolder } from "../types/types";
 
 type FolderError = {
   name: string;
@@ -35,7 +37,7 @@ export const useSavingFolder = () => {
         foldersStore.data.some((folder) =>
           newFolder.id
             ? folder.id !== newFolder.id && folder.name === newFolder.name
-            : folder.name === newFolder.name
+            : folder.name === newFolder.name,
         )
       ) {
         return HAS_ERROR;

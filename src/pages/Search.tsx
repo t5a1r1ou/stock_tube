@@ -1,5 +1,32 @@
-import { For, Show, createSignal, onMount } from "solid-js";
+import type { PopupPickerController } from "@picmo/popup-picker";
+import type { Component } from "solid-js";
+
+import type { Video } from "../types/types";
+
+import { A, useNavigate } from "@solidjs/router";
+import { createSignal, For, onMount, Show } from "solid-js";
+
+import {
+  CardsWrapper,
+  DeleteConfirm,
+  EditFolderForm,
+  EditVideoForm,
+  Modal,
+  Pagenation,
+  SearchedVideoCard,
+  SearchForm,
+  SegmentControl,
+  Spinner,
+} from "../components";
+import {
+  useConfirmModal,
+  useModal,
+  usePicmo,
+  useSavingFolder,
+  useSearch,
+} from "../hooks/";
 import { Head } from "../layout/Head";
+import { truncateWithEllipsis12 } from "../scripts/util";
 import {
   deletingVideoStore,
   foldersStore,
@@ -8,31 +35,7 @@ import {
   userStore,
   videosStore,
 } from "../store";
-import {
-  useConfirmModal,
-  useModal,
-  usePicmo,
-  useSavingFolder,
-  useSearch,
-} from "../hooks/";
-import {
-  CardsWrapper,
-  DeleteConfirm,
-  EditFolderForm,
-  EditVideoForm,
-  Modal,
-  Pagenation,
-  SearchForm,
-  SearchedVideoCard,
-  SegmentControl,
-  Spinner,
-} from "../components";
 import { componentStyles, register, top } from "../styles/style.css";
-import { truncateWithEllipsis12 } from "../scripts/util";
-import type { Component } from "solid-js";
-import type { PopupPickerController } from "@picmo/popup-picker";
-import type { Video } from "../types/types";
-import { A, useNavigate } from "@solidjs/router";
 
 const Search: Component = () => {
   const addVideoModalId = "add_video_modal";
@@ -42,7 +45,7 @@ const Search: Component = () => {
   let emojiPopup: PopupPickerController | undefined;
   const [loadingSearch, setLoadingSearch] = createSignal<boolean>(false);
   const [searchType, setSearchType] = createSignal<"keyword" | "url">(
-    "keyword"
+    "keyword",
   );
 
   const navigate = useNavigate();
@@ -106,7 +109,7 @@ const Search: Component = () => {
     searchVideo(
       searchStateStore.data.currentWord,
       searchStateStore.data.nextPageToken,
-      searchType()
+      searchType(),
     );
   };
 
@@ -123,7 +126,7 @@ const Search: Component = () => {
     return `${folder!.name}${
       folder!.icon
     }フォルダから「${truncateWithEllipsis12(
-      deletingVideoStore.data.title
+      deletingVideoStore.data.title,
     )}」を削除しますか？`;
   };
 

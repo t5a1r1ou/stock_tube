@@ -1,12 +1,15 @@
-import { Match, Show, Switch, splitProps } from "solid-js";
-import { A } from "@solidjs/router";
-import { FiEdit } from "solid-icons/fi";
-import { AiFillDelete } from "solid-icons/ai";
-import { foldersStore, videosStore } from "../store";
-import { Menu } from "../components";
-import { componentStyles, folderCard } from "../styles/style.css";
 import type { Accessor, Component } from "solid-js";
+
 import type { Folder } from "../types/types";
+
+import { A } from "@solidjs/router";
+import { AiFillDelete } from "solid-icons/ai";
+import { FiEdit } from "solid-icons/fi";
+import { Match, Show, splitProps, Switch } from "solid-js";
+
+import { Menu } from "../components";
+import { foldersStore, videosStore } from "../store";
+import { componentStyles, folderCard } from "../styles/style.css";
 
 type Props = Folder & {
   editModalShow: (folder: Folder) => void;

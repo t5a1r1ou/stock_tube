@@ -1,18 +1,11 @@
-import { For, Match, Show, Switch, createSignal, onMount } from "solid-js";
+import type { PopupPickerController } from "@picmo/popup-picker";
+import type { Component } from "solid-js";
+
+import type { Folder } from "../types/types";
+
 import { AiFillEdit } from "solid-icons/ai";
-import { Head } from "../layout/Head";
-import {
-  deletingFolderStore,
-  foldersStore,
-  savingFolderStore,
-  videosStore,
-} from "../store";
-import {
-  useConfirmModal,
-  useModal,
-  usePicmo,
-  useSavingFolder,
-} from "../hooks/";
+import { createSignal, For, Match, onMount, Show, Switch } from "solid-js";
+
 import {
   CardsWrapper,
   DeleteConfirm,
@@ -21,10 +14,20 @@ import {
   Modal,
   Spinner,
 } from "../components";
+import {
+  useConfirmModal,
+  useModal,
+  usePicmo,
+  useSavingFolder,
+} from "../hooks/";
+import { Head } from "../layout/Head";
+import {
+  deletingFolderStore,
+  foldersStore,
+  savingFolderStore,
+  videosStore,
+} from "../store";
 import { componentStyles } from "../styles/style.css";
-import type { Component } from "solid-js";
-import type { PopupPickerController } from "@picmo/popup-picker";
-import type { Folder } from "../types/types";
 
 const Library: Component = () => {
   const editFolderModalId = "editFolder_modal";
@@ -32,7 +35,7 @@ const Library: Component = () => {
   const [loadingVideo, setLoadingVideo] = createSignal<boolean>(true);
   const [loadingFolder, setLoadingFolder] = createSignal<boolean>(true);
   const [modalType, setModalType] = createSignal<"new" | "edit" | undefined>(
-    undefined
+    undefined,
   );
   const [isEditMode, setIsEditMode] = createSignal<boolean>(false);
   const { modalShow: editFormModalShow, modalClose: editFormModalClose } =

@@ -1,8 +1,10 @@
-import { Setter, createSignal } from "solid-js";
+import type { GapiWindow, SearchState, Video } from "../types/types";
+
+import { createSignal, Setter } from "solid-js";
+
 import { initGoogleScript, loadGoogleScript } from "../scripts/api";
 import { getYoutubeIdFromUrl } from "../scripts/util";
 import { searchStateStore } from "../store";
-import type { GapiWindow, SearchState, Video } from "../types/types";
 
 type fetchYoutubeSearchApiResult = Pick<
   SearchState,
@@ -27,7 +29,7 @@ export const useSearch = (setLoading: Setter<boolean>) => {
 
   const fetchYoutubeIds: (
     q: string,
-    pageToken: string
+    pageToken: string,
   ) => Promise<fetchYoutubeSearchApiResult> = async (q, pageToken) => {
     const data = await gapi().client.youtube.search.list({
       q,
@@ -44,7 +46,7 @@ export const useSearch = (setLoading: Setter<boolean>) => {
     } = data.result;
 
     const youtubeIds: Video["youtube_id"][] = items.map(
-      (item: { id: { videoId: string } }) => item.id.videoId
+      (item: { id: { videoId: string } }) => item.id.videoId,
     );
 
     return {
@@ -55,7 +57,7 @@ export const useSearch = (setLoading: Setter<boolean>) => {
   };
 
   const fetchVideoDetails: (
-    youtubeId: Video["youtube_id"]
+    youtubeId: Video["youtube_id"],
   ) => Promise<Video> = async (youtubeId) => {
     try {
       const data = await gapi().client.youtube.videos.list({
@@ -83,7 +85,7 @@ export const useSearch = (setLoading: Setter<boolean>) => {
   const fetchResults = async (youtubeIds: Video["youtube_id"][]) => {
     try {
       const promises = youtubeIds.map((youtubeId) =>
-        fetchVideoDetails(youtubeId)
+        fetchVideoDetails(youtubeId),
       );
       const results = await Promise.all(promises);
       return results;
@@ -144,7 +146,7 @@ export const useSearch = (setLoading: Setter<boolean>) => {
   const searchVideo = async (
     q: string,
     pageToken: string = "",
-    type: "keyword" | "url"
+    type: "keyword" | "url",
   ) => {
     if (q === "") {
       searchStateStore.setData({

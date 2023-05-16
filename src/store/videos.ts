@@ -1,8 +1,9 @@
+import { createRoot } from "solid-js";
 import { createStore } from "solid-js/store";
+
+import { supabase } from "../scripts/supabase";
 import { Folder, Video } from "../types/types";
 import folders from "./folders";
-import { supabase } from "../scripts/supabase";
-import { createRoot } from "solid-js";
 
 const videos = () => {
   const [data, setData] = createStore<Video[]>([]);
@@ -28,7 +29,7 @@ const videos = () => {
 
   const getFromUrl = (url_id: Folder["url_id"]) => {
     const targetFolder = folders.data.find(
-      (folder) => folder.url_id === url_id
+      (folder) => folder.url_id === url_id,
     );
     if (targetFolder) {
       return data.filter((video) => video.folder_id === targetFolder.id);

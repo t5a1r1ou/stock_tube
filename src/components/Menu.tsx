@@ -1,9 +1,11 @@
+import type { Component, JSX } from "solid-js";
+
 import { createSignal } from "solid-js";
-import { componentStyles } from "../styles/style.css";
-import { BsThreeDots } from "../lib/solid-icons/BsThreeDots";
+
 // @ts-ignore
 import clickOutside from "../directives/clickOutside";
-import type { Component, JSX } from "solid-js";
+import { BsThreeDots } from "../lib/solid-icons/BsThreeDots";
+import { componentStyles } from "../styles/style.css";
 
 type Props = {
   id: string;

@@ -1,9 +1,12 @@
+import type { Component } from "solid-js";
+
+import type { Video } from "../types/types";
+
 import { AiFillDelete, AiFillFolderOpen } from "solid-icons/ai";
+
+import youtubeIcon from "../images/youtube_icon.png";
 import { convertTimeString } from "../scripts/util";
 import { componentStyles, videoCard } from "../styles/style.css";
-import youtubeIcon from "../images/youtube_icon.png";
-import type { Component } from "solid-js";
-import type { Video } from "../types/types";
 import { Menu } from "./Menu";
 
 type Props = {

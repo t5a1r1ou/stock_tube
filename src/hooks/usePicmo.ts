@@ -1,4 +1,5 @@
-import { PopupPickerController, createPopup } from "@picmo/popup-picker";
+import { createPopup, PopupPickerController } from "@picmo/popup-picker";
+
 import ja from "../lib/picmo/lang-ja";
 
 export const usePicmo = () => {
@@ -21,12 +22,12 @@ export const usePicmo = () => {
         hideOnEmojiSelect: true,
         showCloseButton: true,
         hideOnEscape: true,
-      }
+      },
     );
 
   const registerListener = (
     picmo: PopupPickerController | undefined,
-    input: (icon: string) => void
+    input: (icon: string) => void,
   ) => {
     if (picmo) {
       picmo.addEventListener("emoji:select", (selection) => {

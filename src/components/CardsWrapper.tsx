@@ -1,4 +1,5 @@
 import type { Component, JSX } from "solid-js";
+
 import { cardsWrapper } from "../styles/style.css";
 
 type Props = {

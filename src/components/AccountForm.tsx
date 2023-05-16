@@ -1,10 +1,13 @@
-import { Show } from "solid-js";
-import { A } from "@solidjs/router";
-import { Dynamic } from "solid-js/web";
-import { useAccountForm } from "../hooks";
-import { componentStyles, accountForm } from "../styles/style.css";
 import type { Component } from "solid-js";
+
 import type { AuthType } from "../types/types";
+
+import { A } from "@solidjs/router";
+import { Show } from "solid-js";
+import { Dynamic } from "solid-js/web";
+
+import { useAccountForm } from "../hooks";
+import { accountForm, componentStyles } from "../styles/style.css";
 
 export const AccountForm: Component<AuthType> = (props) => {
   const {

@@ -1,7 +1,9 @@
-import { createStore } from "solid-js/store";
+import type { AuthType, Credentials } from "../types/types";
+
 import { useNavigate } from "@solidjs/router";
+import { createStore } from "solid-js/store";
+
 import { supabase } from "../scripts/supabase";
-import type { Credentials, AuthType } from "../types/types";
 
 export const useAccountForm = () => {
   const navigate = useNavigate();
@@ -26,7 +28,7 @@ export const useAccountForm = () => {
     setCredentials({ ...credentials, password });
 
   const setPasswordConfirm = (
-    passwordConfirm: Credentials["passwordConfirm"]
+    passwordConfirm: Credentials["passwordConfirm"],
   ) => setCredentials({ ...credentials, passwordConfirm });
 
   const validation = (flag: AuthType["flag"]) => {

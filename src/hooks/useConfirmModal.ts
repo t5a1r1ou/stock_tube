@@ -1,11 +1,13 @@
+import type { Folder, Video } from "../types/types";
+
+import toast from "solid-toast";
+
 import {
   deletingFolderStore,
   deletingVideoStore,
   foldersStore,
   videosStore,
 } from "../store";
-import type { Folder, Video } from "../types/types";
-import toast from "solid-toast";
 
 type Args = {
   modalShow: () => void;
@@ -20,7 +22,7 @@ export const useConfirmModal = (args: Args) => {
       folder_id:
         video.folder_id ||
         videosStore.data.find(
-          (stockedVideo) => stockedVideo.youtube_id === video.youtube_id
+          (stockedVideo) => stockedVideo.youtube_id === video.youtube_id,
         )!.folder_id,
     });
     args.modalShow();

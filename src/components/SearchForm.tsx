@@ -1,7 +1,9 @@
-import { Show, createMemo } from "solid-js";
-import { searchForm } from "../styles/style.css";
 import type { Component } from "solid-js";
+
+import { createMemo, Show } from "solid-js";
+
 import { searchStateStore } from "../store";
+import { searchForm } from "../styles/style.css";
 
 type Props = {
   submitQuery: (e: Event) => void;

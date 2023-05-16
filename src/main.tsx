@@ -1,6 +1,8 @@
-import { render } from "solid-js/web";
 import { Router } from "@solidjs/router";
+import { render } from "solid-js/web";
+
 import "./reset.css";
+import App from "./App";
 
 declare module "solid-js" {
   namespace JSX {
@@ -10,7 +12,6 @@ declare module "solid-js" {
   }
 }
 
-import App from "./App";
 const Main = () => {
   return (
     <Router>

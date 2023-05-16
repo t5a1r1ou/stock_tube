@@ -1,5 +1,6 @@
-import { componentStyles } from "../styles/style.css";
 import type { Component } from "solid-js";
+
+import { componentStyles } from "../styles/style.css";
 
 type Props = {
   onClick: () => void;

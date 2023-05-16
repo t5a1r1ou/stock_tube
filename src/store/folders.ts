@@ -1,8 +1,9 @@
 import { createRoot } from "solid-js";
 import { createStore } from "solid-js/store";
-import { Folder } from "../types/types";
-import { supabase } from "../scripts/supabase";
+
 import { foldersStore } from ".";
+import { supabase } from "../scripts/supabase";
+import { Folder } from "../types/types";
 
 const folders = () => {
   const [data, setData] = createStore<Folder[]>([]);
