@@ -5,12 +5,21 @@ import {
   deletingVideoStore,
   foldersStore,
   playerStore,
+  savingVideoStore,
   videosStore,
 } from "../store";
-import { useConfirmModal, useModal, useYoutubePlayer } from "../hooks/";
+import {
+  useConfirmModal,
+  useModal,
+  usePicmo,
+  useSavingFolder,
+  useYoutubePlayer,
+} from "../hooks/";
 import {
   CardsWrapper,
   DeleteConfirm,
+  EditFolderForm,
+  EditVideoForm,
   Modal,
   Spinner,
   VideoCard,
@@ -21,6 +30,7 @@ import { Head } from "../layout/Head";
 import { truncateWithEllipsis12 } from "../scripts/util";
 import type { Component } from "solid-js";
 import type { Video } from "../types/types";
+import { PopupPickerController } from "@picmo/popup-picker";
 
 const Videos: Component = () => {
   const [loadingVideo, setLoadingVideo] = createSignal<boolean>(true);
@@ -31,15 +41,28 @@ const Videos: Component = () => {
   const playModalId = "play_modal";
   const iframeId = "video_play_iframe";
   const confirmModalId = "confirm_modal";
+  const moveModalId = "move_modal";
+  const addFolderModalId = "add_folder_modal";
+  let emojiPopup: PopupPickerController | undefined;
   const { modalShow: playModalShow, modalClose: playModalClose } =
     useModal(playModalId);
   const { modalShow: confirmModalShow, modalClose: confirmModalClose } =
     useModal(confirmModalId);
+  const { modalShow: moveModalShow, modalClose: moveModalClose } =
+    useModal(moveModalId);
+  const { modalShow: addFolderModalShow, modalClose: addFolderModalClose } =
+    useModal(addFolderModalId);
   const { onConfirmVideoModalShow, onConfirmVideoModalDelete } =
     useConfirmModal({
       modalShow: confirmModalShow,
       modalClose: confirmModalClose,
     });
+
+  const { error, isValidForm, inputName, inputIcon, submit } =
+    useSavingFolder();
+  const { createPicmo, registerListener, toggleEmoji } = usePicmo();
+
+  const onToggleEmoji = (e: Event) => toggleEmoji(e, emojiPopup);
 
   const { initApi } = useYoutubePlayer(iframeId);
 
@@ -55,6 +78,16 @@ const Videos: Component = () => {
   const playerModalClose = () => {
     playerStore.data().pauseVideo();
     playModalClose();
+  };
+
+  const onMoveModalShow = (video: Video) => {
+    savingVideoStore.setData(video);
+    moveModalShow();
+  };
+
+  const onMoveModalClose = () => {
+    savingVideoStore.clearData();
+    moveModalClose();
   };
 
   const onStateChange = (event: YT.OnStateChangeEvent) => {
@@ -98,6 +131,8 @@ const Videos: Component = () => {
       videosStore.fetchData(() => setLoadingVideo(false));
       foldersStore.fetchData(() => setLoadingFolder(false));
     }
+    emojiPopup = createPicmo();
+    registerListener(emojiPopup, inputIcon);
     initApi({ onStateChange, onError });
   });
 
@@ -121,6 +156,7 @@ const Videos: Component = () => {
               {(video) => (
                 <VideoCard
                   video={video}
+                  moveModalShow={onMoveModalShow}
                   playModalShow={playerModalShow}
                   deleteModalShow={onConfirmVideoModalShow}
                 />
@@ -142,6 +178,28 @@ const Videos: Component = () => {
           onDelete={onConfirmVideoModalDelete}
           title={deleteConfirmTitle()}
           desc={"元に戻す場合は再度検索して追加する必要があります。"}
+        />
+      </Modal>
+      <Modal id={moveModalId} modalClose={moveModalClose} fullWidth={false}>
+        <EditVideoForm
+          type={"edit"}
+          editFolderModalShow={addFolderModalShow}
+          editVideoModalClose={onMoveModalClose}
+        />
+      </Modal>
+      <Modal
+        id={addFolderModalId}
+        modalClose={addFolderModalClose}
+        fullWidth={false}
+      >
+        <EditFolderForm
+          modalType={"new"}
+          error={error}
+          isValidForm={isValidForm}
+          inputName={inputName}
+          submit={submit}
+          modalClose={addFolderModalClose}
+          onToggleEmoji={onToggleEmoji}
         />
       </Modal>
     </>

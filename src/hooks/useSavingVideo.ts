@@ -23,7 +23,7 @@ export const useSavingVideo = () => {
     setIsValidForm(watchValidation());
   };
 
-  const submit = (e: Event) => {
+  const submit = (e: Event, type: "new" | "edit") => {
     e.preventDefault();
 
     if (!watchValidation()) {
@@ -31,11 +31,18 @@ export const useSavingVideo = () => {
       return;
     }
 
-    videosStore.addData({
-      ...savingVideoStore.data,
-      folder_id: savingVideoStore.data.folder_id,
-      user_id: userStore.data()?.id,
-    });
+    if (type === "new") {
+      videosStore.addData({
+        ...savingVideoStore.data,
+        folder_id: savingVideoStore.data.folder_id,
+        user_id: userStore.data()?.id,
+      });
+    } else {
+      videosStore.editData({
+        youtube_id: savingVideoStore.data.youtube_id,
+        folder_id: savingVideoStore.data.folder_id,
+      });
+    }
     savingVideoStore.clearData();
     toast.success("動画の追加が完了しました。");
   };

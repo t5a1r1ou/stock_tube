@@ -41,7 +41,7 @@ const savingVideo = () => {
     });
   };
 
-  return { data, clearData, setInfo, setFolder };
+  return { data, setData, clearData, setInfo, setFolder };
 };
 
 export default createRoot(savingVideo);

@@ -1,8 +1,8 @@
 import { AccountForm } from "./AccountForm";
-import { AddVideoForm } from "./AddVideoForm";
 import { CardsWrapper } from "./CardsWrapper";
 import { DeleteConfirm } from "./DeleteConfirm";
 import { EditFolderForm } from "./EditFolderForm";
+import { EditVideoForm } from "./EditVideoForm";
 import { FloatingButton } from "./FloatingButton";
 import { FolderCard } from "./FolderCard";
 import { Menu } from "./Menu";
@@ -17,10 +17,10 @@ import { YoutubePlayer } from "./YoutubePlayer";
 
 export {
   AccountForm,
-  AddVideoForm,
   CardsWrapper,
   DeleteConfirm,
   EditFolderForm,
+  EditVideoForm,
   FloatingButton,
   FolderCard,
   Menu,
