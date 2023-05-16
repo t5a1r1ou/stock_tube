@@ -1,5 +1,5 @@
 import { Match, Show, Switch } from "solid-js";
-import { A, useLocation } from "@solidjs/router";
+import { A, useLocation, useNavigate } from "@solidjs/router";
 import { AiFillFolderOpen, AiOutlineSearch } from "solid-icons/ai";
 import { Toaster } from "solid-toast";
 import { componentStyles, layoutStyles } from "../styles/style.css";
@@ -15,51 +15,62 @@ type Props = {
 
 const Layout: Component<Props> = (props) => {
   const location = useLocation();
-  const isSearchPage = () => location.pathname.includes("search");
+  const navigate = useNavigate();
+  const isSearchPage = () => location.pathname === "/";
   const isVideoPage = () => location.pathname.includes("library");
   return (
     <div class={layoutStyles.wrapper}>
       <header class={layoutStyles.header}>
         <div class={layoutStyles.headerContainer}>
+          <Show when={props.user()}>
+            <Switch>
+              <Match when={isSearchPage()}>
+                <A
+                  href="/library"
+                  role="button"
+                  class={layoutStyles.headerLeftButton}
+                >
+                  <AiFillFolderOpen />
+                  <span class={componentStyles.hiddenText}>ライブラリ</span>
+                </A>
+              </Match>
+              <Match when={isVideoPage()}>
+                <A href="/" role="button" class={layoutStyles.headerLeftButton}>
+                  <AiOutlineSearch />
+                  <span class={componentStyles.hiddenText}>検索</span>
+                </A>
+              </Match>
+            </Switch>
+          </Show>
+          <h1 class={layoutStyles.headerTitle}>
+            <A href={props.user() ? "/library" : "/"}>
+              <img
+                src={logo}
+                alt="StockTube"
+                class={layoutStyles.headerLogo}
+                width="500"
+                height="200"
+              />
+            </A>
+          </h1>
           <Switch>
-            <Match when={isSearchPage()}>
-              <A
-                href="/library"
-                role="button"
-                class={layoutStyles.headerLeftButton}
+            <Match when={props.user()}>
+              <button
+                onClick={() => props.signOut()}
+                class={layoutStyles.headerRightButton}
               >
-                <AiFillFolderOpen />
-                <span class={componentStyles.hiddenText}>ライブラリ</span>
-              </A>
+                サインアウト
+              </button>
             </Match>
-            <Match when={isVideoPage()}>
-              <A
-                href="/search"
-                role="button"
-                class={layoutStyles.headerLeftButton}
+            <Match when={!props.user()}>
+              <button
+                onClick={() => navigate("/signin")}
+                class={layoutStyles.headerRightButton}
               >
-                <AiOutlineSearch />
-                <span class={componentStyles.hiddenText}>検索</span>
-              </A>
+                サインイン
+              </button>
             </Match>
           </Switch>
-          <h1 class={layoutStyles.headerTitle}>
-            <img
-              src={logo}
-              alt="StockTube"
-              class={layoutStyles.headerLogo}
-              width="500"
-              height="200"
-            />
-          </h1>
-          <Show when={props.user()}>
-            <button
-              onClick={() => props.signOut()}
-              class={layoutStyles.headerRightButton}
-            >
-              サインアウト
-            </button>
-          </Show>
         </div>
       </header>
       <main class={layoutStyles.main}>

@@ -5,6 +5,7 @@ import {
   foldersStore,
   savingVideoStore,
   searchStateStore,
+  userStore,
   videosStore,
 } from "../store";
 import {
@@ -26,21 +27,25 @@ import {
   SegmentControl,
   Spinner,
 } from "../components";
-import { componentStyles } from "../styles/style.css";
+import { componentStyles, register, top } from "../styles/style.css";
 import { truncateWithEllipsis12 } from "../scripts/util";
 import type { Component } from "solid-js";
 import type { PopupPickerController } from "@picmo/popup-picker";
 import type { Video } from "../types/types";
+import { A, useNavigate } from "@solidjs/router";
 
 const Search: Component = () => {
   const addVideoModalId = "add_video_modal";
   const confirmModalId = "confirm_modal";
   const addFolderModalId = "add_folder_modal";
+  const registerModalId = "register_modal";
   let emojiPopup: PopupPickerController | undefined;
   const [loadingSearch, setLoadingSearch] = createSignal<boolean>(false);
   const [searchType, setSearchType] = createSignal<"keyword" | "url">(
     "keyword"
   );
+
+  const navigate = useNavigate();
 
   const { initApi: initSearchApi, searchVideo } = useSearch(setLoadingSearch);
 
@@ -53,6 +58,19 @@ const Search: Component = () => {
     useModal(confirmModalId);
   const { modalShow: addFolderModalShow, modalClose: addFolderModalClose } =
     useModal(addFolderModalId);
+  const { modalShow: registerModalShow, modalClose: registerModalClose } =
+    useModal(registerModalId);
+
+  const onClickSignUp = () => {
+    registerModalClose();
+    navigate("/signup");
+  };
+
+  const onClickSignIn = (e: Event) => {
+    e.preventDefault();
+    registerModalClose();
+    navigate("/signin");
+  };
 
   const { createPicmo, registerListener, toggleEmoji } = usePicmo();
 
@@ -63,6 +81,10 @@ const Search: Component = () => {
     });
 
   const onAddVideoModalShow = (video: Video) => {
+    if (userStore.data() == null) {
+      registerModalShow();
+      return;
+    }
     savingVideoStore.setInfo(video);
     addVideoModalShow();
   };
@@ -116,6 +138,31 @@ const Search: Component = () => {
   return (
     <>
       <Head title="StockTube | 検索" />
+      <Show when={userStore.data() == null}>
+        <div class={top.wrapper}>
+          <div class={top.container}>
+            <h1 class={top.head}>見たい動画だけに集中する</h1>
+            <div class={top.imageContainer}>
+              <img src="./images/image.svg" alt="" class={top.image} />
+            </div>
+            <div class={top.descriptionContainer}>
+              <p class={top.description}>
+                StockTubeはYouTube動画をストックできるサービスです。
+                <br />
+                YouTubeを見ているとついつい関係ない動画を見てしまい、気づけば○○時間も…なんていう経験はありませんか？
+                <br />
+                StockTubeを使えば、レコメンド動画は表示されないため、自分の見たい動画だけに集中することができます。
+              </p>
+              <A href="/signup" class={top.signup}>
+                登録
+              </A>
+              <A href="/signin" class={top.signin}>
+                サインインはこちら &gt;
+              </A>
+            </div>
+          </div>
+        </div>
+      </Show>
       <SegmentControl
         id="searchType"
         data={[
@@ -131,7 +178,7 @@ const Search: Component = () => {
         state={searchType()}
         onChange={onChangeSearchType}
       />
-      <h2 class={componentStyles.heading}>
+      <h2 class={componentStyles.hiddenText}>
         {searchType() === "keyword" ? "キーワード検索" : "URL検索"}
       </h2>
       <SearchForm
@@ -195,6 +242,30 @@ const Search: Component = () => {
             modalClose={addFolderModalClose}
             onToggleEmoji={onToggleEmoji}
           />
+        </Modal>
+        <Modal
+          id={registerModalId}
+          modalClose={registerModalClose}
+          fullWidth={false}
+        >
+          <div class={register.container}>
+            <div class={register.imageContainer}>
+              <img src="./images/image2.svg" alt="" class={register.image} />
+            </div>
+            <div class={register.textContainer}>
+              <p class={register.text}>ご利用するには会員登録が必要です</p>
+              <button onClick={onClickSignUp} class={register.button}>
+                登録する
+              </button>
+              <a
+                href="/singin"
+                onClick={onClickSignIn}
+                class={register.loginLink}
+              >
+                サインインはこちら &gt;
+              </a>
+            </div>
+          </div>
         </Modal>
       </Show>
     </>
