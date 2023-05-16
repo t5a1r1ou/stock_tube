@@ -282,7 +282,7 @@ export const componentStyles = {
     wrapper: style({
       display: "flex",
       width: "100%",
-      margin: "0 auto 0.8rem",
+      margin: "0 auto 2.4rem",
       "@media": {
         "screen and (min-width: 768px)": {
           width: "70%",
@@ -927,6 +927,135 @@ const unitStyles = {
       },
     ]),
   },
+  top: {
+    wrapper: style({
+      margin: "-2rem calc(50% - 50vw) 2rem",
+      padding: "3.6rem 1rem",
+      width: "100vw",
+      backgroundColor: colors.lightSecondary,
+      "@media": {
+        "screen and (min-width: 768px)": {
+          padding: "5.4rem 1rem",
+        },
+      },
+    }),
+    container: style({
+      maxWidth: "800px",
+      margin: "0 auto",
+      "@media": {
+        "screen and (min-width: 768px)": {
+          display: "grid",
+          gridTemplate: "'head image' auto 'description image' 1fr / 50% 50%",
+        },
+      },
+    }),
+    imageContainer: style({
+      "@media": {
+        "screen and (min-width: 768px)": {
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          gridArea: "image",
+        },
+      },
+    }),
+    image: style({
+      display: "block",
+      margin: "0 auto",
+      width: "85%",
+      "@media": {
+        "screen and (min-width: 768px)": {
+          width: "100%",
+        },
+      },
+    }),
+    head: style({
+      textAlign: "center",
+      marginBottom: "3rem",
+      fontSize: "1.2rem",
+      "@media": {
+        "screen and (min-width: 768px)": {
+          marginBottom: 0,
+          fontSize: "1.6rem",
+          gridArea: "head",
+        },
+      },
+    }),
+    descriptionContainer: style({
+      margin: "2rem 2rem 0",
+      "@media": {
+        "screen and (min-width: 768px)": {
+          gridArea: "description",
+        },
+      },
+    }),
+    description: style({
+      marginBottom: "1.2rem",
+      lineHeight: 2,
+      letterSpacing: "0.075em",
+    }),
+    signup: style([
+      componentStyles.button,
+      colorStyles.secondary,
+      {
+        marginBottom: "0.8rem",
+        width: "100%",
+      },
+    ]),
+    signin: style({
+      color: colors.focus,
+    }),
+  },
+  register: {
+    container: style({
+      padding: "0.4rem 0.4rem 0",
+      "@media": {
+        "screen and (min-width: 768px)": {
+          padding: 0,
+          display: "flex",
+          alignItems: "center",
+        },
+      },
+    }),
+    imageContainer: style({
+      "@media": {
+        "screen and (min-width: 768px)": {
+          flexBasis: "50%",
+        },
+      },
+    }),
+    image: style({
+      display: "block",
+      width: "85%",
+      margin: "0 auto 1rem",
+    }),
+    textContainer: style({
+      "@media": {
+        "screen and (min-width: 768px)": {
+          flexBasis: "50%",
+        },
+      },
+    }),
+    text: style({
+      marginBottom: "1rem",
+      fontSize: "1.2rem",
+      textAlign: "center",
+    }),
+    button: style([
+      componentStyles.button,
+      colorStyles.secondary,
+      {
+        width: "100%",
+      },
+    ]),
+    loginLink: style({
+      display: "block",
+      marginTop: "1.2rem",
+      color: colors.focus,
+      fontSize: "0.8rem",
+      textAlign: "right",
+    }),
+  },
 };
 
 export const {
@@ -941,4 +1070,6 @@ export const {
   editVideoForm,
   youtubePlayer,
   deleteConfirm,
+  top,
+  register,
 } = unitStyles;

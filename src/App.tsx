@@ -34,12 +34,12 @@ const App: Component = () => {
           if (videosStore.data.length > 0) {
             navigate("/library");
           } else {
-            navigate("/search");
+            navigate("/");
           }
         });
       }
     } else if (event === "SIGNED_OUT") {
-      navigate("/signin");
+      navigate("/");
       userStore.setData(null);
       toast.success("サインアウトしました。");
     }
@@ -49,7 +49,7 @@ const App: Component = () => {
     const validateSession = async () => {
       const { data } = await supabase.auth.getSession();
       if (!data.session?.user) {
-        navigate("/signin");
+        navigate("/");
         return;
       } else if (isAuthenticationPage()) {
         navigate("/library");
@@ -73,7 +73,7 @@ const App: Component = () => {
       deletingFolderStore.clearData();
       deletingVideoStore.clearData();
       userStore.setData(null);
-      navigate("signin", { replace: true });
+      navigate("/", { replace: true });
     }
   };
 
@@ -84,7 +84,7 @@ const App: Component = () => {
           <Route path="/confirm" component={Confirm}></Route>
           <Route path="/library" component={Libraries}></Route>
           <Route path="/library/:url_id" component={Videos}></Route>
-          <Route path="/search" component={Search}></Route>
+          <Route path="/" component={Search}></Route>
           <Route path="/signin" component={SignIn}></Route>
           <Route path="/signup" component={SignUp}></Route>
           <Route path="*" component={SignIn}></Route>
