@@ -1,9 +1,9 @@
-import { Show } from "solid-js";
 import { A } from "@solidjs/router";
+import { Show } from "solid-js";
+import type { Component } from "solid-js";
 import { Dynamic } from "solid-js/web";
 import { useAccountForm } from "../hooks";
-import { componentStyles, accountForm } from "../styles/style.css";
-import type { Component } from "solid-js";
+import { accountForm, componentStyles } from "../styles/style.css";
 import type { AuthType } from "../types/types";
 
 export const AccountForm: Component<AuthType> = (props) => {
@@ -28,12 +28,14 @@ export const AccountForm: Component<AuthType> = (props) => {
     signin: {
       text: "サインイン",
       link: () => (
-        <p>
-          まだ登録がお済みでない場合は
-          <A href="/signup" class={accountForm.anker}>
-            こちら
-          </A>
-        </p>
+        <>
+          <p>
+            まだ登録がお済みでない場合は
+            <A href="/signup" class={accountForm.anker}>
+              こちら
+            </A>
+          </p>
+        </>
       ),
     },
     signup: {
@@ -55,6 +57,9 @@ export const AccountForm: Component<AuthType> = (props) => {
         {accountFormData[props.flag].text}
       </h2>
       <Dynamic component={accountFormData[props.flag].link} />
+      <small class={accountForm.small}>
+        機能の確認をされたい方はテストログインから↓
+      </small>
       <form class={accountForm.form} onSubmit={onSubmit}>
         <div class={accountForm.formField}>
           <div class={accountForm.formContainer}>
@@ -130,8 +135,19 @@ export const AccountForm: Component<AuthType> = (props) => {
           </div>
         </Show>
         <div class={accountForm.formField}>
-          <button type="submit" class={accountForm.submitButton}>
+          <button
+            type="submit"
+            class={accountForm.submitButton}
+            data-type="manual"
+          >
             {accountFormData[props.flag].text}
+          </button>
+          <button
+            type="submit"
+            class={accountForm.testLoginButton}
+            data-type="test"
+          >
+            テストログイン
           </button>
         </div>
       </form>

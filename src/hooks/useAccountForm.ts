@@ -1,7 +1,7 @@
-import { createStore } from "solid-js/store";
 import { useNavigate } from "@solidjs/router";
+import { createStore } from "solid-js/store";
 import { supabase } from "../scripts/supabase";
-import type { Credentials, AuthType } from "../types/types";
+import type { AuthType, Credentials } from "../types/types";
 
 export const useAccountForm = () => {
   const navigate = useNavigate();
@@ -113,8 +113,17 @@ export const useAccountForm = () => {
     }
   };
 
-  const submitAccountForm = async (e: Event, flag: AuthType["flag"]) => {
+  const submitAccountForm = async (e: SubmitEvent, flag: AuthType["flag"]) => {
     e.preventDefault();
+
+    if (e.submitter!.dataset.type === "test") {
+      signIn({
+        email: "test@email.com",
+        password: "testtest",
+        passwordConfirm: "testtest",
+      });
+      return;
+    }
 
     if (!validation(flag)) {
       return;
