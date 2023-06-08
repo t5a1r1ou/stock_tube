@@ -104,7 +104,7 @@ export const layoutStyles = {
 const colorStyles = {
   primary: style({
     border: `1px solid ${colors.primary}`,
-    color: colors.primary,
+    color: colors.black,
     fontWeight: "bold",
   }),
   secondary: style({
@@ -466,6 +466,12 @@ const unitStyles = {
       textDecoration: "underline",
       color: colors.focus,
     }),
+    small: style({
+      display: "block",
+      marginTop: "0.4rem",
+      fontSize: "0.8rem",
+      color: colors.secondary,
+    }),
     form: style({
       width: "100%",
     }),
@@ -507,6 +513,15 @@ const unitStyles = {
     submitButton: style([
       componentStyles.button,
       colorStyles.secondary,
+      {
+        width: "100%",
+        height: "2.5rem",
+        marginBottom: "1.2rem",
+      },
+    ]),
+    testLoginButton: style([
+      componentStyles.button,
+      colorStyles.primary,
       {
         width: "100%",
         height: "2.5rem",
