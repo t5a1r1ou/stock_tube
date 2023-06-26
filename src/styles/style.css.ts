@@ -657,7 +657,7 @@ const unitStyles = {
       },
     }),
     editContainer: style({
-      width: "50%",
+      width: "calc(50% - 0.4rem)",
       animationName: animations.shakeAnimation,
       animationDuration: "1.5s",
       animationIterationCount: "infinite",
