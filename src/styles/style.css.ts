@@ -526,6 +526,8 @@ const unitStyles = {
     wrapper: style({
       display: "flex",
       flexWrap: "wrap",
+      justifyContent: "space-between",
+      gap: "0 0.8rem",
     }),
   },
   modal: {
@@ -631,7 +633,7 @@ const unitStyles = {
   },
   folderCard: {
     container: style({
-      width: "50%",
+      width: "calc(50% - 0.4rem)",
       "@media": {
         "screen and (min-width: 768px)": {
           marginBottom: "0.8rem",
@@ -665,7 +667,7 @@ const unitStyles = {
       display: "flex",
       flexDirection: "column",
       justifyContent: "space-between",
-      margin: "0 0.4rem 1.2rem",
+      margin: "0 0 1.2rem",
       padding: "1.2rem",
       backgroundColor: colors.lightSecondary,
       borderRadius: "0.4rem",
@@ -896,6 +898,16 @@ const unitStyles = {
       },
     ]),
   },
+  headingAsideButton: {
+    button: style([
+      componentStyles.button,
+      colorStyles.primary,
+      {
+        width: "100%",
+        marginBottom: "1.2rem",
+      },
+    ]),
+  },
   youtubePlayer: {
     container: style({
       aspectRatio: "16 / 9",
@@ -1061,6 +1073,7 @@ const unitStyles = {
 export const {
   searchForm,
   accountForm,
+  headingAsideButton,
   pagenation,
   cardsWrapper,
   modal,
