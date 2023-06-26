@@ -1,18 +1,8 @@
-import { For, Match, Show, Switch, createSignal, onMount } from "solid-js";
+import type { PopupPickerController } from "@picmo/popup-picker";
+import { A } from "@solidjs/router";
 import { AiFillEdit } from "solid-icons/ai";
-import { Head } from "../layout/Head";
-import {
-  deletingFolderStore,
-  foldersStore,
-  savingFolderStore,
-  videosStore,
-} from "../store";
-import {
-  useConfirmModal,
-  useModal,
-  usePicmo,
-  useSavingFolder,
-} from "../hooks/";
+import { createSignal, For, Match, onMount, Show, Switch } from "solid-js";
+import type { Component } from "solid-js";
 import {
   CardsWrapper,
   DeleteConfirm,
@@ -21,9 +11,20 @@ import {
   Modal,
   Spinner,
 } from "../components";
-import { componentStyles } from "../styles/style.css";
-import type { Component } from "solid-js";
-import type { PopupPickerController } from "@picmo/popup-picker";
+import {
+  useConfirmModal,
+  useModal,
+  usePicmo,
+  useSavingFolder,
+} from "../hooks/";
+import { Head } from "../layout/Head";
+import {
+  deletingFolderStore,
+  foldersStore,
+  savingFolderStore,
+  videosStore,
+} from "../store";
+import { componentStyles, headingAsideButton } from "../styles/style.css";
 import type { Folder } from "../types/types";
 
 const Library: Component = () => {
@@ -133,6 +134,9 @@ const Library: Component = () => {
         </Switch>
       </h2>
       <Show when={!loadingVideo() && !loadingFolder()} fallback={<Spinner />}>
+        <A href="/" class={headingAsideButton.button}>
+          動画の追加・検索はこちら
+        </A>
         <Show
           when={foldersStore.data.length > 0}
           fallback={<p>フォルダが登録されていません。</p>}
